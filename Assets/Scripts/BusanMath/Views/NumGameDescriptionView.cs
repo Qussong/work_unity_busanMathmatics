@@ -15,8 +15,14 @@ public class NumGameDescriptionView : BaseView
     [SerializeField] public Image _exampleViewBackgroundImage;
     [SerializeField] public Image _exampleViewBoundaryImage;
     [SerializeField] public GameObject _swipeUIObj;
+    [SerializeField] public List<Image> _swipeImageList = new List<Image>();
     [SerializeField] public List<TMP_Text> _descriptionTextList = new List<TMP_Text>();
     [SerializeField] public Button _startButton;
+
+    [Header("=== Sprites ===")]
+    [SerializeField] public List<Sprite> _egyptExampleViewSpriteList = new List<Sprite>();
+    [SerializeField] public List<Sprite> _chinaExampleViewSpriteList = new List<Sprite>();
+    [SerializeField] public List<Sprite> _romaExampleViewSpriteList = new List<Sprite>();
 
     public event Action _OnHomeButtonClicked;
     public event Action _OnPrevButtonClicked;

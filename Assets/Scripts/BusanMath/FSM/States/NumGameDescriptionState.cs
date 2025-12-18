@@ -1,3 +1,5 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
@@ -39,6 +41,9 @@ public class NumGameDescriptionState : BaseState
         // swipe 후속처리를 위한 이벤트 등록
         _swipeUI._OnSwipeCompleted += TextColorChange;
 
+        // 선택된 국가에 맞는 예시 이미지 설정
+        SetExampleView();
+
         // 최초 시작할 때 0번 페이지를 볼 수 있도록 설정
         int backCnt = _swipeUI.CurrentPage;
         for (int i = 0; i < backCnt; ++i)
@@ -60,8 +65,12 @@ public class NumGameDescriptionState : BaseState
     {
         Debug.Log("[NumGameDescriptionState] Eixt");
 
+        // 예시 이미지 초기화
+        EmptyExampleView();
+
         // 국가 정보 초기화
         _country = ECountry.None;
+
         // swipe 후속처리를 위한 이벤트 등록 해제
         _swipeUI._OnSwipeCompleted += TextColorChange;
 
@@ -84,6 +93,38 @@ public class NumGameDescriptionState : BaseState
     public void TextColorChange()
     {
         textColorChangeFlag = true;
+    }
+
+    private void SetExampleView()
+    {
+        List<Sprite> spriteList = null;
+        switch (_country)
+        {
+            case ECountry.Egypt:
+                spriteList = _numGameDescriptionView._egyptExampleViewSpriteList;
+                break;
+            case ECountry.China:
+                spriteList = _numGameDescriptionView._chinaExampleViewSpriteList;
+                break;
+            case ECountry.Roma:
+                spriteList = _numGameDescriptionView._romaExampleViewSpriteList;
+                break;
+        }
+
+        int swipePageTotalCnt = 3;
+        for(int i = 0; i < swipePageTotalCnt; ++i)
+        {
+            _numGameDescriptionView._swipeImageList[i].sprite = spriteList[i];
+        }
+    }
+
+    private void EmptyExampleView()
+    {
+        int swipePageTotalCnt = 3;
+        for (int i = 0; i < swipePageTotalCnt; ++i)
+        {
+            _numGameDescriptionView._swipeImageList[i].sprite = null;
+        }
     }
 
 }
