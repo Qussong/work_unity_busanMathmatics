@@ -1,0 +1,845 @@
+fileFormatVersion: 2
+guid: 50ec0e330e9f4ae4e9771f39d3402472
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -8036654995521602094
+    second: 1996_Egypt@4x_0
+  - first:
+      213: 245730524547014573
+    second: 1996_Egypt@4x_1
+  - first:
+      213: 1425056923602838247
+    second: 1996_Egypt@4x_2
+  - first:
+      213: 1783472628964132546
+    second: 1996_Egypt@4x_3
+  - first:
+      213: -8448974355596434521
+    second: 1996_Egypt@4x_4
+  - first:
+      213: 3820277477575150641
+    second: 1996_Egypt@4x_5
+  - first:
+      213: -6218538396473087538
+    second: 1996_Egypt@4x_6
+  - first:
+      213: -7600617518131376371
+    second: 1996_Egypt@4x_7
+  - first:
+      213: -6508594858066869279
+    second: 1996_Egypt@4x_8
+  - first:
+      213: 336205465269753035
+    second: 1996_Egypt@4x_9
+  - first:
+      213: -9071257621501362476
+    second: 1996_Egypt@4x_10
+  - first:
+      213: -4063482159086343480
+    second: 1996_Egypt@4x_11
+  - first:
+      213: 6931995968857819024
+    second: 1996_Egypt@4x_12
+  - first:
+      213: -4451150252698058294
+    second: 1996_Egypt@4x_13
+  - first:
+      213: 41553764652874958
+    second: 1996_Egypt@4x_14
+  - first:
+      213: 2581398707094158716
+    second: 1996_Egypt@4x_15
+  - first:
+      213: -2634516459494995652
+    second: 1996_Egypt@4x_16
+  - first:
+      213: 5347279690366594791
+    second: 1996_Egypt@4x_17
+  - first:
+      213: -154002442816060021
+    second: 1996_Egypt@4x_18
+  - first:
+      213: 7132259421999793981
+    second: 1996_Egypt@4x_19
+  - first:
+      213: -1646313211641841000
+    second: 1996_Egypt@4x_20
+  - first:
+      213: -3718885517830485194
+    second: 1996_Egypt@4x_21
+  - first:
+      213: 4121643115166270290
+    second: 1996_Egypt@4x_22
+  - first:
+      213: -1548598519150383273
+    second: 1996_Egypt@4x_23
+  - first:
+      213: -3092119067985116340
+    second: 1996_Egypt@4x_24
+  - first:
+      213: -3490828768253615591
+    second: 1996_Egypt@4x_25
+  - first:
+      213: 2421016705880250865
+    second: 1996_Egypt@4x_26
+  - first:
+      213: 6481027538301677383
+    second: 1996_Egypt@4x_27
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: 1996_Egypt@4x_0
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 51
+        width: 92
+        height: 104
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ddf0919cd0187090800000000000000
+      internalID: -8036654995521602094
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 1996_Egypt@4x_1
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 51
+        width: 92
+        height: 104
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: daf58123c92096300800000000000000
+      internalID: 245730524547014573
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 1996_Egypt@4x_2
+      rect:
+        serializedVersion: 2
+        x: 235
+        y: 68
+        width: 48
+        height: 78
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7e2ee04c8b1d6c310800000000000000
+      internalID: 1425056923602838247
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 1996_Egypt@4x_3
+      rect:
+        serializedVersion: 2
+        x: 293
+        y: 68
+        width: 49
+        height: 78
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2c60a0428ea20c810800000000000000
+      internalID: 1783472628964132546
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 1996_Egypt@4x_4
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 68
+        width: 49
+        height: 78
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7a32a4296963fba80800000000000000
+      internalID: -8448974355596434521
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 1996_Egypt@4x_5
+      rect:
+        serializedVersion: 2
+        x: 411
+        y: 68
+        width: 49
+        height: 78
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 13cca4a002a540530800000000000000
+      internalID: 3820277477575150641
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 1996_Egypt@4x_6
+      rect:
+        serializedVersion: 2
+        x: 565
+        y: 99
+        width: 69
+        height: 85
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ec92810964053b9a0800000000000000
+      internalID: -6218538396473087538
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 1996_Egypt@4x_7
+      rect:
+        serializedVersion: 2
+        x: 651
+        y: 99
+        width: 70
+        height: 85
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d0f0b2613ae258690800000000000000
+      internalID: -7600617518131376371
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 1996_Egypt@4x_8
+      rect:
+        serializedVersion: 2
+        x: 737
+        y: 99
+        width: 70
+        height: 85
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1e38df9e573dca5a0800000000000000
+      internalID: -6508594858066869279
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 1996_Egypt@4x_9
+      rect:
+        serializedVersion: 2
+        x: 824
+        y: 99
+        width: 69
+        height: 85
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bc4d2f0e6117aa400800000000000000
+      internalID: 336205465269753035
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 1996_Egypt@4x_10
+      rect:
+        serializedVersion: 2
+        x: 955
+        y: 83
+        width: 11
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4de3b5c314b6c1280800000000000000
+      internalID: -9071257621501362476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 1996_Egypt@4x_11
+      rect:
+        serializedVersion: 2
+        x: 984
+        y: 83
+        width: 11
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8ca658c618c9b97c0800000000000000
+      internalID: -4063482159086343480
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 1996_Egypt@4x_12
+      rect:
+        serializedVersion: 2
+        x: 1012
+        y: 83
+        width: 11
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 097c53c3b95633060800000000000000
+      internalID: 6931995968857819024
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 1996_Egypt@4x_13
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 71
+        height: 41
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ac1ca0aad665a32c0800000000000000
+      internalID: -4451150252698058294
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 1996_Egypt@4x_14
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 0
+        width: 72
+        height: 41
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eccf635cde0a39000800000000000000
+      internalID: 41553764652874958
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 1996_Egypt@4x_15
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 0
+        width: 48
+        height: 78
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c7dffff7278f2d320800000000000000
+      internalID: 2581398707094158716
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 1996_Egypt@4x_16
+      rect:
+        serializedVersion: 2
+        x: 270
+        y: 0
+        width: 49
+        height: 78
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c3981e40d31507bd0800000000000000
+      internalID: -2634516459494995652
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 1996_Egypt@4x_17
+      rect:
+        serializedVersion: 2
+        x: 329
+        y: 0
+        width: 49
+        height: 78
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ee26fa1c8a553a40800000000000000
+      internalID: 5347279690366594791
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 1996_Egypt@4x_18
+      rect:
+        serializedVersion: 2
+        x: 388
+        y: 0
+        width: 49
+        height: 78
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b85086d189fdcddf0800000000000000
+      internalID: -154002442816060021
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 1996_Egypt@4x_19
+      rect:
+        serializedVersion: 2
+        x: 447
+        y: 0
+        width: 49
+        height: 78
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d370b3ee720eaf260800000000000000
+      internalID: 7132259421999793981
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 1996_Egypt@4x_20
+      rect:
+        serializedVersion: 2
+        x: 523
+        y: 0
+        width: 70
+        height: 86
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 89a3e074bde1729e0800000000000000
+      internalID: -1646313211641841000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 1996_Egypt@4x_21
+      rect:
+        serializedVersion: 2
+        x: 610
+        y: 0
+        width: 69
+        height: 86
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 63b8e55335dd36cc0800000000000000
+      internalID: -3718885517830485194
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 1996_Egypt@4x_22
+      rect:
+        serializedVersion: 2
+        x: 696
+        y: 0
+        width: 69
+        height: 86
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2538b6a6394033930800000000000000
+      internalID: 4121643115166270290
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 1996_Egypt@4x_23
+      rect:
+        serializedVersion: 2
+        x: 782
+        y: 0
+        width: 70
+        height: 86
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 75f68560ad5428ae0800000000000000
+      internalID: -1548598519150383273
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 1996_Egypt@4x_24
+      rect:
+        serializedVersion: 2
+        x: 868
+        y: 0
+        width: 70
+        height: 86
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c43098527169615d0800000000000000
+      internalID: -3092119067985116340
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 1996_Egypt@4x_25
+      rect:
+        serializedVersion: 2
+        x: 955
+        y: 0
+        width: 11
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 91267800bb51e8fc0800000000000000
+      internalID: -3490828768253615591
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 1996_Egypt@4x_26
+      rect:
+        serializedVersion: 2
+        x: 984
+        y: 0
+        width: 11
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1f9574deddd299120800000000000000
+      internalID: 2421016705880250865
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 1996_Egypt@4x_27
+      rect:
+        serializedVersion: 2
+        x: 1012
+        y: 0
+        width: 11
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 74feef7453c31f950800000000000000
+      internalID: 6481027538301677383
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      1996_Egypt@4x_0: -8036654995521602094
+      1996_Egypt@4x_1: 245730524547014573
+      1996_Egypt@4x_10: -9071257621501362476
+      1996_Egypt@4x_11: -4063482159086343480
+      1996_Egypt@4x_12: 6931995968857819024
+      1996_Egypt@4x_13: -4451150252698058294
+      1996_Egypt@4x_14: 41553764652874958
+      1996_Egypt@4x_15: 2581398707094158716
+      1996_Egypt@4x_16: -2634516459494995652
+      1996_Egypt@4x_17: 5347279690366594791
+      1996_Egypt@4x_18: -154002442816060021
+      1996_Egypt@4x_19: 7132259421999793981
+      1996_Egypt@4x_2: 1425056923602838247
+      1996_Egypt@4x_20: -1646313211641841000
+      1996_Egypt@4x_21: -3718885517830485194
+      1996_Egypt@4x_22: 4121643115166270290
+      1996_Egypt@4x_23: -1548598519150383273
+      1996_Egypt@4x_24: -3092119067985116340
+      1996_Egypt@4x_25: -3490828768253615591
+      1996_Egypt@4x_26: 2421016705880250865
+      1996_Egypt@4x_27: 6481027538301677383
+      1996_Egypt@4x_3: 1783472628964132546
+      1996_Egypt@4x_4: -8448974355596434521
+      1996_Egypt@4x_5: 3820277477575150641
+      1996_Egypt@4x_6: -6218538396473087538
+      1996_Egypt@4x_7: -7600617518131376371
+      1996_Egypt@4x_8: -6508594858066869279
+      1996_Egypt@4x_9: 336205465269753035
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
