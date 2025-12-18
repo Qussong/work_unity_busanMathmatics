@@ -34,14 +34,15 @@ public class VoteState : BaseState
         _voteView.Hide();
     }
 
-    private void VoteCountry(ECountry voteCountry)
+    private void VoteCountry(ECountry choice)
     {
-        Debug.Log($"vote : {voteCountry.ToString()}");
+        Debug.Log($"vote : {choice.ToString()}");
 
         // 외부 파일에 데이터 누적
+        VoteManager.Instance.Vote(choice);
 
         // WriteView 로 이동
-        NavigationController.Instance.GoToWrite(voteCountry);
+        NavigationController.Instance.GoToWrite(choice);
     }
 
 }
