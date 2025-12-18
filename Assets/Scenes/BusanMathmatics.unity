@@ -5512,7 +5512,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 3001258632000953934, guid: 54e21718b1b7479449cbe05bb2ac4ac6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 54e21718b1b7479449cbe05bb2ac4ac6, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -11988,6 +11988,10 @@ MonoBehaviour:
   - {fileID: 1392466810}
   _voteCountList: []
   _homeButton: {fileID: 1022526613}
+  _countryViewSpriteList:
+  - {fileID: 21300000, guid: 5f6eb97245097984c905f8b5d88e40e8, type: 3}
+  - {fileID: 21300000, guid: d8aa8d05887150949aa893fc7ae162c5, type: 3}
+  - {fileID: 21300000, guid: b44378ac40696b94199c6126dc8e5ea5, type: 3}
 --- !u!1 &1180461007
 GameObject:
   m_ObjectHideFlags: 0

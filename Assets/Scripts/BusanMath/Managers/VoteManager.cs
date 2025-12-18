@@ -1,6 +1,9 @@
 using BusanMath.Core;
+using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -127,6 +130,24 @@ public class VoteManager : MonoSingleton<VoteManager>
         _data = new VoteData();
         Save();
         _OnVoteUpdated?.Invoke(_data);
+    }
+
+    /// <summary>
+    /// 등수 반환
+    /// </summary>
+    public List<ECountry> GetRanking()
+    {
+        var ranking = new Dictionary<ECountry, int>
+    {
+        { ECountry.Egypt, _data.voteEgypt },
+        { ECountry.China, _data.voteChina },
+        { ECountry.Roma, _data.voteRoma }
+    };
+
+        return ranking
+            .OrderByDescending(x => x.Value)
+            .Select(x => x.Key)
+            .ToList();
     }
 
 }

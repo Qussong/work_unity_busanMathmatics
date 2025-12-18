@@ -17,6 +17,9 @@ public class VoteResultView : BaseView
     [SerializeField] public List<TMP_Text> _voteCountList = new List<TMP_Text>();
     [SerializeField] public Button _homeButton;
 
+    [Header("=== Sprites ===")]
+    [SerializeField] public List<Sprite> _countryViewSpriteList = new List<Sprite>();
+
     public event Action _OnHomeButtonClicked;
 
     protected override void Initialize()
