@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aac8d474814a4a14eacc86df79e41401, type: 3}
+  m_Name: NumGameRomaDB
+  m_EditorClassIdentifier: 
+  Pairs:
+  - Key: 11
+    Value: {fileID: 21300000, guid: ab19d37c8c494e7409e0e5c391d4d74f, type: 3}
+  - Key: 14
+    Value: {fileID: 21300000, guid: 753e3fd1f9e60d940ae6c921662377c4, type: 3}
+  - Key: 19
+    Value: {fileID: 21300000, guid: 1c92bd9d091343941a9c2b3b0f1a5d3c, type: 3}
+  - Key: 20
+    Value: {fileID: 21300000, guid: 084966d17beaff14fb867a608b06381f, type: 3}
+  - Key: 51
+    Value: {fileID: 21300000, guid: ff86a8036c6bf3f4fb2d85b05190a7b8, type: 3}
+  - Key: 53
+    Value: {fileID: 21300000, guid: 4b6ab0eb418cf334a92a8b12a7ee2e3d, type: 3}
+  - Key: 55
+    Value: {fileID: 21300000, guid: 3ee1a4b99c6e3574c84c4b0859883d8e, type: 3}
+  - Key: 62
+    Value: {fileID: 21300000, guid: 417384c03ce85354585f6d78ae7eec84, type: 3}
+  - Key: 70
+    Value: {fileID: 21300000, guid: dfeb14d02ee093442949bf20ae3754d3, type: 3}
+  - Key: 91
+    Value: {fileID: 21300000, guid: 4cb244cb27b845d42afd609833a20cc5, type: 3}
+  - Key: 103
+    Value: {fileID: 21300000, guid: 300ac05cd3076d04399f0843c0bc4e41, type: 3}
+  - Key: 108
+    Value: {fileID: 21300000, guid: d7807dd1eb0b83c418424ec02300821e, type: 3}
+  - Key: 300
+    Value: {fileID: 21300000, guid: 9549b762bda6d974e98fbd2e2902b6ba, type: 3}
+  - Key: 450
+    Value: {fileID: 21300000, guid: 0b2fb5a1e2b77c746b6dd327120a74b7, type: 3}
+  - Key: 700
+    Value: {fileID: 21300000, guid: 0bd9e3df8b9df964b88dcb620580949d, type: 3}

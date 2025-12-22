@@ -50,6 +50,7 @@ namespace SwipeUI
 
             // 스크롤 되는 페이지 사이의 거리
             _valueDistance = 1f / (_scrollPageValues.Length - 1f);
+            Debug.Log("스크롤 되는 페이지 사이의 거리 : " + _valueDistance);
 
             // 스크롤 되는 패이지의 각 value 위치 설정 (0 <= value <= 1)
             for (int i = 0; i < _scrollPageValues.Length; ++i)

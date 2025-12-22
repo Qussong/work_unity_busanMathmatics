@@ -1,0 +1,481 @@
+fileFormatVersion: 2
+guid: 395799dcf0ba09549988c0f32012a2c0
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -8646368862042242771
+    second: 4051_Egypt@4x_0
+  - first:
+      213: -2574343179528154917
+    second: 4051_Egypt@4x_1
+  - first:
+      213: -7582227467196490705
+    second: 4051_Egypt@4x_2
+  - first:
+      213: -1321979904610963679
+    second: 4051_Egypt@4x_3
+  - first:
+      213: 5791577626929141706
+    second: 4051_Egypt@4x_4
+  - first:
+      213: -6864913602143055350
+    second: 4051_Egypt@4x_5
+  - first:
+      213: 3810662616290668628
+    second: 4051_Egypt@4x_6
+  - first:
+      213: 8959701765227186294
+    second: 4051_Egypt@4x_7
+  - first:
+      213: -2644451936654943647
+    second: 4051_Egypt@4x_8
+  - first:
+      213: 1803767307417689584
+    second: 4051_Egypt@4x_9
+  - first:
+      213: -8228583638956059850
+    second: 4051_Egypt@4x_10
+  - first:
+      213: -1944519163393986430
+    second: 4051_Egypt@4x_11
+  - first:
+      213: 2320496025079812791
+    second: 4051_Egypt@4x_12
+  - first:
+      213: 2299146898063681875
+    second: 4051_Egypt@4x_13
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: 4051_Egypt@4x_0
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 215
+        width: 89
+        height: 101
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d2149f4945de10880800000000000000
+      internalID: -8646368862042242771
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 4051_Egypt@4x_1
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 215
+        width: 89
+        height: 101
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bd056468488164cd0800000000000000
+      internalID: -2574343179528154917
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 4051_Egypt@4x_2
+      rect:
+        serializedVersion: 2
+        x: 560
+        y: 159
+        width: 113
+        height: 135
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f2c1b8b7a4486c690800000000000000
+      internalID: -7582227467196490705
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 4051_Egypt@4x_3
+      rect:
+        serializedVersion: 2
+        x: 708
+        y: 159
+        width: 113
+        height: 135
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 12f6579e74267ade0800000000000000
+      internalID: -1321979904610963679
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 4051_Egypt@4x_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 167
+        width: 71
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ac71636aa21df5050800000000000000
+      internalID: 5791577626929141706
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 4051_Egypt@4x_5
+      rect:
+        serializedVersion: 2
+        x: 115
+        y: 167
+        width: 72
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a021482637deab0a0800000000000000
+      internalID: -6864913602143055350
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 4051_Egypt@4x_6
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 47
+        width: 89
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 450bdd2b57132e430800000000000000
+      internalID: 3810662616290668628
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 4051_Egypt@4x_7
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 47
+        width: 89
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6788ec1f841475c70800000000000000
+      internalID: 8959701765227186294
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 4051_Egypt@4x_8
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 0
+        width: 113
+        height: 134
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 16a961a79f40d4bd0800000000000000
+      internalID: -2644451936654943647
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 4051_Egypt@4x_9
+      rect:
+        serializedVersion: 2
+        x: 628
+        y: 0
+        width: 113
+        height: 134
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0fd18103fc4480910800000000000000
+      internalID: 1803767307417689584
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 4051_Egypt@4x_10
+      rect:
+        serializedVersion: 2
+        x: 776
+        y: 0
+        width: 113
+        height: 134
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 633de6bf6c23ecd80800000000000000
+      internalID: -8228583638956059850
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 4051_Egypt@4x_11
+      rect:
+        serializedVersion: 2
+        x: 1251
+        y: 0
+        width: 17
+        height: 154
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 28036f69f1ea305e0800000000000000
+      internalID: -1944519163393986430
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 4051_Egypt@4x_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 71
+        height: 41
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7b2969d17de043020800000000000000
+      internalID: 2320496025079812791
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 4051_Egypt@4x_13
+      rect:
+        serializedVersion: 2
+        x: 115
+        y: 0
+        width: 72
+        height: 41
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 359e6812ce538ef10800000000000000
+      internalID: 2299146898063681875
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      4051_Egypt@4x_0: -8646368862042242771
+      4051_Egypt@4x_1: -2574343179528154917
+      4051_Egypt@4x_10: -8228583638956059850
+      4051_Egypt@4x_11: -1944519163393986430
+      4051_Egypt@4x_12: 2320496025079812791
+      4051_Egypt@4x_13: 2299146898063681875
+      4051_Egypt@4x_2: -7582227467196490705
+      4051_Egypt@4x_3: -1321979904610963679
+      4051_Egypt@4x_4: 5791577626929141706
+      4051_Egypt@4x_5: -6864913602143055350
+      4051_Egypt@4x_6: 3810662616290668628
+      4051_Egypt@4x_7: 8959701765227186294
+      4051_Egypt@4x_8: -2644451936654943647
+      4051_Egypt@4x_9: 1803767307417689584
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -10,11 +10,11 @@ public class CardGameManager : MonoSingleton<CardGameManager>
 {
     [SerializeField] private CardDatabaseSO _cardDatabase;  // 카드 데이터베이스 (총 40장)
 
-    private List<CardData> _currentDeck;    // 현재 게임에 사용중인 카드 덱
-    private int _firstSelectedIndex = -1;   // 첫 번째 선택된 카드 인덱스
-    private int _secondSelectedIndex = -1;   // 두 번째 선택된 카드 인덱스
-    private int _matchCount;                // 매칭 성공 횟수
-    private const int _MAX_MATCH = 6;        // 총 매칭 필요 횟수 (6쌍)
+    private List<CardData> _currentDeck;        // 현재 게임에 사용중인 카드 덱
+    private int _firstSelectedIndex = -1;       // 첫 번째 선택된 카드 인덱스
+    private int _secondSelectedIndex = -1;      // 두 번째 선택된 카드 인덱스
+    private int _matchCount;                    // 매칭 성공 횟수
+    private const int _MAX_MATCH = 6;           // 총 매칭 필요 횟수 (6쌍)
     public bool _isSuccess = true;
 
     public event Action<int, int> _OnMatchSuccess;  // 매칭 성공 (index1, index2)

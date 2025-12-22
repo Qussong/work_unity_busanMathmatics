@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aac8d474814a4a14eacc86df79e41401, type: 3}
+  m_Name: NumGameEgyptDB
+  m_EditorClassIdentifier: 
+  Pairs:
+  - Key: 107
+    Value: {fileID: 21300000, guid: baa2ccdd705259c44aa86d9d9d38f202, type: 3}
+  - Key: 134
+    Value: {fileID: 21300000, guid: f584b6508e511244da592a87af8f3b11, type: 3}
+  - Key: 361
+    Value: {fileID: 21300000, guid: 6a0e2c0a20235584483531d3db849cb6, type: 3}
+  - Key: 437
+    Value: {fileID: 21300000, guid: 3b65b88ecf5906346be615234c2adfc4, type: 3}
+  - Key: 451
+    Value: {fileID: 21300000, guid: efba2504ae2d2ed43967d1d5aad1eddd, type: 3}
+  - Key: 533
+    Value: {fileID: 21300000, guid: f106eda2b4e4b884ebe2ca42bdb31ef9, type: 3}
+  - Key: 604
+    Value: {fileID: 21300000, guid: 1516a3c20dc4a64488cbdf446b39cc31, type: 3}
+  - Key: 1312
+    Value: {fileID: 21300000, guid: 97dc98868217739409432ca9ee3c98a6, type: 3}
+  - Key: 1942
+    Value: {fileID: 21300000, guid: 41e352856da989c479e38c9e6064ae85, type: 3}
+  - Key: 2041
+    Value: {fileID: 21300000, guid: dc16781dc8d58934b8c8e23768bfa56f, type: 3}
+  - Key: 2173
+    Value: {fileID: 21300000, guid: cbf3fc04e18dc394e9c285740caa6f60, type: 3}
+  - Key: 2433
+    Value: {fileID: 21300000, guid: 97a8454e69812914abb4c0fc70b75138, type: 3}
+  - Key: 3802
+    Value: {fileID: 21300000, guid: 857f2767cda10794f9235532ab85cd4a, type: 3}
+  - Key: 4051
+    Value: {fileID: 21300000, guid: 395799dcf0ba09549988c0f32012a2c0, type: 3}
+  - Key: 6112
+    Value: {fileID: 21300000, guid: 24fad82fbbdcb094ab5a8e0d7d467ee6, type: 3}

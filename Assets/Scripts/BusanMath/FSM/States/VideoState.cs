@@ -87,10 +87,7 @@ public class VideoState : BaseState
         Debug.Log("[VideoState] Eixt");
 
         // 콜백 함수 해제
-        VideoManager.Instance.Player.loopPointReached += OnVideoFinished;
-
-        // 국가 선택 기록 초기화
-        _country = ECountry.None;
+        VideoManager.Instance.Player.loopPointReached -= OnVideoFinished;
 
         _videoView.Hide();
     }
@@ -98,5 +95,8 @@ public class VideoState : BaseState
     public void OnVideoFinished(VideoPlayer vp)
     {
         NavigationController.Instance.GoToNumGameDescription(_country);
+
+        // 국가 선택 기록 초기화
+        _country = ECountry.None;
     }
 }
