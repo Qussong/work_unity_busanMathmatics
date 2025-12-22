@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.UI;
@@ -23,8 +24,11 @@ namespace SwipeUI
         private float _startTouchX;                             // 터치 시작 위치 
         private float _endTouchX;                               // 터치 종료 위치
         private bool _isSwipeMode = false;                      // 현재 swipe가 되고 있는지 체크
-        
-        public int CurrentPage                                  
+
+        [SerializeField] private GameObject[] _hoverContents;   // 현재 페이지에 해당하는 객체들
+        private bool _isSwipeActive = false;    // 스크롤 측정 조건 만족여부 확인, 화면상에 SwipeUI가 복수개 존재하는경우 해당 객체 판별용으로 사용됨
+
+        public int CurrentPage
         {
             get { return _currentPage; }
         }
@@ -33,6 +37,7 @@ namespace SwipeUI
         /// Circle Content
         /// </summary>
         [Header("=== Circle Content ===")]
+        [SerializeField] private bool _bUseCircleContent = true;
         [SerializeField] private float _circleContentScale = 1.6f;  // 현재 페이지의 Circle 크기 (배율)
         [SerializeField] private Transform[] _circleContents;       // 현재 페이지를 나타내는 Circle Image UI들의 Transform
 
@@ -54,6 +59,14 @@ namespace SwipeUI
 
             // 최대 페이지 수
             _maxPage = transform.childCount;
+
+            // HoverDetector 추가
+            if(0 < _hoverContents.Length)
+            {
+                foreach (GameObject obj in _hoverContents)
+                    obj.AddComponent<HoverDetector>();
+            }
+
         }
 
         private void Start()
@@ -73,9 +86,11 @@ namespace SwipeUI
 
         private void Update()
         {
+            // 화면 제어
             UpdateInput();
 
             // 아래에 배치된 페이지 버튼 제어
+            if (false == _bUseCircleContent) return;
             UpdateCircleContent();
         }
 
@@ -93,19 +108,27 @@ namespace SwipeUI
             /// </summary>
 #if UNITY_EDITOR
             // 마우스 왼쪽 버튼을 눌렀을 때 한번
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0)
+                && true == _hoverContents[_currentPage].GetComponent<HoverDetector>().IsHover())
             {
                 // 터치 시작 지점
                 _startTouchX = Input.mousePosition.x;
+
+                // 해당 객체에서 swipe 측정이 시작됨을 확인
+                _isSwipeActive = true;
             }
             // 마우스 왼쪽 버튼을 땠을 때
-            else if (Input.GetMouseButtonUp(0))
+            else if (Input.GetMouseButtonUp(0)
+                && true == _isSwipeActive)
             {
                 // 터치 종료 지점
                 _endTouchX = Input.mousePosition.x;
 
                 // Swipe 수행 여부 판별 및 실행
                 UpdateSwipe();
+
+                // swipe 여부 확인 후 해제
+                _isSwipeActive = false;
             }
 #endif
 
