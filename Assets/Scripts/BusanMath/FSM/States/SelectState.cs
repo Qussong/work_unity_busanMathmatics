@@ -1,9 +1,12 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Video;
 
 public class SelectState : BaseState
 {
     private SelectView _selectView;
+    private float fadeDuration = 0.5f;
+    private bool bFade = false;
 
     public SelectState(SelectView view)
     {
@@ -36,6 +39,9 @@ public class SelectState : BaseState
 
         // Video 재생
         VideoManager.Instance.Play(filePath);   // 영상 로드 및 재생
+
+        // 버튼 숨기기
+        InitButtons();
     }
 
     public override void Update()
@@ -50,6 +56,11 @@ public class SelectState : BaseState
             // 코드에서 UI의 동기화만 필요한 경우 SetValueWithoutNotify() 를 사용한다.
             _selectView._progressbar.SetValueWithoutNotify(VideoManager.Instance.Progress());
         }
+
+        if(false == bFade && VideoManager.Instance.Progress() > 0.9f)
+        {
+            FadInButtons();
+        }
     }
 
     public override void Exit()
@@ -59,6 +70,29 @@ public class SelectState : BaseState
         // 영상 재생 멈춤 및 초기화
         VideoManager.Instance.Stop();
 
+        // 버튼들의 알파값 0f
+        InitButtons();
+
         _selectView.Hide();
+    }
+
+    private void InitButtons()
+    {
+        bFade = false;
+
+        CanvasGroup canvasGroup = _selectView._buttonContainer.GetComponent<CanvasGroup>();
+        canvasGroup.alpha = 0f;
+
+        _selectView._buttonContainer.SetActive(false);
+    }
+
+    private void FadInButtons()
+    {
+        bFade = true;
+
+        _selectView._buttonContainer.SetActive(true);
+
+        CanvasGroup canvasGroup = _selectView._buttonContainer.GetComponent<CanvasGroup>();
+        canvasGroup.DOFade(1f, fadeDuration);
     }
 }

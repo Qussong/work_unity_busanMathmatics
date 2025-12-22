@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.quokkaindiestudio.drawinguitexture": {
+      "version": "https://github.com/Quokka-Indie-Studio/Drawing-UI-Texture-package.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "8e9e9c5a65388e7af08d1337356df47070cca817"
+    },
     "com.unity.2d.animation": {
       "version": "10.2.1",
       "depth": 1,

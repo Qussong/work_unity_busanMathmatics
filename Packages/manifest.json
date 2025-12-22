@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.quokkaindiestudio.drawinguitexture": "https://github.com/Quokka-Indie-Studio/Drawing-UI-Texture-package.git",
     "com.unity.collab-proxy": "2.10.0",
     "com.unity.feature.2d": "2.0.1",
     "com.unity.ide.rider": "3.0.38",

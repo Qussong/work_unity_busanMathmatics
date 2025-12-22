@@ -5,16 +5,17 @@ using UnityEngine.UI;
 public class SelectView : BaseView
 {
     [Header("=== Select View Settings ===")]
-    [SerializeField] public string _fileName;
-    [SerializeField] public RawImage _displayImage;
-    [SerializeField] public Image _titleImage;
-    [SerializeField] public Button _homeButton;
-    [SerializeField] public Image _skipImage;
-    [SerializeField] public Button _skipButton;
-    [SerializeField] public Button _egyptButton;
-    [SerializeField] public Button _chinaButton;
-    [SerializeField] public Button _romaButton;
-    [SerializeField] public Slider _progressbar;
+    public string _fileName;
+    public RawImage _displayImage;
+    public Image _titleImage;
+    public Button _homeButton;
+    public Image _skipImage;
+    public Button _skipButton;
+    public GameObject _buttonContainer;
+    public Button _egyptButton;
+    public Button _chinaButton;
+    public Button _romaButton;
+    public Slider _progressbar;
 
     public event Action _OnHomeButtonClicked;
     public event Action _OnSkipButtonClicked;

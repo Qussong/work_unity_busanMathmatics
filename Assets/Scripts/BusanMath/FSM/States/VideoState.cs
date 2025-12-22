@@ -86,6 +86,9 @@ public class VideoState : BaseState
     {
         Debug.Log("[VideoState] Eixt");
 
+        // 영상 재생 멈춤 및 초기화
+        VideoManager.Instance.Stop();
+
         // 콜백 함수 해제
         VideoManager.Instance.Player.loopPointReached -= OnVideoFinished;
 
