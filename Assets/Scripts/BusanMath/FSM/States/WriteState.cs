@@ -6,12 +6,12 @@ public class WriteState : BaseState
     private WriteView _writeView;
     private ECountry _country;
 
-    private int _minYear = 1980;
-    private int _minMonth = 1;
-    private int _minDay = 1;
-    private int _maxYear = 2030;
-    private int _maxMonth = 12;
-    private int _maxDay = 31;
+    private readonly int _MIN_YEAR = 1980;
+    private readonly int _MIN_MONTH = 1;
+    private readonly int _MIN_DAY = 1;
+    private readonly int _MAX_YEAR = 2030;
+    private readonly int _MAX_MONTH = 12;
+    private readonly int _MAX_DAY = 31;
 
 
     public ECountry Country
@@ -105,6 +105,8 @@ public class WriteState : BaseState
 
         // 선택된 국가에 맞는 타이틀 이미지 설정
         _writeView._titleImage.sprite = _writeView._titleSpriteList[(int)_country];
+        _writeView._titleImage.SetNativeSize();
+        _writeView._titleImage.rectTransform.sizeDelta /= 4f;
 
         _writeView.Show();
     }
@@ -132,6 +134,9 @@ public class WriteState : BaseState
         _writeView._monthPreview.sprite = null;
         _writeView._dayPreview.sprite = null;
 
+        // DrawTexture 의 라인 지우기
+        _writeView._drawTextureUI.Clear();
+
         // Writing Board off
         _writeView._writeBoardContainer.SetActive(false);
 
@@ -146,19 +151,19 @@ public class WriteState : BaseState
     /// </summary>
     public void SetDate()
     {
-        for(int i = 0; i < _maxYear - _minYear; ++i)
+        for(int i = 0; i < _MAX_YEAR - _MIN_YEAR; ++i)
         {
-            _writeView._years[i].GetComponentInChildren<TMP_Text>().text = (_minYear + i).ToString();
+            _writeView._years[i].GetComponentInChildren<TMP_Text>().text = (_MIN_YEAR + i).ToString();
         }
 
-        for (int i = 0; i < _maxMonth - _minMonth; ++i)
+        for (int i = 0; i < _MAX_MONTH - _MIN_MONTH; ++i)
         {
-            _writeView._months[i].GetComponentInChildren<TMP_Text>().text = (_minMonth + i).ToString();
+            _writeView._months[i].GetComponentInChildren<TMP_Text>().text = (_MIN_MONTH + i).ToString();
         }
 
-        for (int i = 0; i < _maxDay - _minDay; ++i)
+        for (int i = 0; i < _MAX_DAY - _MIN_DAY; ++i)
         {
-            _writeView._days[i].GetComponentInChildren<TMP_Text>().text = (_minDay + i).ToString();
+            _writeView._days[i].GetComponentInChildren<TMP_Text>().text = (_MIN_DAY + i).ToString();
         }
     }
 }

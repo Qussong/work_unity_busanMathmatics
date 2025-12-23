@@ -1,3 +1,4 @@
+using LS.DrawTexture.Runtime;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -20,12 +21,15 @@ public class WriteView : BaseView
     public TMP_Text _dayUnitText;
     public Button _okayButton;
     public Image _arrowImage;
-    public Image _writingBoardImage;
+    //public Image _writingBoardImage;
     public Button _moveNextButton;
     public GameObject _writeBoardContainer;
     public SwipeUI.SwipeUI _yearUI;
     public SwipeUI.SwipeUI _monthUI;
     public SwipeUI.SwipeUI _dayUI;
+
+    [Header("=== DrawTextureUI Settings===")]
+    public DrawTextureUI _drawTextureUI;
 
     [Header("Date Select Settings")]
     public List<GameObject> _years;

@@ -65,11 +65,13 @@ public class NumGameState : BaseState
             // 정답
             if(result)
             {
+                SoundManager.Instance.PlayCorrectSound();
                 _numGameView._infoText.text = "정답입니다.";
             }
             // 오답
             else
             {
+                SoundManager.Instance.PlayDisCorrectSound();
                 _numGameView._infoText.text = $"오답입니다.\n정답은 {NumGameManager.Instance.RndNum}입니다.";
             }
         });
