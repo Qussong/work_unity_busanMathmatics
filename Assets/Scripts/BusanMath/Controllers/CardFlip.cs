@@ -1,5 +1,6 @@
 using DG.Tweening;
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -14,6 +15,8 @@ public class CardFlip : MonoBehaviour, IPointerClickHandler
 
     private bool _isFront = false;
 
+    private bool _isFlipping = false;
+
     public event Action<int> _OnClickCard;
 
     void Awake()
@@ -22,6 +25,12 @@ public class CardFlip : MonoBehaviour, IPointerClickHandler
     }
     public void OnPointerClick(PointerEventData eventData)
     {
+        // 이미 앞면인 상태면 선택 안됨
+        if (true == _isFront) return;
+
+        // 카드가 뒤집히는 중엔 선택 안됨
+        if (true == _isFlipping) return;
+
         _OnClickCard.Invoke(_cardIdx);
         Flip();
     }
@@ -34,8 +43,25 @@ public class CardFlip : MonoBehaviour, IPointerClickHandler
             {
                 _isFront = !_isFront;
                 _cardImage.sprite = _isFront ? _frontSprite : _backSprite;
-                transform.DORotate(new Vector3(0, 0, 0), _duration / 2);
+                transform
+                    .DORotate(new Vector3(0, 0, 0), _duration / 2)
+                    .OnComplete(() =>
+                    {
+                        _isFlipping = false; // 모든 회전 완료
+                    });
             });
+    }
+
+    public void LateFlip(float time)
+    {
+        StartCoroutine(LateFlipCoroutine(time));
+    }
+
+    private IEnumerator LateFlipCoroutine(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        Flip();
     }
 
     public void Restore()

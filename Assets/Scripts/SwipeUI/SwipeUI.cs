@@ -106,7 +106,7 @@ namespace SwipeUI
             /// - #if UNITY_EDITOR : 현재 플레이 환경이 에디터인 경우
             /// - #if UNITY_ANDROID : 현재 플레이 환경이 안드로이드일 떄
             /// </summary>
-#if UNITY_EDITOR
+            
             // 마우스 왼쪽 버튼을 눌렀을 때 한번
             if (Input.GetMouseButtonDown(0)
                 && true == _hoverContents[_currentPage].GetComponent<HoverDetector>().IsHover())
@@ -130,12 +130,6 @@ namespace SwipeUI
                 // swipe 여부 확인 후 해제
                 _isSwipeActive = false;
             }
-#endif
-
-#if UNITY_ANDROID
-            // 안드로이드 환경인 경우...
-#endif
-            
         }
 
         private void UpdateSwipe()

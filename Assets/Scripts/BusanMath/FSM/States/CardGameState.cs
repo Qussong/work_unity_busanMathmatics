@@ -10,6 +10,10 @@ public class CardGameState : BaseState
     private float _remainingTime = 0f;
     private bool _isRunning = false;
 
+    //
+    private float _timer = 0f;
+    private bool _hasExecuted = false;
+
     public CardGameState(CardGameView view)
     {
         _cardGameView = view;
@@ -37,17 +41,60 @@ public class CardGameState : BaseState
         // 카드 세팅
         CardSet();
 
-        // 타이머시작
-        StartTimer();
+        // 카드 뒤집기 (뒷면 -> 앞면)
+        foreach(Image cardImage in _cardGameView._cardList)
+        {
+            cardImage.gameObject.GetComponent<CardFlip>().Flip();
+        }
+
+        // 2초 뒤 카드 뒤집기 (앞면 -> 뒷면)
+        foreach (Image cardImage in _cardGameView._cardList)
+        {
+            cardImage.gameObject.GetComponent<CardFlip>().LateFlip(2f);
+        }
+
     }
+
+    
 
     public override void Update()
     {
+        if (!_hasExecuted)
+        {
+            _timer += Time.deltaTime;
+
+            // 한 번만 실행될 코드
+
+            if (_timer >= 2.5f)
+            {
+                // 타이틀 문구 변경
+                _cardGameView._titleImage.sprite = _cardGameView._titleImageList[1];
+                _cardGameView._titleImage.SetNativeSize();
+                _cardGameView._titleImage.rectTransform.sizeDelta /= 4f;
+
+                // 타이머시작
+                StartTimer();
+
+                _hasExecuted = true;
+            }
+        }
+
+        // 게임 실행 조건
         if (false == _isRunning) return;
 
+        // 타이머 동작
         _remainingTime -= Time.deltaTime;
+
+        // 강제 종료
+        if (Input.GetKey(KeyCode.Space))
+        {
+            _remainingTime = 0f;
+        }
+
+        // 화면 업데이트
         UpdateTimerUI();
 
+        // 남은 시간이 0 보다 적으면 게임실행조건 미달 (실패)
         if (_remainingTime <= 0)
         {
             HandleGameClear();
@@ -72,7 +119,16 @@ public class CardGameState : BaseState
         // 타이머 초기화
         ResetTimer();
 
-        _cardGameView.Hide();
+        // 타이틀 문구 원복
+        _cardGameView._titleImage.sprite = _cardGameView._titleImageList[0];
+        _cardGameView._titleImage.SetNativeSize();
+        _cardGameView._titleImage.rectTransform.sizeDelta /= 4f;
+
+        // 
+        _timer = 0f;
+        _hasExecuted = false;
+
+    _cardGameView.Hide();
     }
 
     private void StartTimer()
@@ -213,14 +269,28 @@ public class CardGameState : BaseState
         _cardGameView._popupContainerObj.SetActive(false);
         // 타이머 초기화
         ResetTimer();
-
+        // 타이틀 문구 원복
+        _cardGameView._titleImage.sprite = _cardGameView._titleImageList[0];
+        _cardGameView._titleImage.SetNativeSize();
+        _cardGameView._titleImage.rectTransform.sizeDelta /= 4f;
+        // 
+        _timer = 0f;
+        _hasExecuted = false;
 
         // 카드 게임 시작
         CardGameManager.Instance.StartGame();
         // 카드 세팅
         CardSet();
-        // 타이머시작
-        StartTimer();
+        // 카드 뒤집기 (뒷면 -> 앞면)
+        foreach (Image cardImage in _cardGameView._cardList)
+        {
+            cardImage.gameObject.GetComponent<CardFlip>().Flip();
+        }
+        // 2초 뒤 카드 뒤집기 (앞면 -> 뒷면)
+        foreach (Image cardImage in _cardGameView._cardList)
+        {
+            cardImage.gameObject.GetComponent<CardFlip>().LateFlip(2f);
+        }
     }
 
 }

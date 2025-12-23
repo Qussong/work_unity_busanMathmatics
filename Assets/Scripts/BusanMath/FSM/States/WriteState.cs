@@ -1,3 +1,4 @@
+using SwipeUI;
 using TMPro;
 using UnityEngine;
 
@@ -109,6 +110,25 @@ public class WriteState : BaseState
         _writeView._titleImage.rectTransform.sizeDelta /= 4f;
 
         _writeView.Show();
+
+        // 최초 시작할 때 0번 페이지를 볼 수 있도록 설정 (year)
+        int backCnt = _writeView._yearUI.CurrentPage;
+        for (int i = 0; i < backCnt; ++i)
+        {
+            _writeView._yearUI.AutoSwipe(true);
+        }
+        // 최초 시작할 때 0번 페이지를 볼 수 있도록 설정 (month)
+        backCnt = _writeView._monthUI.CurrentPage;
+        for (int i = 0; i < backCnt; ++i)
+        {
+            _writeView._monthUI.AutoSwipe(true);
+        }
+        // 최초 시작할 때 0번 페이지를 볼 수 있도록 설정 (day)
+        backCnt = _writeView._dayUI.CurrentPage;
+        for (int i = 0; i < backCnt; ++i)
+        {
+            _writeView._dayUI.AutoSwipe(true);
+        }
     }
 
     public override void Update()
@@ -151,17 +171,17 @@ public class WriteState : BaseState
     /// </summary>
     public void SetDate()
     {
-        for(int i = 0; i < _MAX_YEAR - _MIN_YEAR; ++i)
+        for(int i = 0; i <= _MAX_YEAR - _MIN_YEAR; ++i)
         {
             _writeView._years[i].GetComponentInChildren<TMP_Text>().text = (_MIN_YEAR + i).ToString();
         }
 
-        for (int i = 0; i < _MAX_MONTH - _MIN_MONTH; ++i)
+        for (int i = 0; i <= _MAX_MONTH - _MIN_MONTH; ++i)
         {
             _writeView._months[i].GetComponentInChildren<TMP_Text>().text = (_MIN_MONTH + i).ToString();
         }
 
-        for (int i = 0; i < _MAX_DAY - _MIN_DAY; ++i)
+        for (int i = 0; i <= _MAX_DAY - _MIN_DAY; ++i)
         {
             _writeView._days[i].GetComponentInChildren<TMP_Text>().text = (_MIN_DAY + i).ToString();
         }

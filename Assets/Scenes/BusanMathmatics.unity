@@ -16225,7 +16225,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57f5f2986a6b2a94381f0098225dab2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: 0.1
+  size: 0.05
   opacity: 1
   type: 0
   color: {r: 0, g: 0, b: 0, a: 1}
@@ -35408,7 +35408,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 10
+  m_text: 01:00
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: eb0b8abb8c34ef1489b4726c396e78cb, type: 2}
   m_sharedMaterial: {fileID: -8988838128011595121, guid: eb0b8abb8c34ef1489b4726c396e78cb, type: 2}
