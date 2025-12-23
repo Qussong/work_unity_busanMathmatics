@@ -50,6 +50,7 @@ public class NumGameState : BaseState
             NumPad numpad = _numGameView._numButtons[i].AddComponent<NumPad>();
             numpad._value = i;
             _numGameView._numButtons[i].onClick.AddListener(() => { UpdateAnswerUI(numpad._value); });
+            _numGameView._numButtons[i].onClick.AddListener(() => { SoundManager.Instance.PlayButtonSound(); });
         }
 
         // 초기화 버튼 리스너 등록

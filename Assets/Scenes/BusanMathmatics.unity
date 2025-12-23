@@ -33346,6 +33346,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   correctEffectSound: {fileID: 8300000, guid: d8c65ee1aee6da142b555fccca6c5bee, type: 3}
   disCorrectEffectSound: {fileID: 8300000, guid: 40738fb36b25a2e4d8c7d2c17d2bfa2a, type: 3}
+  buttonEffectSound: {fileID: 8300000, guid: 050ab99d194c0e94298b4d1c973aa1f1, type: 3}
 --- !u!4 &960854794
 Transform:
   m_ObjectHideFlags: 0

@@ -6,6 +6,7 @@ public class SoundManager : MonoSingleton<SoundManager>
     [Header("=== Sound Resource ===")]
     [SerializeField] private AudioClip correctEffectSound;
     [SerializeField] private AudioClip disCorrectEffectSound;
+    [SerializeField] private AudioClip buttonEffectSound;
 
     public void PlayCorrectSound()
     {
@@ -17,6 +18,12 @@ public class SoundManager : MonoSingleton<SoundManager>
     {
         if (null == disCorrectEffectSound) return;
         PlaySound(disCorrectEffectSound);
+    }
+
+    public void PlayButtonSound()
+    {
+        if (null == buttonEffectSound) return;
+        PlaySound(buttonEffectSound);
     }
 
     /// <summary>
