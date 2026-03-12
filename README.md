@@ -126,7 +126,7 @@ Assets/Scripts/BusanMath/
      │                      Vote (투표)
      │                         │
      │                         ▼
-     │                      Write (생일 쓰기 + 드로잉)
+     │                     Write2 (생일 적기 날짜 선택)
      │                         │
      │                         ▼
      │                    VoteResult (투표 결과)
@@ -173,3 +173,4 @@ Assets/Scripts/BusanMath/
 | 2026-03-11 | BaseView에 EnsureInitialized() 추가 - 비활성 View의 Initialize/BindUIEvent 누락 방지, NavigationController에서 명시적 호출 |
 | 2026-03-11 | 전체 스크립트 주석 정비 - 깨진 인코딩 주석을 한글 XML 주석으로 재작성, 불필요한 using(NUnit.Framework 등) 제거 |
 | 2026-03-12 | Write2State/Write2View 추가 - 생일 적기 2번째 콘텐츠, 날짜 선택 UI(년/월/일 동적 버튼 생성, 패널 토글) |
+| 2026-03-13 | Write2State View Show/Hide 누락 수정 - Enter()에 Show(), Exit()에 Hide() 추가 |

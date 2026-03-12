@@ -133,8 +133,8 @@ public class NavigationController : MonoSingleton<NavigationController>
 
     public void GoToWrite(ECountry country)
     {
-        StateMachine.GetState<WriteState>().Country = country;
-        StateMachine.ChangeState<WriteState>();
+        StateMachine.GetState<Write2State>().Country = country;
+        StateMachine.ChangeState<Write2State>();
     }
 
     public void GoToVoteResult()

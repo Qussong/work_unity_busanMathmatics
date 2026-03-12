@@ -9,6 +9,14 @@ public class Write2State : BaseState<Write2State, Write2View>
     private int _selectedMonth;
     private int _selectedDay;
 
+    // 투표에서 선택된 나라
+    private ECountry _country;
+
+    public ECountry Country
+    {
+        set { _country = value; }
+    }
+
     public Write2State(Write2View view) : base(view)
     {
     }
@@ -23,9 +31,9 @@ public class Write2State : BaseState<Write2State, Write2View>
     {
         base.Init();
 
-        CreateDateButtons(_view._objYearContainer, 51, v => _selectedYear = v, 1980);   // 년도: 51개 (1980~2030)
-        CreateDateButtons(_view._objMonthContainer, 12, v => _selectedMonth = v);    // 월: 12개 (1~12)
-        CreateDateButtons(_view._objDayContainer, 31, v => _selectedDay = v);        // 일: 31개 (1~31)
+        CreateDateButtons(_view._objYearContainer, 51, "year", 1980);   // 년도: 51개 (1980~2030)
+        CreateDateButtons(_view._objMonthContainer, 12, "month");      // 월: 12개 (1~12)
+        CreateDateButtons(_view._objDayContainer, 31, "day");          // 일: 31개 (1~31)
 
         _view._OnYearButtonClicked += () => ShowContainer(_view._objSelectYearPanel);
         _view._OnMonthButtonClicked += () => ShowContainer(_view._objSelectMonthPanel);
@@ -34,8 +42,8 @@ public class Write2State : BaseState<Write2State, Write2View>
 
     public override void Enter()
     {
-        // Debug.Log($"[{typeof(TState).Name}] Enter");
         base.Enter();
+        _view.Show();
 
         _selectedYear = 0;
         _selectedMonth = 0;
@@ -49,8 +57,8 @@ public class Write2State : BaseState<Write2State, Write2View>
 
     public override void Exit()
     {
-        // Debug.Log($"[{typeof(TState).Name}] Exit");
         base.Exit();
+        _view.Hide();
     }
 
     /// <summary>
@@ -74,7 +82,7 @@ public class Write2State : BaseState<Write2State, Write2View>
         selectPanel.SetActive(true);
     }
 
-    private void CreateDateButtons(GameObject container, int count, Action<int> onSelect, int startValue = 1)
+    private void CreateDateButtons(GameObject container, int count, string type, int startValue = 1)
     {
         for (int i = 0; i < count; i++)
         {
@@ -89,7 +97,28 @@ public class Write2State : BaseState<Write2State, Write2View>
             var button = btn.GetComponentInChildren<UnityEngine.UI.Button>();
             if (button != null)
             {
-                button.onClick.AddListener(() => onSelect?.Invoke(value));
+                button.onClick.AddListener(() =>
+                {
+                    switch (type)
+                    {
+                        case "year":
+                            _selectedYear = value;
+                            _view._btnYear.GetComponentInChildren<TMP_Text>().text = value.ToString();
+                            break;
+                        case "month":
+                            _selectedMonth = value;
+                            _view._btnMonth.GetComponentInChildren<TMP_Text>().text = value.ToString();
+                            break;
+                        case "day":
+                            _selectedDay = value;
+                            _view._btnDay.GetComponentInChildren<TMP_Text>().text = value.ToString();
+                            break;
+                    }
+
+                    _view._objSelectYearPanel.SetActive(false);
+                    _view._objSelectMonthPanel.SetActive(false);
+                    _view._objSelectDayPanel.SetActive(false);
+                });
             }
         }
     }
