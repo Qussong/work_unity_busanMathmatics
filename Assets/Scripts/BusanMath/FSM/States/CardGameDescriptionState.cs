@@ -1,35 +1,37 @@
 using TMPro;
 using UnityEngine;
 
-public class CardGameDescriptionState : BaseState
+public class CardGameDescriptionState : BaseState<CardGameDescriptionState, CardGameDescriptionView>
 {
-    private CardGameDescriptionView _cardGameDescriptionView;
     private SwipeUI.SwipeUI _swipeUI;
     private bool textColorChangeFlag = false;
 
-    public CardGameDescriptionState(CardGameDescriptionView view)
+    public CardGameDescriptionState(CardGameDescriptionView view) : base(view)
     {
-        _cardGameDescriptionView = view;
+        // SwipeUI ì°¸ì¡° (1íšŒ ìºì‹±)
+        _swipeUI = _view._swipeUIObj.GetComponentInChildren<SwipeUI.SwipeUI>();
+    }
 
-        // SwipeUI Å¬·¡½º ÂüÁ¶
-        _swipeUI = _cardGameDescriptionView._swipeUIObj.GetComponentInChildren<SwipeUI.SwipeUI>();
+    public override void Init()
+    {
+        base.Init();
 
-        // ÀÌº¥Æ® µî·Ï
-        _cardGameDescriptionView._OnHomeButtonClicked += () => { NavigationController.Instance.GoToHome(); };
-        _cardGameDescriptionView._OnPrevButtonClicked += () => { _swipeUI.AutoSwipe(true); };
-        _cardGameDescriptionView._OnNextButtonClicked += () => { _swipeUI.AutoSwipe(false); };
-        _cardGameDescriptionView._OnStartButtonClicked += () => { NavigationController.Instance.GoToCardGame(); };
+        // ì´ë²¤íŠ¸ êµ¬ë… (ìµœì´ˆ 1íšŒ)
+        _view._OnHomeButtonClicked += () => { NavigationController.Instance.GoToHome(); };
+        _view._OnPrevButtonClicked += () => { _swipeUI.AutoSwipe(true); };
+        _view._OnNextButtonClicked += () => { _swipeUI.AutoSwipe(false); };
+        _view._OnStartButtonClicked += () => { NavigationController.Instance.GoToCardGame(); };
     }
 
     public override void Enter()
     {
-        Debug.Log("[CardGameDescriptionState] Enter");
-        _cardGameDescriptionView.Show();
+        base.Enter();
+        _view.Show();
 
-        // swipe ÈÄ¼ÓÃ³¸®¸¦ À§ÇÑ ÀÌº¥Æ® µî·Ï
+        // swipe í›„ì²˜ë¦¬ë¥¼ ìœ„í•œ ì´ë²¤íŠ¸ ë“±ë¡ (ë§¤ ì§„ì… ì‹œ)
         _swipeUI._OnSwipeCompleted += TextColorChange;
 
-        // ÃÖÃÊ ½ÃÀÛÇÒ ¶§ 0¹ø ÆäÀÌÁö¸¦ º¼ ¼ö ÀÖµµ·Ï ¼³Á¤
+        // í˜„ì¬ í˜ì´ì§€ë¥¼ 0ë²ˆ í˜ì´ì§€ë¡œ ëŒë¦¬ê¸°
         int backCnt = _swipeUI.CurrentPage;
         for (int i = 0; i < backCnt; ++i)
         {
@@ -48,25 +50,22 @@ public class CardGameDescriptionState : BaseState
 
     public override void Exit()
     {
-        Debug.Log("[CardGameDescriptionState] Eixt");
+        base.Exit();
 
-        // swipe ÈÄ¼ÓÃ³¸®¸¦ À§ÇÑ ÀÌº¥Æ® µî·Ï ÇØÁ¦
-        _swipeUI._OnSwipeCompleted += TextColorChange;
+        // swipe ì´ë²¤íŠ¸ í•´ì œ
+        _swipeUI._OnSwipeCompleted -= TextColorChange;
 
-        _cardGameDescriptionView.Hide();
+        _view.Hide();
     }
 
     private void ChangeDescriptionColor()
     {
-        // Description Text °´Ã¼ÀÇ ÆùÆ® »ö»ó ÀüºÎ white ·Î º¯°æ
         int curPageIdx = _swipeUI.CurrentPage;
-        foreach (TMP_Text targetText in _cardGameDescriptionView._descriptionTextList)
+        foreach (TMP_Text targetText in _view._descriptionTextList)
         {
             targetText.color = Color.white;
         }
-
-        // ÇöÀç ÀÎµ¦½º¿¡ ÇØ´çÇÏ´Â Text °´Ã¼ÀÇ ÆùÆ® »ö»ó¸¸ º¯°æ
-        _cardGameDescriptionView._descriptionTextList[curPageIdx].color = new Color(1f, 0.87f, 0.39f);
+        _view._descriptionTextList[curPageIdx].color = new Color(1f, 0.87f, 0.39f);
     }
 
     public void TextColorChange()

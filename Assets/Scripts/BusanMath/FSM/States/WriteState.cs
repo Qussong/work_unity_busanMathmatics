@@ -1,10 +1,8 @@
-using SwipeUI;
 using TMPro;
 using UnityEngine;
 
-public class WriteState : BaseState
+public class WriteState : BaseState<WriteState, WriteView>
 {
-    private WriteView _writeView;
     private ECountry _country;
 
     private readonly int _MIN_YEAR = 1980;
@@ -14,176 +12,151 @@ public class WriteState : BaseState
     private readonly int _MAX_MONTH = 12;
     private readonly int _MAX_DAY = 31;
 
-
     public ECountry Country
     {
-        set
-        {
-            _country = value;
-        }
+        set { _country = value; }
     }
 
-    public WriteState(WriteView view)
-    {
-        _writeView = view;
+    public WriteState(WriteView view) : base(view) { }
 
-        // ÀÌº¥Æ® µî·Ï
-        _writeView._OnHomeButtonClicked += () => { NavigationController.Instance.GoToHome(); };
-        _writeView._OnOkayButtonClicked += () => {
-            // Writing Board µîÀå
-            _writeView._okayButton.gameObject.SetActive(false);
-            _writeView._writeBoardContainer.SetActive(true);
-            //Debug.Log("year : " + (_writeView._yearUI.CurrentPage + _minYear));
-            //Debug.Log("month : " + (_writeView._monthUI.CurrentPage + _minMonth));
-            //Debug.Log("day : " + (_writeView._dayUI.CurrentPage + _minDay));
+    public override void Init()
+    {
+        base.Init();
+
+        // ì´ë²¤íŠ¸ êµ¬ë… (ìµœì´ˆ 1íšŒ)
+        _view._OnHomeButtonClicked += () => { NavigationController.Instance.GoToHome(); };
+        _view._OnOkayButtonClicked += () => {
+            _view._okayButton.gameObject.SetActive(false);
+            _view._writeBoardContainer.SetActive(true);
             if (ECountry.Egypt == _country)
             {
-                _writeView._yearPreview.sprite = _writeView._yearEgyptList[_writeView._yearUI.CurrentPage];
-                _writeView._yearPreview.SetNativeSize();
-                _writeView._yearPreview.rectTransform.sizeDelta /= 3.5f;
-                _writeView._yearPreview.color = new Color(1f, 1f, 1f, 0.5f);
+                _view._yearPreview.sprite = _view._yearEgyptList[_view._yearUI.CurrentPage];
+                _view._yearPreview.SetNativeSize();
+                _view._yearPreview.rectTransform.sizeDelta /= 3.5f;
+                _view._yearPreview.color = new Color(1f, 1f, 1f, 0.5f);
 
-                _writeView._monthPreview.sprite = _writeView._monthEgyptList[_writeView._monthUI.CurrentPage];
-                _writeView._monthPreview.SetNativeSize();
-                _writeView._monthPreview.rectTransform.sizeDelta /= 3.5f;
-                _writeView._monthPreview.color = new Color(1f, 1f, 1f, 0.5f);
+                _view._monthPreview.sprite = _view._monthEgyptList[_view._monthUI.CurrentPage];
+                _view._monthPreview.SetNativeSize();
+                _view._monthPreview.rectTransform.sizeDelta /= 3.5f;
+                _view._monthPreview.color = new Color(1f, 1f, 1f, 0.5f);
 
-                _writeView._dayPreview.sprite = _writeView._dayEgyptList[_writeView._dayUI.CurrentPage];
-                _writeView._dayPreview.SetNativeSize();
-                _writeView._dayPreview.rectTransform.sizeDelta /= 3.5f;
-                _writeView._dayPreview.color = new Color(1f, 1f, 1f, 0.5f);
+                _view._dayPreview.sprite = _view._dayEgyptList[_view._dayUI.CurrentPage];
+                _view._dayPreview.SetNativeSize();
+                _view._dayPreview.rectTransform.sizeDelta /= 3.5f;
+                _view._dayPreview.color = new Color(1f, 1f, 1f, 0.5f);
             }
-            else if(ECountry.China == _country)
+            else if (ECountry.China == _country)
             {
-                _writeView._yearPreview.sprite = _writeView._yearChinaList[_writeView._yearUI.CurrentPage];
-                _writeView._yearPreview.SetNativeSize();
-                _writeView._yearPreview.rectTransform.sizeDelta /= 4f;
-                _writeView._yearPreview.color = new Color(1f, 1f, 1f, 0.5f);
+                _view._yearPreview.sprite = _view._yearChinaList[_view._yearUI.CurrentPage];
+                _view._yearPreview.SetNativeSize();
+                _view._yearPreview.rectTransform.sizeDelta /= 4f;
+                _view._yearPreview.color = new Color(1f, 1f, 1f, 0.5f);
 
-                _writeView._monthPreview.sprite = _writeView._monthChinaList[_writeView._monthUI.CurrentPage];
-                _writeView._monthPreview.SetNativeSize();
-                _writeView._monthPreview.rectTransform.sizeDelta /= 4f;
-                _writeView._monthPreview.color = new Color(1f, 1f, 1f, 0.5f);
+                _view._monthPreview.sprite = _view._monthChinaList[_view._monthUI.CurrentPage];
+                _view._monthPreview.SetNativeSize();
+                _view._monthPreview.rectTransform.sizeDelta /= 4f;
+                _view._monthPreview.color = new Color(1f, 1f, 1f, 0.5f);
 
-                _writeView._dayPreview.sprite = _writeView._dayChinaList[_writeView._dayUI.CurrentPage];
-                _writeView._dayPreview.SetNativeSize();
-                _writeView._dayPreview.rectTransform.sizeDelta /= 4f;
-                _writeView._dayPreview.color = new Color(1f, 1f, 1f, 0.5f);
+                _view._dayPreview.sprite = _view._dayChinaList[_view._dayUI.CurrentPage];
+                _view._dayPreview.SetNativeSize();
+                _view._dayPreview.rectTransform.sizeDelta /= 4f;
+                _view._dayPreview.color = new Color(1f, 1f, 1f, 0.5f);
             }
-            else if(ECountry.Roma == _country)
+            else if (ECountry.Roma == _country)
             {
-                _writeView._yearPreview.sprite = _writeView._yearRomaList[_writeView._yearUI.CurrentPage];
-                _writeView._yearPreview.SetNativeSize();
-                _writeView._yearPreview.rectTransform.sizeDelta /= 4f;
-                _writeView._yearPreview.color = new Color(1f, 1f, 1f, 0.5f);
+                _view._yearPreview.sprite = _view._yearRomaList[_view._yearUI.CurrentPage];
+                _view._yearPreview.SetNativeSize();
+                _view._yearPreview.rectTransform.sizeDelta /= 4f;
+                _view._yearPreview.color = new Color(1f, 1f, 1f, 0.5f);
 
-                _writeView._monthPreview.sprite = _writeView._monthRomaList[_writeView._monthUI.CurrentPage];
-                _writeView._monthPreview.SetNativeSize();
-                _writeView._monthPreview.rectTransform.sizeDelta /= 4f;
-                _writeView._monthPreview.color = new Color(1f, 1f, 1f, 0.5f);
+                _view._monthPreview.sprite = _view._monthRomaList[_view._monthUI.CurrentPage];
+                _view._monthPreview.SetNativeSize();
+                _view._monthPreview.rectTransform.sizeDelta /= 4f;
+                _view._monthPreview.color = new Color(1f, 1f, 1f, 0.5f);
 
-                _writeView._dayPreview.sprite = _writeView._dayRomaList[_writeView._dayUI.CurrentPage];
-                _writeView._dayPreview.SetNativeSize();
-                _writeView._dayPreview.rectTransform.sizeDelta /= 4f;
-                _writeView._dayPreview.color = new Color(1f, 1f, 1f, 0.5f);
+                _view._dayPreview.sprite = _view._dayRomaList[_view._dayUI.CurrentPage];
+                _view._dayPreview.SetNativeSize();
+                _view._dayPreview.rectTransform.sizeDelta /= 4f;
+                _view._dayPreview.color = new Color(1f, 1f, 1f, 0.5f);
             }
         };
-        _writeView._OnMoveNextButtonClicked += () =>{
-            NavigationController.Instance.GoToVoteResult(); 
+        _view._OnMoveNextButtonClicked += () => {
+            NavigationController.Instance.GoToVoteResult();
         };
 
-        // ³¯Â¥ º¸µå ÅØ½ºÆ® ¼³Á¤
+        // ë‚ ì§œ ì„ íƒ í…ìŠ¤íŠ¸ ì„¸íŒ…
         SetDate();
-
     }
 
     public override void Enter()
     {
-        Debug.Log("[WriteState] Enter");
+        base.Enter();
 
-        // ¼±ÅÃµÈ ±¹°¡¿¡ ¸Â´Â ¹è°æ ÀÌ¹ÌÁö ¼³Á¤
-        _writeView._backgroundImage.sprite = _writeView._backgroundSpriteList[(int)_country];
+        // ì„ íƒëœ êµ­ê°€ì— ë§ëŠ” ë°°ê²½ ì´ë¯¸ì§€ ì„¸íŒ…
+        _view._backgroundImage.sprite = _view._backgroundSpriteList[(int)_country];
 
-        // ¼±ÅÃµÈ ±¹°¡¿¡ ¸Â´Â Å¸ÀÌÆ² ÀÌ¹ÌÁö ¼³Á¤
-        _writeView._titleImage.sprite = _writeView._titleSpriteList[(int)_country];
-        _writeView._titleImage.SetNativeSize();
-        _writeView._titleImage.rectTransform.sizeDelta /= 4f;
+        // ì„ íƒëœ êµ­ê°€ì— ë§ëŠ” íƒ€ì´í‹€ ì´ë¯¸ì§€ ì„¸íŒ…
+        _view._titleImage.sprite = _view._titleSpriteList[(int)_country];
+        _view._titleImage.SetNativeSize();
+        _view._titleImage.rectTransform.sizeDelta /= 4f;
 
-        _writeView.Show();
+        _view.Show();
 
-        // ÃÖÃÊ ½ÃÀÛÇÒ ¶§ 0¹ø ÆäÀÌÁö¸¦ º¼ ¼ö ÀÖµµ·Ï ¼³Á¤ (year)
-        int backCnt = _writeView._yearUI.CurrentPage;
+        // ìŠ¤ì™€ì´í”„ë¥¼ 0ë²ˆ í˜ì´ì§€ë¡œ ì´ˆê¸°í™” (year)
+        int backCnt = _view._yearUI.CurrentPage;
         for (int i = 0; i < backCnt; ++i)
         {
-            _writeView._yearUI.AutoSwipe(true);
+            _view._yearUI.AutoSwipe(true);
         }
-        // ÃÖÃÊ ½ÃÀÛÇÒ ¶§ 0¹ø ÆäÀÌÁö¸¦ º¼ ¼ö ÀÖµµ·Ï ¼³Á¤ (month)
-        backCnt = _writeView._monthUI.CurrentPage;
+        // month
+        backCnt = _view._monthUI.CurrentPage;
         for (int i = 0; i < backCnt; ++i)
         {
-            _writeView._monthUI.AutoSwipe(true);
+            _view._monthUI.AutoSwipe(true);
         }
-        // ÃÖÃÊ ½ÃÀÛÇÒ ¶§ 0¹ø ÆäÀÌÁö¸¦ º¼ ¼ö ÀÖµµ·Ï ¼³Á¤ (day)
-        backCnt = _writeView._dayUI.CurrentPage;
+        // day
+        backCnt = _view._dayUI.CurrentPage;
         for (int i = 0; i < backCnt; ++i)
         {
-            _writeView._dayUI.AutoSwipe(true);
+            _view._dayUI.AutoSwipe(true);
         }
-    }
-
-    public override void Update()
-    {
-        //
     }
 
     public override void Exit()
     {
-        Debug.Log("[WriteState] Eixt");
+        base.Exit();
 
-        // ±¹°¡ ¼±ÅÃ ±â·Ï ÃÊ±âÈ­
         _country = ECountry.None;
 
-        // ¹è°æ ÀÌ¹ÌÁö ¼³Á¤ ÇØÁ¦
-        _writeView._backgroundImage.sprite = null;
+        _view._backgroundImage.sprite = null;
+        _view._titleImage.sprite = null;
 
-        // Å¸ÀÌÆ² ÀÌ¹ÌÁö ¼³Á¤ ÇØÁ¦
-        _writeView._titleImage.sprite = null;
+        _view._yearPreview.sprite = null;
+        _view._monthPreview.sprite = null;
+        _view._dayPreview.sprite = null;
 
-        // Writing Board ÀÇ Year, Month, Day ÇØÁ¦
-        _writeView._yearPreview.sprite = null;
-        _writeView._monthPreview.sprite = null;
-        _writeView._dayPreview.sprite = null;
+        _view._drawTextureUI.Clear();
+        _view._writeBoardContainer.SetActive(false);
+        _view._okayButton.gameObject.SetActive(true);
 
-        // DrawTexture ÀÇ ¶óÀÎ Áö¿ì±â
-        _writeView._drawTextureUI.Clear();
-
-        // Writing Board off
-        _writeView._writeBoardContainer.SetActive(false);
-
-        // È®ÀÎ ¹öÆ° on
-        _writeView._okayButton.gameObject.SetActive(true);
-
-        _writeView.Hide();
+        _view.Hide();
     }
 
-    /// <summary>
-    /// ³â, ¿ù, ÀÏ ¼³Á¤
-    /// </summary>
     public void SetDate()
     {
-        for(int i = 0; i <= _MAX_YEAR - _MIN_YEAR; ++i)
+        for (int i = 0; i <= _MAX_YEAR - _MIN_YEAR; ++i)
         {
-            _writeView._years[i].GetComponentInChildren<TMP_Text>().text = (_MIN_YEAR + i).ToString();
+            _view._years[i].GetComponentInChildren<TMP_Text>().text = (_MIN_YEAR + i).ToString();
         }
 
         for (int i = 0; i <= _MAX_MONTH - _MIN_MONTH; ++i)
         {
-            _writeView._months[i].GetComponentInChildren<TMP_Text>().text = (_MIN_MONTH + i).ToString();
+            _view._months[i].GetComponentInChildren<TMP_Text>().text = (_MIN_MONTH + i).ToString();
         }
 
         for (int i = 0; i <= _MAX_DAY - _MIN_DAY; ++i)
         {
-            _writeView._days[i].GetComponentInChildren<TMP_Text>().text = (_MIN_DAY + i).ToString();
+            _view._days[i].GetComponentInChildren<TMP_Text>().text = (_MIN_DAY + i).ToString();
         }
     }
 }

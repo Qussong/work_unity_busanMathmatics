@@ -1,33 +1,27 @@
 using UnityEngine;
 
-public class HomeState : BaseState
+public class HomeState : BaseState<HomeState, HomeView>
 {
-    private HomeView _homeView;
+    public HomeState(HomeView view) : base(view) { }
 
-    public HomeState(HomeView view)
+    public override void Init()
     {
-        _homeView = view;
+        base.Init();
 
-        // �̺�Ʈ ���
-        _homeView._OnLeftButtonClicked += () => { NavigationController.Instance.GoToSelect(); };
-        _homeView._OnRightButtonClicked += () => { NavigationController.Instance.GoToNumGameDescription(ECountry.Egypt); };
+        // 이벤트 구독 (최초 1회)
+        _view._OnLeftButtonClicked += () => { NavigationController.Instance.GoToSelect(); };
+        _view._OnRightButtonClicked += () => { NavigationController.Instance.GoToNumGameDescription(ECountry.Egypt); };
     }
 
     public override void Enter()
     {
-        Debug.Log("[HomeState] Enter");
-        _homeView.Show();
-    }
-
-    public override void Update()
-    {
-        //
+        base.Enter();
+        _view.Show();
     }
 
     public override void Exit()
     {
-        Debug.Log("[HomeState] Eixt");
-        _homeView.Hide();
+        base.Exit();
+        _view.Hide();
     }
-
 }

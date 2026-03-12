@@ -2,34 +2,28 @@ using BusanMath.Core;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
-using static UnityEngine.Rendering.DebugUI;
 
+/// <summary>
+/// ë¹„ë””ì˜¤ ì¬ìƒì„ ë‹´ë‹¹í•˜ëŠ” ì‹±ê¸€í†¤ ë§¤ë‹ˆì €
+/// VideoPlayer, RenderTexture ìƒì„± ë° ê´€ë¦¬
+/// </summary>
 public class VideoManager : MonoSingleton<VideoManager>
 {
     private VideoPlayer _player;
-    private RawImage _display;              // ºñµğ¿À¸¦ Ç¥½ÃÇÒ UI RawImage
-    private RenderTexture _renderTexture;   // ºñµğ¿À ÇÁ·¹ÀÓÀ» ·»´õ¸µÇÒ ÅØ½ºÃ³
+    private RawImage _display;
+    private RenderTexture _renderTexture;
 
     public VideoPlayer Player
     {
         get { return _player; }
     }
 
-    /// <summary>
-    /// ½Ì±ÛÅæ ÃÊ±âÈ­ ½Ã È£ÃâµÇ´Â °¡»ó ¸Ş¼­µå
-    /// ¼­ºêÅ¬·¡½º¿¡¼­ ¿À¹ö¶óÀÌµåÇÏ¿© ÃÊ±âÈ­ ·ÎÁ÷ ±¸Çö 
-    /// </summary>
-    protected override void OnSingletonAwake() 
+    protected override void OnSingletonAwake()
     {
-        // VideoPlayer ÄÄÆ÷³ÍÆ®°¡ Á¸ÀçÇÏÁö ¾ÊÀ¸¸é ÃÖÃÊ 1È¸ »ı¼º
         if (null == _player)
         {
             _player = gameObject.AddComponent<VideoPlayer>();
-
-            // ÀÚµ¿ Àç»ı ºñÈ°¼ºÈ­ (Prepare ¿Ï·á ÈÄ ¼öµ¿À¸·Î Àç»ı)
             _player.playOnAwake = false;
-
-            // ºñµğ¿À ÁØºñ ¿Ï·á ½Ã È£ÃâµÉ Äİ¹é µî·Ï
             _player.prepareCompleted += OnPrepared;
         }
     }
@@ -40,52 +34,34 @@ public class VideoManager : MonoSingleton<VideoManager>
     }
 
     /// <summary>
-    /// ÁöÁ¤µÈ °æ·ÎÀÇ ºñµğ¿À¸¦ Àç»ı
+    /// ë¹„ë””ì˜¤ íŒŒì¼ ê²½ë¡œë¥¼ ë°›ì•„ ì¬ìƒ ì¤€ë¹„
     /// </summary>
-    /// <param name="filePath">
-    /// StreamingAssets Æú´õ
-    /// System.IO.Path.Combine(Application.streamingAssetsPath, "sample.mp4")
-    /// </param>
+    /// <param name="filePath">StreamingAssets ê¸°ì¤€ ì „ì²´ ê²½ë¡œ</param>
     public void Play(string filePath)
     {
-        // ºñµğ¿À ¼Ò½º¸¦ URL ¸ğµå·Î ¼³Á¤
         _player.source = VideoSource.Url;
-
-        // Àç»ıÇÒ ºñµğ¿À °æ·Î ¼³Á¤
         _player.url = filePath;
-
-        // ºñµğ¿À ·Îµù ¹× µğÄÚµù ÁØºñ ½ÃÀÛ
         _player.Prepare();
     }
 
     /// <summary>
-    /// ºñµğ¿À ÁØºñ ¿Ï·á ½Ã È£ÃâµÇ´Â Äİ¹é
-    /// RenderTexture ¸¦ »ı¼ºÇÏ°í ½ÇÁ¦ Àç»ıÀ» ½ÃÀÛ
+    /// ë¹„ë””ì˜¤ ì¤€ë¹„ ì™„ë£Œ ì½œë°±
+    /// RenderTexture ìƒì„± í›„ ì¬ìƒ ì‹œì‘
     /// </summary>
     private void OnPrepared(VideoPlayer vp)
     {
-        // ±âÁ¸ RenderTexture °¡ ÀÖÀ¸¸é ¸Ş¸ğ¸® ÇØÁ¦
         if (null != _renderTexture) _renderTexture.Release();
 
-        // ºñµğ¿À ÇØ»óµµ¿¡ ¸Â´Â »õ·Î¿î RenderTexture »ı¼º
         _renderTexture = new RenderTexture((int)vp.width, (int)vp.height, 0);
-
-        // VideoPlayer ÀÇ Ãâ·Â ´ë»óÀ» RenderTexture ·Î ¼³Á¤
         vp.targetTexture = _renderTexture;
-
-        // RawImage¿¡ RenderTexture ¿¬°áÇÏ¿© È­¸é¿¡ Ç¥½Ã
         _display.texture = _renderTexture;
 
-        // ºñµğ¿À Àç»ı ½ÃÀÛ
         vp.Play();
     }
 
     public void Stop() => _player?.Stop();
     public void Pause() => _player?.Pause();
 
-    /// <summary>
-    /// ºñµğ¿À Àç»ı ¿©ºÎ È®ÀÎ
-    /// </summary>
     public bool IsPlaying()
     {
         if (null == _player) return false;
@@ -93,9 +69,8 @@ public class VideoManager : MonoSingleton<VideoManager>
     }
 
     /// <summary>
-    /// ÀüÃ¼ ¿µ»ó ±æÀÌ (ÃÊ)
+    /// ì „ì²´ ë¹„ë””ì˜¤ ê¸¸ì´ (ì´ˆ)
     /// </summary>
-    /// <returns></returns>
     public double VideoLength()
     {
         if (null == _player) return 0;
@@ -103,30 +78,25 @@ public class VideoManager : MonoSingleton<VideoManager>
     }
 
     /// <summary>
-    /// ÁøÇà·ü (0.0 ~ 1.0)
+    /// ì¬ìƒ ì§„í–‰ë¥  (0.0 ~ 1.0)
     /// </summary>
-    /// <returns></returns>
     public float Progress()
     {
         if (null == _player) return 0;
         return (float)(_player.time / _player.length);
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
     public void SetPlayerTime(float value)
     {
         if (null == _player) return;
         _player.time = value;
     }
-    
+
     /// <summary>
-    /// 
+    /// ë¹„ë””ì˜¤ 95% ì§€ì ìœ¼ë¡œ ìŠ¤í‚µ
     /// </summary>
     public void Skip()
     {
-        // ÀÚ¿¬½º·¯¿î ¹è°æÀ» À§ÇØ 95% ±îÁö¸¸ ½ºÅµ
         SetPlayerTime((float)(VideoManager.Instance.VideoLength() * 0.95f));
     }
 
@@ -134,5 +104,4 @@ public class VideoManager : MonoSingleton<VideoManager>
     {
         if (null != _renderTexture) _renderTexture.Release();
     }
-
 }

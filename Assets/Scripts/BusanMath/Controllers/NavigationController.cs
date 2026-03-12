@@ -1,7 +1,10 @@
 using BusanMath.Core;
-using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// í™”ë©´ ì „í™˜ì„ ë‹´ë‹¹í•˜ëŠ” ì‹±ê¸€í†¤ ì»¨íŠ¸ë¡¤ëŸ¬
+/// StateMachineì„ í†µí•´ ê° í™”ë©´(State)ì˜ ìƒëª…ì£¼ê¸°ë¥¼ ê´€ë¦¬í•œë‹¤.
+/// </summary>
 public class NavigationController : MonoSingleton<NavigationController>
 {
     [Header("Views")]
@@ -18,21 +21,33 @@ public class NavigationController : MonoSingleton<NavigationController>
 
     public StateMachine StateMachine { get; private set; }
 
-    /// <summary>
-    /// ½Ì±ÛÅæ ÃÊ±âÈ­ ½Ã È£ÃâµÇ´Â °¡»ó ¸Ş¼­µå
-    /// ¼­ºêÅ¬·¡½º¿¡¼­ ¿À¹ö¶óÀÌµåÇÏ¿© ÃÊ±âÈ­ ·ÎÁ÷ ±¸Çö 
-    /// </summary>
+    #region Lifecycle
+
     protected override void OnSingletonAwake()
     {
         InitializeStateMachine();
     }
 
+    protected override void OnDestroy()
+    {
+        if (StateMachine != null)
+        {
+            StateMachine.OnStateChanged -= HandleStateChanged;
+        }
+
+        base.OnDestroy();
+    }
+
+    #endregion
+
+    #region Initialize
+
     private void InitializeStateMachine()
     {
-        // StateMachine ÄÄÆ÷³ÍÆ® Ãß°¡
+        EnsureAllViewsInitialized();
+
         StateMachine = gameObject.AddComponent<StateMachine>();
 
-        // »óÅÂ µî·Ï
         StateMachine.AddState(new HomeState(_homeView));
         StateMachine.AddState(new SelectState(_selectView));
         StateMachine.AddState(new VideoState(_videoView));
@@ -44,22 +59,31 @@ public class NavigationController : MonoSingleton<NavigationController>
         StateMachine.AddState(new WriteState(_writeView));
         StateMachine.AddState(new VoteResultState(_voteResultView));
 
-        // »óÅÂ º¯°æ ÀÌº¥Æ® ±¸µ¶
         StateMachine.OnStateChanged += HandleStateChanged;
-
-        // ÃÊ±â »óÅÂ: Home
         StateMachine.ChangeState<HomeState>();
     }
 
-    private void HandleStateChanged(IState oldState, IState newState)
+    /// <summary>
+    /// ë¹„í™œì„±í™”ëœ Viewì˜ Initialize/BindUIEventê°€ ëˆ„ë½ë˜ì§€ ì•Šë„ë¡
+    /// StateMachine ì´ˆê¸°í™” ì „ì— ëª¨ë“  Viewë¥¼ ëª…ì‹œì ìœ¼ë¡œ ì´ˆê¸°í™”í•œë‹¤.
+    /// </summary>
+    private void EnsureAllViewsInitialized()
     {
-        // »óÅÂ º¯°æ ½Ã Ãß°¡ Ã³¸®
-
-        // IdleManager Å¸ÀÌ¸Ó ¸®¼Â
-        IdleManager.Instance?.ResetTimer();
+        _homeView.EnsureInitialized();
+        _selectView.EnsureInitialized();
+        _videoView.EnsureInitialized();
+        _numGameDescriptionView.EnsureInitialized();
+        _numGameView.EnsureInitialized();
+        _cardGameDescriptionView.EnsureInitialized();
+        _cardGameView.EnsureInitialized();
+        _voteView.EnsureInitialized();
+        _writeView.EnsureInitialized();
+        _voteResultView.EnsureInitialized();
     }
 
-    //=== ¿ÜºÎ¿¡¼­ È£ÃâÇÏ´Â ³×ºñ°ÔÀÌ¼Ç ¸Ş¼­µå ===
+    #endregion
+
+    #region Navigation
 
     public void GoToHome()
     {
@@ -73,22 +97,19 @@ public class NavigationController : MonoSingleton<NavigationController>
 
     public void GoToVideo(ECountry country)
     {
-        var videoState = StateMachine.GetState<VideoState>();
-        videoState.Country = country;
+        StateMachine.GetState<VideoState>().Country = country;
         StateMachine.ChangeState<VideoState>();
     }
 
     public void GoToNumGameDescription(ECountry country)
     {
-        var numGameDescriptionState = StateMachine.GetState<NumGameDescriptionState>();
-        numGameDescriptionState.Country = country;
+        StateMachine.GetState<NumGameDescriptionState>().Country = country;
         StateMachine.ChangeState<NumGameDescriptionState>();
     }
 
     public void GoToNumGame(ECountry country)
     {
-        var numGameState = StateMachine.GetState<NumGameState>();
-        numGameState.Country = country;
+        StateMachine.GetState<NumGameState>().Country = country;
         StateMachine.ChangeState<NumGameState>();
     }
 
@@ -109,8 +130,7 @@ public class NavigationController : MonoSingleton<NavigationController>
 
     public void GoToWrite(ECountry country)
     {
-        var writeState = StateMachine.GetState<WriteState>();
-        writeState.Country = country;
+        StateMachine.GetState<WriteState>().Country = country;
         StateMachine.ChangeState<WriteState>();
     }
 
@@ -119,15 +139,23 @@ public class NavigationController : MonoSingleton<NavigationController>
         StateMachine.ChangeState<VoteResultState>();
     }
 
-    //ÇöÀç »óÅÂ È®ÀÎ
+    #endregion
+
+    #region Query
+
     public bool IsHome() => StateMachine.IsCurrentState<HomeState>();
 
-    protected override void OnDestroy()
+    #endregion
+
+    #region Event Handlers
+
+    private void HandleStateChanged(IState oldState, IState newState)
     {
-        if (StateMachine != null)
+        if (IdleManager.Instance != null)
         {
-            StateMachine.OnStateChanged -= HandleStateChanged;
+            IdleManager.Instance.ResetTimer();
         }
     }
 
+    #endregion
 }

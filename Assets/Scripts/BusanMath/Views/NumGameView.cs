@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using TMPro;
@@ -7,7 +6,7 @@ using UnityEngine.UI;
 
 public class NumGameView : BaseView
 {
-    [Header("=== NumGameDescription View Settings ===")]
+    [Header("=== NumGame View Settings ===")]
     public Image _background;
     public Button _homeButton;
     public Image _hint;
@@ -15,8 +14,8 @@ public class NumGameView : BaseView
     public Button _hintButton;
     public Image _title;
     public Image _quizBoard;
-    public Image _rndNumImage;      // 랜덤값에 해당하는 이미지 (이집트, 로마)
-    public TMP_Text _rndNumText;    // 랜덤값에 해당하는 텍스트 (한자)
+    public Image _rndNumImage;
+    public TMP_Text _rndNumText;
     public GameObject _answerTileContainer;
     public Image _numPadTitle;
 
@@ -35,9 +34,9 @@ public class NumGameView : BaseView
     public Image _resultBoard;
     public Image _infoBoard;
     public TMP_Text _infoText;
-    public Button _resultRetryButton;   // 다시하기
-    public Button _resultMoveNext;      // 다음으로, numGame -> carGameDescription
-    public Button _resultOtherCountry;  // 다른 숫자 체험하기, numGame -> select
+    public Button _resultRetryButton;
+    public Button _resultMoveNext;
+    public Button _resultOtherCountry;
 
     [Header("Sprites")]
     public List<Sprite> _backGroundList;
@@ -58,17 +57,13 @@ public class NumGameView : BaseView
     {
         base.Awake();
 
-        // 랜덤값을 보여주는 이미지 객체 off (이집트, 로마)
         _rndNumImage.gameObject.SetActive(false);
-        // 랜덤값을 보여주는 텍스트 객체 off (중국)
         _rndNumText.gameObject.SetActive(false);
     }
 
     protected override void Initialize()
     {
-        // 힌트 팝업 패널 off
         _hintContainer.SetActive(false);
-        // 결과 팝업 패널 off
         _resultContainer.SetActive(false);
     }
 
@@ -81,5 +76,4 @@ public class NumGameView : BaseView
         _resultMoveNext.onClick.AddListener(() => _OnMoveNextButtonClicked?.Invoke());
         _resultOtherCountry.onClick.AddListener(() => _OnOtherCountryButtonClicked?.Invoke());
     }
-
 }

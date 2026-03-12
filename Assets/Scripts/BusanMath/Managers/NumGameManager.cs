@@ -1,60 +1,53 @@
 using BusanMath.Core;
 using UnityEngine;
 
+/// <summary>
+/// ìˆ«ì ë§ì¶”ê¸° ê²Œì„ ë¡œì§ ê´€ë¦¬
+/// êµ­ê°€ë³„ ëœë¤ ìˆ«ì ìƒì„± ë° ì •ë‹µ ë¹„êµ
+/// </summary>
 public class NumGameManager : MonoSingleton<NumGameManager>
 {
     [Header("DB")]
     [SerializeField] private StringSpritePairContainerSO _egyptNumContainer;
-    //[SerializeField] private StringSpritePairContainerSO _chinaNumContainer;
     [SerializeField] private StringSpritePairContainerSO _romaNumContainer;
 
-    //
-    private ECountry _country;  // ³ª¶ó
-    private string _rndNum;     // ·£´ı°ª
+    private ECountry _country;
+    private string _rndNum;
     public string RndNum => _rndNum;
 
-    //
-    private string _answer = "";    // Á¤´ä Á¦ÃâÇöÈ²
+    private string _answer = "";
     public string Answer => _answer;
 
     protected override void OnSingletonAwake()
     {
-
     }
 
     /// <summary>
-    /// °ª ÃÊ±âÈ­
+    /// ê²Œì„ ì´ˆê¸°í™” (êµ­ê°€, ëœë¤ ìˆ«ì, ì •ë‹µ ëª¨ë‘ ë¦¬ì…‹)
     /// </summary>
     public void InitGame()
     {
-        // ³ª¶ó ÃÊ±âÈ­
         _country = ECountry.None;
-
-        // ·£´ı°ª ÃÊ±âÈ­
         _rndNum = "";
-
-        // Á¤´ä ÃÊ±âÈ­
         InitAnswer();
     }
 
     /// <summary>
-    /// °ÔÀÓ ½ÃÀÛ
+    /// ê²Œì„ ì‹œì‘ - êµ­ê°€ ì„¤ì • ë° ëœë¤ ìˆ«ì ìƒì„±
     /// </summary>
     public void StartGame(ECountry country)
     {
-        // ³ª¶ó¼³Á¤
         _country = country;
-
-        // ·£´ı°ª ¼³Á¤
         SetRndNum();
     }
 
     /// <summary>
-    /// ³ª¶óº° ·£´ı°ª ¼³Á¤
+    /// êµ­ê°€ë³„ ëœë¤ ìˆ«ì ìƒì„±
+    /// ì´ì§‘íŠ¸/ë¡œë§ˆ: ScriptableObjectì—ì„œ ëœë¤ ì„ íƒ
+    /// ì¤‘êµ­: 2~3ìë¦¬ ëœë¤ ìˆ«ì ìƒì„±
     /// </summary>
     public void SetRndNum()
     {
-
         if (_country == ECountry.Egypt)
         {
             _rndNum = _egyptNumContainer.GetRandom().Key;
@@ -69,17 +62,13 @@ public class NumGameManager : MonoSingleton<NumGameManager>
         }
     }
 
-    /// <summary>
-    /// Áß±¹¿ë ·£´ı°ª »ı¼º
-    /// 2~3ÀÚ¸® ¼ö »ı¼º
-    /// </summary>
     private string GetRandom2To3Digit()
     {
         return UnityEngine.Random.Range(10, 1000).ToString();
     }
 
     /// <summary>
-    /// ¼±Á¤µÈ ·£´ı ¼ö¿¡ ÇØ´çÇÏ´Â ½ºÇÁ¶óÀÌÆ® ¹İÈ¯
+    /// í˜„ì¬ ëœë¤ ìˆ«ìì— í•´ë‹¹í•˜ëŠ” ìŠ¤í”„ë¼ì´íŠ¸ ë°˜í™˜ (ì´ì§‘íŠ¸, ë¡œë§ˆ)
     /// </summary>
     public Sprite GetRndNumSprite()
     {
@@ -96,41 +85,38 @@ public class NumGameManager : MonoSingleton<NumGameManager>
 
         return result;
     }
-    
+
     /// <summary>
-    /// ¼±Á¤µÈ ·£´ı ¼ö¿¡ ÇØ´çÇÏ´Â ÇÑÀÚ ¼ö ¹İÈ¯
+    /// í˜„ì¬ ëœë¤ ìˆ«ìë¥¼ í•œì ë¬¸ìì—´ë¡œ ë³€í™˜ (ì¤‘êµ­)
     /// </summary>
     public string GetRndNumToHanJa()
     {
-        string[] hanja = { "ÖÃ", "ìé", "ì£", "ß²", "ŞÌ", "çé", "×¿", "öÒ", "ø¢", "Îú" };
+        string[] hanja = { "\u96f6", "\u58f9", "\u8cb3", "\u53c3", "\u8086", "\u4f0d", "\u9678", "\u67d2", "\u634c", "\u7396" };
 
         int num = int.Parse(_rndNum);
 
-        // ÇÑ ÀÚ¸®
         if (num < 10)
             return hanja[num];
 
-        // µÎ ÀÚ¸® (10 ~ 99)
         if (num < 100)
         {
             int tens = num / 10;
             int ones = num % 10;
 
-            string result = hanja[tens] + "ä¨";
+            string result = hanja[tens] + "\u62fe";
             if (ones > 0)
                 result += hanja[ones];
             return result;
         }
 
-        // ¼¼ ÀÚ¸® (100 ~ 999)
         int hundreds = num / 100;
         int tensDigit = (num % 100) / 10;
         int onesDigit = num % 10;
 
-        string output = hanja[hundreds] + "Ûİ";
+        string output = hanja[hundreds] + "\u767e";
 
         if (tensDigit > 0)
-            output += hanja[tensDigit] + "ä¨";
+            output += hanja[tensDigit] + "\u62fe";
 
         if (onesDigit > 0)
             output += hanja[onesDigit];
@@ -139,7 +125,7 @@ public class NumGameManager : MonoSingleton<NumGameManager>
     }
 
     /// <summary>
-    /// ¼ıÀÚ Å¸ÀÏ ¼±ÅÃ
+    /// ìˆ«ì íƒ€ì¼ ì„ íƒ ì‹œ ì •ë‹µì— ì¶”ê°€
     /// </summary>
     public bool SelectNumTile(int num)
     {
@@ -151,7 +137,6 @@ public class NumGameManager : MonoSingleton<NumGameManager>
         return false;
     }
 
-    // Á¤´ä ÃÊ±âÈ­
     public void InitAnswer()
     {
         _answer = "";
@@ -161,6 +146,4 @@ public class NumGameManager : MonoSingleton<NumGameManager>
     {
         return _rndNum == _answer;
     }
-
-
 }

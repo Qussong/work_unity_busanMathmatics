@@ -1,61 +1,55 @@
-using System;
-using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CardGameState : BaseState
+public class CardGameState : BaseState<CardGameState, CardGameView>
 {
-    private CardGameView _cardGameView;
     private float _totalTime = 60f;
     private float _remainingTime = 0f;
     private bool _isRunning = false;
 
-    //
     private float _timer = 0f;
     private bool _hasExecuted = false;
 
-    public CardGameState(CardGameView view)
+    public CardGameState(CardGameView view) : base(view) { }
+
+    public override void Init()
     {
-        _cardGameView = view;
+        base.Init();
 
-        // ÀÌº¥Æ® µî·Ï (CardGameView)
-        _cardGameView._OnHomeButtonClicked += () => { NavigationController.Instance.GoToHome(); };
-        _cardGameView._OnRetryButtonClicked += () => { HandleRetryButton(); };
-        _cardGameView._OnNextButtonClicked += () => { NavigationController.Instance.GoToVote(); };
-
-        // ÀÌº¥Æ® µî·Ï (CardGameManager)
-        CardGameManager.Instance._OnMatchSuccess += HandleMatchSuccess;
-        CardGameManager.Instance._OnMatchFail += HandleMatchFail;
-        CardGameManager.Instance._OnGameClear += HandleGameClear;
-
+        // ì´ë²¤íŠ¸ êµ¬ë… (ìµœì´ˆ 1íšŒ - View ë²„íŠ¼)
+        _view._OnHomeButtonClicked += () => { NavigationController.Instance.GoToHome(); };
+        _view._OnRetryButtonClicked += () => { HandleRetryButton(); };
+        _view._OnNextButtonClicked += () => { NavigationController.Instance.GoToVote(); };
     }
 
     public override void Enter()
     {
-        Debug.Log("[CardGameState] Enter");
-        _cardGameView.Show();
+        base.Enter();
+        _view.Show();
 
-        // Ä«µå °ÔÀÓ ½ÃÀÛ
+        // ì´ë²¤íŠ¸ ë“±ë¡ (CardGameManager - ë§¤ ì§„ì… ì‹œ)
+        CardGameManager.Instance._OnMatchSuccess += HandleMatchSuccess;
+        CardGameManager.Instance._OnMatchFail += HandleMatchFail;
+        CardGameManager.Instance._OnGameClear += HandleGameClear;
+
+        // ì¹´ë“œ ê²Œì„ ì‹œì‘
         CardGameManager.Instance.StartGame();
 
-        // Ä«µå ¼¼ÆÃ
+        // ì¹´ë“œ ì„¸íŒ…
         CardSet();
 
-        // Ä«µå µÚÁı±â (µŞ¸é -> ¾Õ¸é)
-        foreach(Image cardImage in _cardGameView._cardList)
+        // ì¹´ë“œ í”„ë¦¬ë·° (ë’·ë©´ -> ì•ë©´)
+        foreach (Image cardImage in _view._cardList)
         {
             cardImage.gameObject.GetComponent<CardFlip>().Flip();
         }
 
-        // 2ÃÊ µÚ Ä«µå µÚÁı±â (¾Õ¸é -> µŞ¸é)
-        foreach (Image cardImage in _cardGameView._cardList)
+        // 2ì´ˆ í›„ ì¹´ë“œ í”„ë¦¬ë·° (ì•ë©´ -> ë’·ë©´)
+        foreach (Image cardImage in _view._cardList)
         {
             cardImage.gameObject.GetComponent<CardFlip>().LateFlip(2f);
         }
-
     }
-
-    
 
     public override void Update()
     {
@@ -63,38 +57,35 @@ public class CardGameState : BaseState
         {
             _timer += Time.deltaTime;
 
-            // ÇÑ ¹ø¸¸ ½ÇÇàµÉ ÄÚµå
-
             if (_timer >= 2.5f)
             {
-                // Å¸ÀÌÆ² ¹®±¸ º¯°æ
-                _cardGameView._titleImage.sprite = _cardGameView._titleImageList[1];
-                _cardGameView._titleImage.SetNativeSize();
-                _cardGameView._titleImage.rectTransform.sizeDelta /= 4f;
+                // íƒ€ì´í‹€ ì´ë¯¸ì§€ ë³€ê²½
+                _view._titleImage.sprite = _view._titleImageList[1];
+                _view._titleImage.SetNativeSize();
+                _view._titleImage.rectTransform.sizeDelta /= 4f;
 
-                // Å¸ÀÌ¸Ó½ÃÀÛ
+                // íƒ€ì´ë¨¸ ì‹œì‘
                 StartTimer();
 
                 _hasExecuted = true;
             }
         }
 
-        // °ÔÀÓ ½ÇÇà Á¶°Ç
         if (false == _isRunning) return;
 
-        // Å¸ÀÌ¸Ó µ¿ÀÛ
+        // íƒ€ì´ë¨¸ ê°ì†Œ
         _remainingTime -= Time.deltaTime;
 
-        // °­Á¦ Á¾·á
+        // ê°•ì œ ì¢…ë£Œ
         if (Input.GetKey(KeyCode.Space))
         {
             _remainingTime = 0f;
         }
 
-        // È­¸é ¾÷µ¥ÀÌÆ®
+        // í™”ë©´ ì—…ë°ì´íŠ¸
         UpdateTimerUI();
 
-        // ³²Àº ½Ã°£ÀÌ 0 º¸´Ù ÀûÀ¸¸é °ÔÀÓ½ÇÇàÁ¶°Ç ¹Ì´Ş (½ÇÆĞ)
+        // ì‹œê°„ ì´ˆê³¼ ì‹œ ê²Œì„ ì¢…ë£Œ
         if (_remainingTime <= 0)
         {
             HandleGameClear();
@@ -105,30 +96,34 @@ public class CardGameState : BaseState
 
     public override void Exit()
     {
-        Debug.Log("[CardGameState] Eixt");
+        base.Exit();
 
-        // °ÔÀÓ ÃÊ±âÈ­
+        // ì´ë²¤íŠ¸ í•´ì œ (CardGameManager)
+        CardGameManager.Instance._OnMatchSuccess -= HandleMatchSuccess;
+        CardGameManager.Instance._OnMatchFail -= HandleMatchFail;
+        CardGameManager.Instance._OnGameClear -= HandleGameClear;
+
+        // ê²Œì„ ì´ˆê¸°í™”
         CardGameManager.Instance.ResetGame();
 
-        // Ä«µå ¼¼ÆÃ ÃÊ±âÈ­
+        // ì¹´ë“œ ìƒíƒœ ì´ˆê¸°í™”
         CardInit();
 
-        // ÆË¾÷Ã¢ ¼û±è
-        _cardGameView._popupContainerObj.SetActive(false);
+        // íŒì—…ì°½ ë‹«ê¸°
+        _view._popupContainerObj.SetActive(false);
 
-        // Å¸ÀÌ¸Ó ÃÊ±âÈ­
+        // íƒ€ì´ë¨¸ ì´ˆê¸°í™”
         ResetTimer();
 
-        // Å¸ÀÌÆ² ¹®±¸ ¿øº¹
-        _cardGameView._titleImage.sprite = _cardGameView._titleImageList[0];
-        _cardGameView._titleImage.SetNativeSize();
-        _cardGameView._titleImage.rectTransform.sizeDelta /= 4f;
+        // íƒ€ì´í‹€ ì´ë¯¸ì§€ ë³µì›
+        _view._titleImage.sprite = _view._titleImageList[0];
+        _view._titleImage.SetNativeSize();
+        _view._titleImage.rectTransform.sizeDelta /= 4f;
 
-        // 
         _timer = 0f;
         _hasExecuted = false;
 
-    _cardGameView.Hide();
+        _view.Hide();
     }
 
     private void StartTimer()
@@ -153,14 +148,13 @@ public class CardGameState : BaseState
     {
         int minutes = Mathf.FloorToInt(_remainingTime / 60);
         int seconds = Mathf.FloorToInt(_remainingTime % 60);
-        _cardGameView._timerText.text = $"{minutes:00}:{seconds:00}";  // "01:00" Çü½Ä
+        _view._timerText.text = $"{minutes:00}:{seconds:00}";
     }
 
     private void CardSet()
     {
-        // card ¿¡ CardFlip ÄÄÆ÷³ÍÆ® Ãß°¡
         int idx = 0;
-        foreach (Image card in _cardGameView._cardList)
+        foreach (Image card in _view._cardList)
         {
             if (null == card) continue;
 
@@ -168,42 +162,36 @@ public class CardGameState : BaseState
             {
                 flipComp = card.gameObject.AddComponent<CardFlip>();
             }
-            // Ä«µå µŞ¸é ÀÌ¹ÌÁö ÇÒ´ç
-            flipComp._backSprite = _cardGameView._cardBackSprite;
+            flipComp._backSprite = _view._cardBackSprite;
             flipComp._cardIdx = idx;
 
-            // Ä«µå Å¬¸¯½Ã È£ÃâµÉ Äİ¹éÇÔ¼ö µî·Ï
+            // ì¹´ë“œ í´ë¦­ ì½œë°± ë“±ë¡
             flipComp._OnClickCard += HandleClickCard;
 
             ++idx;
         }
 
-        // Ä«µå ¾Õ¸é ÀÌ¹ÌÁö ÇÒ´ç
+        // ì¹´ë“œ ì•ë©´ ì´ë¯¸ì§€ í• ë‹¹
         var deck = CardGameManager.Instance.GetCurrentDeck();
         for (int i = 0; i < deck.Count; i++)
         {
-            CardFlip flip = _cardGameView._cardList[i].gameObject.GetComponent<CardFlip>();
+            CardFlip flip = _view._cardList[i].gameObject.GetComponent<CardFlip>();
             flip._frontSprite = deck[i]._cardSprite;
         }
     }
 
     private void CardInit()
     {
-        foreach (Image card in _cardGameView._cardList)
+        foreach (Image card in _view._cardList)
         {
             if (null == card) continue;
             CardFlip flipComp = card.GetComponent<CardFlip>();
 
-            // Ä«µåÀÇ °¢Á¾ °ª ÃÊ±âÈ­
             flipComp.Restore();
-
-            // Ä«µå Å¬¸¯½Ã È£ÃâµÉ Äİ¹éÇÔ¼ö ÇØÁ¦
             flipComp._OnClickCard -= HandleClickCard;
         }
-
     }
 
-    // Ä«µå Å¬¸¯ ½Ã
     public void HandleClickCard(int index)
     {
         CardGameManager.Instance.SelectCard(index);
@@ -211,86 +199,69 @@ public class CardGameState : BaseState
 
     void HandleMatchSuccess(int index1, int index2)
     {
-        Debug.Log($"¸ÅÄª ¼º°ø! {index1}, {index2}");
+        Debug.Log($"ë§¤ì¹­ ì„±ê³µ! {index1}, {index2}");
 
-        // Ä«µå ºñÈ°¼ºÈ­ Ã³¸®
-        _cardGameView._cardList[index1].raycastTarget = false;
-        _cardGameView._cardList[index1].color = new Color(0.5f, 0.5f, 0.5f, 1f);
-        _cardGameView._cardList[index2].raycastTarget = false;
-        _cardGameView._cardList[index2].color = new Color(0.5f, 0.5f, 0.5f, 1f);
+        _view._cardList[index1].raycastTarget = false;
+        _view._cardList[index1].color = new Color(0.5f, 0.5f, 0.5f, 1f);
+        _view._cardList[index2].raycastTarget = false;
+        _view._cardList[index2].color = new Color(0.5f, 0.5f, 0.5f, 1f);
     }
 
     void HandleMatchFail(int index1, int index2)
     {
-        Debug.Log($"¸ÅÄª ½ÇÆĞ! {index1}, {index2}");
+        Debug.Log($"ë§¤ì¹­ ì‹¤íŒ¨! {index1}, {index2}");
 
-        // Ä«µå µÚÁı±â Ã³¸®
-        _cardGameView._cardList[index1].gameObject.GetComponent<CardFlip>().Flip();
-        _cardGameView._cardList[index2].gameObject.GetComponent<CardFlip>().Flip();
+        _view._cardList[index1].gameObject.GetComponent<CardFlip>().Flip();
+        _view._cardList[index2].gameObject.GetComponent<CardFlip>().Flip();
     }
 
     void HandleGameClear()
     {
-        Debug.Log("°ÔÀÓ Å¬¸®¾î!");
+        Debug.Log("ê²Œì„ í´ë¦¬ì–´!");
 
-        // ÆË¾÷Ã¢ µîÀå
-        _cardGameView._popupContainerObj.SetActive(true);
+        _view._popupContainerObj.SetActive(true);
 
         if (false == _isRunning)
         {
             CardGameManager.Instance._isSuccess = false;
         }
 
-        // ÆË¾÷Ã¢ ¹®±¸ ¼³Á¤
-        _cardGameView._infoText.text =
+        _view._infoText.text =
         CardGameManager.Instance._isSuccess ?
-        "Á¦ÇÑ ½Ã°£³»¿¡\n¹®Á¦¸¦ ÇØ°áÇß½À´Ï´Ù!" :
-        "Á¦ÇÑ ½Ã°£³»¿¡\n¹®Á¦¸¦ ÇØ°áÇÏÁö ¸øÇß½À´Ï´Ù!";
+        "ì£¼ì–´ì§„ ì‹œê°„ì•ˆì—\në¬¸ì œë¥¼ í•´ê²°í–ˆìŠµë‹ˆë‹¤!" :
+        "ì£¼ì–´ì§„ ì‹œê°„ì•ˆì—\në¬¸ì œë¥¼ í•´ê²°í•˜ì§€ ëª»í–ˆìŠµë‹ˆë‹¤!";
 
-        // ÆË¾÷Ã¢ ±â·Ï ¼³Á¤
         int minutes = Mathf.FloorToInt(_remainingTime / 60);
         int seconds = Mathf.FloorToInt(_remainingTime % 60);
-        _cardGameView._recordText.text =
+        _view._recordText.text =
             CardGameManager.Instance._isSuccess ?
-            $"±â·Ï : {minutes:00}:{seconds:00}" :
-            "±â·Ï : x";
+            $"ê¸°ë¡ : {minutes:00}:{seconds:00}" :
+            "ê¸°ë¡ : x";
 
-        // Å¸ÀÌ¸Ó Á¤Áö
         StopTimer();
     }
 
     public void HandleRetryButton()
     {
-        // °ÔÀÓ ÃÊ±âÈ­
         CardGameManager.Instance.ResetGame();
-        // Ä«µå ¼¼ÆÃ ÃÊ±âÈ­
         CardInit();
-        // ÆË¾÷Ã¢ ¼û±è
-        _cardGameView._popupContainerObj.SetActive(false);
-        // Å¸ÀÌ¸Ó ÃÊ±âÈ­
+        _view._popupContainerObj.SetActive(false);
         ResetTimer();
-        // Å¸ÀÌÆ² ¹®±¸ ¿øº¹
-        _cardGameView._titleImage.sprite = _cardGameView._titleImageList[0];
-        _cardGameView._titleImage.SetNativeSize();
-        _cardGameView._titleImage.rectTransform.sizeDelta /= 4f;
-        // 
+        _view._titleImage.sprite = _view._titleImageList[0];
+        _view._titleImage.SetNativeSize();
+        _view._titleImage.rectTransform.sizeDelta /= 4f;
         _timer = 0f;
         _hasExecuted = false;
 
-        // Ä«µå °ÔÀÓ ½ÃÀÛ
         CardGameManager.Instance.StartGame();
-        // Ä«µå ¼¼ÆÃ
         CardSet();
-        // Ä«µå µÚÁı±â (µŞ¸é -> ¾Õ¸é)
-        foreach (Image cardImage in _cardGameView._cardList)
+        foreach (Image cardImage in _view._cardList)
         {
             cardImage.gameObject.GetComponent<CardFlip>().Flip();
         }
-        // 2ÃÊ µÚ Ä«µå µÚÁı±â (¾Õ¸é -> µŞ¸é)
-        foreach (Image cardImage in _cardGameView._cardList)
+        foreach (Image cardImage in _view._cardList)
         {
             cardImage.gameObject.GetComponent<CardFlip>().LateFlip(2f);
         }
     }
-
 }

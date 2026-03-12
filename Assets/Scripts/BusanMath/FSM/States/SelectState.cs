@@ -1,60 +1,55 @@
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.Video;
 
-public class SelectState : BaseState
+public class SelectState : BaseState<SelectState, SelectView>
 {
-    private SelectView _selectView;
     private float fadeDuration = 0.5f;
     private bool bFade = false;
 
-    public SelectState(SelectView view)
-    {
-        _selectView = view;
+    public SelectState(SelectView view) : base(view) { }
 
-        // ÀÌº¥Æ® µî·Ï
-        _selectView._OnHomeButtonClicked += () => { NavigationController.Instance.GoToHome(); };
-        _selectView._OnSkipButtonClicked += () => {
+    public override void Init()
+    {
+        base.Init();
+
+        // ì´ë²¤íŠ¸ êµ¬ë… (ìµœì´ˆ 1íšŒ)
+        _view._OnHomeButtonClicked += () => { NavigationController.Instance.GoToHome(); };
+        _view._OnSkipButtonClicked += () => {
             VideoManager.Instance.Skip();
-            _selectView._progressbar.SetValueWithoutNotify(VideoManager.Instance.Progress()); 
+            _view._progressbar.SetValueWithoutNotify(VideoManager.Instance.Progress());
         };
-        _selectView._OnEgyptButtonClicked += () => { NavigationController.Instance.GoToVideo(ECountry.Egypt); };
-        _selectView._OnChinaButtonClicked += () => { NavigationController.Instance.GoToVideo(ECountry.China); };
-        _selectView._OnRomaButtonClicked += () => { NavigationController.Instance.GoToVideo(ECountry.Roma); };
-        
+        _view._OnEgyptButtonClicked += () => { NavigationController.Instance.GoToVideo(ECountry.Egypt); };
+        _view._OnChinaButtonClicked += () => { NavigationController.Instance.GoToVideo(ECountry.China); };
+        _view._OnRomaButtonClicked += () => { NavigationController.Instance.GoToVideo(ECountry.Roma); };
     }
 
     public override void Enter()
     {
-        Debug.Log("[SelectState] Enter");
-        _selectView.Show();
+        base.Enter();
+        _view.Show();
 
-        // VideoManager ¼¼ÆÃ
-        VideoManager.Instance.SetDisplay(_selectView._displayImage);    // ·»´õ Å¸°Ù ÀÌ¹ÌÁö ¼³Á¤
-        string filePath = System.IO.Path.Combine(Application.streamingAssetsPath, _selectView._fileName);   // ¿µ»ó °æ·Î 
+        // VideoManager ì„¤ì •
+        VideoManager.Instance.SetDisplay(_view._displayImage);
+        string filePath = System.IO.Path.Combine(Application.streamingAssetsPath, _view._fileName);
 
-        // SliderManager ¼¼ÆÃ
-        SliderManager.Instance.Slider = _selectView._progressbar;
+        // SliderManager ì„¤ì •
+        SliderManager.Instance.Slider = _view._progressbar;
         SliderManager.Instance.Player = VideoManager.Instance.Player;
 
-        // Video Àç»ý
-        VideoManager.Instance.Play(filePath);   // ¿µ»ó ·Îµå ¹× Àç»ý
+        // Video ìž¬ìƒ
+        VideoManager.Instance.Play(filePath);
 
-        // ¹öÆ° ¼û±â±â
+        // ë²„íŠ¼ ì´ˆê¸°í™”
         InitButtons();
     }
 
     public override void Update()
     {
-        // ÁøÇà·ü Ç¥½Ã
-        if(VideoManager.Instance.IsPlaying() 
+        if(VideoManager.Instance.IsPlaying()
             && VideoManager.Instance.VideoLength() > 0
             && false == SliderManager.Instance.IsDragging)
         {
-            // SetValueWithoutNotify() : °ªÀ» ¼³Á¤ÇÏÁö¸¸ ÄÝ¹éÀ» Æ®¸®°ÅÇÏÁö ¾Ê´Â´Ù.
-            // »ç¿ëÀÚÀÇ ÀÔ·ÂÃ³·³ ÀÌº¥Æ® Ã³¸®°¡ ÇÊ¿äÇÑ °æ¿ì slider ÀÇ value ¸¦ Á÷Á¢ º¯°æÇÏÁö¸¸,
-            // ÄÚµå¿¡¼­ UIÀÇ µ¿±âÈ­¸¸ ÇÊ¿äÇÑ °æ¿ì SetValueWithoutNotify() ¸¦ »ç¿ëÇÑ´Ù.
-            _selectView._progressbar.SetValueWithoutNotify(VideoManager.Instance.Progress());
+            _view._progressbar.SetValueWithoutNotify(VideoManager.Instance.Progress());
         }
 
         if(false == bFade && VideoManager.Instance.Progress() > 0.9f)
@@ -65,34 +60,31 @@ public class SelectState : BaseState
 
     public override void Exit()
     {
-        Debug.Log("[SelectState] Eixt");
+        base.Exit();
 
-        // ¿µ»ó Àç»ý ¸ØÃã ¹× ÃÊ±âÈ­
         VideoManager.Instance.Stop();
-
-        // ¹öÆ°µéÀÇ ¾ËÆÄ°ª 0f
         InitButtons();
 
-        _selectView.Hide();
+        _view.Hide();
     }
 
     private void InitButtons()
     {
         bFade = false;
 
-        CanvasGroup canvasGroup = _selectView._buttonContainer.GetComponent<CanvasGroup>();
+        CanvasGroup canvasGroup = _view._buttonContainer.GetComponent<CanvasGroup>();
         canvasGroup.alpha = 0f;
 
-        _selectView._buttonContainer.SetActive(false);
+        _view._buttonContainer.SetActive(false);
     }
 
     private void FadInButtons()
     {
         bFade = true;
 
-        _selectView._buttonContainer.SetActive(true);
+        _view._buttonContainer.SetActive(true);
 
-        CanvasGroup canvasGroup = _selectView._buttonContainer.GetComponent<CanvasGroup>();
+        CanvasGroup canvasGroup = _view._buttonContainer.GetComponent<CanvasGroup>();
         canvasGroup.DOFade(1f, fadeDuration);
     }
 }

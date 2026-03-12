@@ -6,14 +6,15 @@ public class StateMachine : MonoBehaviour
 {
     private IState _currentState;
     private Dictionary<Type, IState> _states = new Dictionary<Type, IState>();
+    private HashSet<Type> _initializedStates = new HashSet<Type>(); // Init í˜¸ì¶œ ì—¬ë¶€ ì¶”ì 
 
     public IState CurrentState => _currentState;
 
-    // »óÅÂ ÀüÈ¯ ÀÌº¥Æ® (Controller¿¡¼­ ±¸µ¶ °¡´É)
+    // ìƒíƒœ ì „í™˜ ì´ë²¤íŠ¸
     public event Action<IState, IState> OnStateChanged; // oldState, newState
 
     /// <summary>
-    /// »óÅÂ µî·Ï
+    /// ìƒíƒœ ë“±ë¡
     /// </summary>
     public void AddState<T>(T state) where T : IState
     {
@@ -25,38 +26,43 @@ public class StateMachine : MonoBehaviour
     }
 
     /// <summary>
-    /// »óÅÂ ÀüÈ¯
+    /// ìƒíƒœ ì „í™˜ : Exit â†’ Init(ìµœì´ˆ 1íšŒ) â†’ Enter
     /// </summary>
     public void ChangeState<T>() where T : IState
     {
-        // Á¦³×¸¯ Å¸ÀÔ TÀÇ ½ÇÁ¦ Type Á¤º¸ È¹µæ
         var type = typeof(T);
 
-        // Dictionary¿¡¼­ ÇØ´ç Å¸ÀÔÀÇ State °Ë»ö
         if (!_states.TryGetValue(type, out IState newState))
         {
             Debug.LogError($"[StateMachine] State not found: {type.Name}");
             return;
         }
 
-        // °°Àº »óÅÂ¸é ¹«½Ã
+        // ê°™ì€ ìƒíƒœë©´ ë¬´ì‹œ
         if (_currentState == newState) return;
 
         var oldState = _currentState;
 
-        // »óÅÂ ÀüÈ¯ ¼öÇà : Exit ¡æ Enter
+        // í˜„ì¬ ìƒíƒœ Exit
         _currentState?.Exit();
         _currentState = newState;
+
+        // ìµœì´ˆ ì§„ì… ì‹œ Init í˜¸ì¶œ (1íšŒë§Œ)
+        if (_initializedStates.Add(type))
+        {
+            _currentState.Init();
+        }
+
         _currentState.Enter();
 
-        // ¿ÜºÎ¿¡ »óÅÂ º¯°æ ¾Ë¸²
+        // ì™¸ë¶€ì— ìƒíƒœ ë³€ê²½ ì•Œë¦¼
         OnStateChanged?.Invoke(oldState, _currentState);
 
-        Debug.Log($"[StateMachine] {oldState?.GetType().Name ?? "None"} ¡æ {_currentState.GetType().Name}");
+        Debug.Log($"[StateMachine] {oldState?.GetType().Name ?? "None"} â†’ {_currentState.GetType().Name}");
     }
 
     /// <summary>
-    /// Æ¯Á¤ Å¸ÀÔ »óÅÂ °¡Á®¿À±â
+    /// íŠ¹ì • íƒ€ì… ìƒíƒœ ê°€ì ¸ì˜¤ê¸°
     /// </summary>
     public T GetState<T>() where T : IState
     {
@@ -69,7 +75,7 @@ public class StateMachine : MonoBehaviour
     }
 
     /// <summary>
-    /// ÇöÀç »óÅÂ°¡ Æ¯Á¤ Å¸ÀÔÀÎÁö È®ÀÎ
+    /// í˜„ì¬ ìƒíƒœê°€ íŠ¹ì • íƒ€ì…ì¸ì§€ í™•ì¸
     /// </summary>
     public bool IsCurrentState<T>() where T : IState
     {
@@ -78,7 +84,15 @@ public class StateMachine : MonoBehaviour
 
     private void Update()
     {
-        // ÇöÀç »óÅÂÀÇ Update È£Ãâ
         _currentState?.Update();
+    }
+
+    private void OnDestroy()
+    {
+        // ëª¨ë“  ìƒíƒœì˜ ì´ë²¤íŠ¸ êµ¬ë… í•´ì œ
+        foreach (var state in _states.Values)
+        {
+            state.Dispose();
+        }
     }
 }

@@ -1,50 +1,47 @@
-using NUnit.Framework;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 
-public class NumGameDescriptionState : BaseState
+public class NumGameDescriptionState : BaseState<NumGameDescriptionState, NumGameDescriptionView>
 {
-    private NumGameDescriptionView _numGameDescriptionView;
     private ECountry _country;
     private SwipeUI.SwipeUI _swipeUI;
     private bool textColorChangeFlag = false;
 
     public ECountry Country
     {
-        set
-        {
-            _country = value;
-        }
+        set { _country = value; }
     }
 
-    public NumGameDescriptionState(NumGameDescriptionView view)
+    public NumGameDescriptionState(NumGameDescriptionView view) : base(view)
     {
-        _numGameDescriptionView = view;
+        // SwipeUI ì°¸ì¡° (1íšŒ ìºì‹±)
+        _swipeUI = _view._swipeUIObj.GetComponentInChildren<SwipeUI.SwipeUI>();
+    }
 
-        // SwipeUI Å¬·¡½º ÂüÁ¶
-        _swipeUI = _numGameDescriptionView._swipeUIObj.GetComponentInChildren<SwipeUI.SwipeUI>();
+    public override void Init()
+    {
+        base.Init();
 
-        // ÀÌº¥Æ® µî·Ï
-        _numGameDescriptionView._OnHomeButtonClicked += () => { NavigationController.Instance.GoToHome(); };
-        _numGameDescriptionView._OnPrevButtonClicked += () => { _swipeUI.AutoSwipe(true); };
-        _numGameDescriptionView._OnNextButtonClicked += () => { _swipeUI.AutoSwipe(false); };
-        _numGameDescriptionView._OnStartButtonClicked += () => { NavigationController.Instance.GoToNumGame(_country); };
+        // ì´ë²¤íŠ¸ êµ¬ë… (ìµœì´ˆ 1íšŒ)
+        _view._OnHomeButtonClicked += () => { NavigationController.Instance.GoToHome(); };
+        _view._OnPrevButtonClicked += () => { _swipeUI.AutoSwipe(true); };
+        _view._OnNextButtonClicked += () => { _swipeUI.AutoSwipe(false); };
+        _view._OnStartButtonClicked += () => { NavigationController.Instance.GoToNumGame(_country); };
     }
 
     public override void Enter()
     {
-        Debug.Log("[NumGameDescriptionState] Enter");
-        _numGameDescriptionView.Show();
+        base.Enter();
+        _view.Show();
 
-        // swipe ÈÄ¼ÓÃ³¸®¸¦ À§ÇÑ ÀÌº¥Æ® µî·Ï
+        // swipe í›„ì²˜ë¦¬ë¥¼ ìœ„í•œ ì´ë²¤íŠ¸ ë“±ë¡ (ë§¤ ì§„ì… ì‹œ)
         _swipeUI._OnSwipeCompleted += TextColorChange;
 
-        // ¼±ÅÃµÈ ±¹°¡¿¡ ¸Â´Â ¿¹½Ã ÀÌ¹ÌÁö ¼³Á¤
+        // ì„ íƒëœ êµ­ê°€ì— ë§ëŠ” ì˜ˆì œ ì´ë¯¸ì§€ ì„¸íŒ…
         SetExampleView();
 
-        // ÃÖÃÊ ½ÃÀÛÇÒ ¶§ 0¹ø ÆäÀÌÁö¸¦ º¼ ¼ö ÀÖµµ·Ï ¼³Á¤
+        // í˜„ì¬ í˜ì´ì§€ë¥¼ 0ë²ˆ í˜ì´ì§€ë¡œ ëŒë¦¬ê¸°
         int backCnt = _swipeUI.CurrentPage;
         for (int i = 0; i < backCnt; ++i)
         {
@@ -54,7 +51,7 @@ public class NumGameDescriptionState : BaseState
 
     public override void Update()
     {
-        if(true == textColorChangeFlag)
+        if (true == textColorChangeFlag)
         {
             ChangeDescriptionColor();
             textColorChangeFlag = false;
@@ -63,31 +60,25 @@ public class NumGameDescriptionState : BaseState
 
     public override void Exit()
     {
-        Debug.Log("[NumGameDescriptionState] Eixt");
+        base.Exit();
 
-        // ¿¹½Ã ÀÌ¹ÌÁö ÃÊ±âÈ­
         EmptyExampleView();
-
-        // ±¹°¡ Á¤º¸ ÃÊ±âÈ­
         _country = ECountry.None;
 
-        // swipe ÈÄ¼ÓÃ³¸®¸¦ À§ÇÑ ÀÌº¥Æ® µî·Ï ÇØÁ¦
-        _swipeUI._OnSwipeCompleted += TextColorChange;
+        // swipe ì´ë²¤íŠ¸ í•´ì œ
+        _swipeUI._OnSwipeCompleted -= TextColorChange;
 
-        _numGameDescriptionView.Hide();
+        _view.Hide();
     }
 
     private void ChangeDescriptionColor()
     {
-        // Description Text °´Ã¼ÀÇ ÆùÆ® »ö»ó ÀüºÎ white ·Î º¯°æ
         int curPageIdx = _swipeUI.CurrentPage;
-        foreach(TMP_Text targetText in _numGameDescriptionView._descriptionTextList)
+        foreach (TMP_Text targetText in _view._descriptionTextList)
         {
             targetText.color = Color.white;
         }
-
-        // ÇöÀç ÀÎµ¦½º¿¡ ÇØ´çÇÏ´Â Text °´Ã¼ÀÇ ÆùÆ® »ö»ó¸¸ º¯°æ
-        _numGameDescriptionView._descriptionTextList[curPageIdx].color = new Color(1f, 0.87f, 0.39f);
+        _view._descriptionTextList[curPageIdx].color = new Color(1f, 0.87f, 0.39f);
     }
 
     public void TextColorChange()
@@ -101,20 +92,20 @@ public class NumGameDescriptionState : BaseState
         switch (_country)
         {
             case ECountry.Egypt:
-                spriteList = _numGameDescriptionView._egyptExampleViewSpriteList;
+                spriteList = _view._egyptExampleViewSpriteList;
                 break;
             case ECountry.China:
-                spriteList = _numGameDescriptionView._chinaExampleViewSpriteList;
+                spriteList = _view._chinaExampleViewSpriteList;
                 break;
             case ECountry.Roma:
-                spriteList = _numGameDescriptionView._romaExampleViewSpriteList;
+                spriteList = _view._romaExampleViewSpriteList;
                 break;
         }
 
         int swipePageTotalCnt = 3;
-        for(int i = 0; i < swipePageTotalCnt; ++i)
+        for (int i = 0; i < swipePageTotalCnt; ++i)
         {
-            _numGameDescriptionView._swipeImageList[i].sprite = spriteList[i];
+            _view._swipeImageList[i].sprite = spriteList[i];
         }
     }
 
@@ -123,8 +114,7 @@ public class NumGameDescriptionState : BaseState
         int swipePageTotalCnt = 3;
         for (int i = 0; i < swipePageTotalCnt; ++i)
         {
-            _numGameDescriptionView._swipeImageList[i].sprite = null;
+            _view._swipeImageList[i].sprite = null;
         }
     }
-
 }

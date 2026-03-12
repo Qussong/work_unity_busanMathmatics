@@ -4,26 +4,24 @@ using UnityEngine;
 public abstract class BaseView : MonoBehaviour
 {
     [Header("=== Base View Settings ===")]
-    [SerializeField] protected GameObject _rootPanel;    // ViewÀÇ ·çÆ® ÆĞ³Î (È°¼ºÈ­/ºñÈ°¼ºÈ­ ´ë»ó)
-    [SerializeField] protected bool showOnAwake = false;// Awake ½Ã ÀÚµ¿ Ç¥½Ã ¿©ºÎ
+    [SerializeField] protected GameObject _rootPanel;
+    [SerializeField] protected bool showOnAwake = false;
 
-    // ÇöÀç ViewÀÇ Ç¥½Ã »óÅÂ
+    // ì´ˆê¸°í™” ì—¬ë¶€ í”Œë˜ê·¸
+    private bool _isInitialized = false;
+
     public bool IsVisible { get; private set; }
 
-    // View°¡ Ç¥½ÃµÉ ¶§ ¹ß»ıÇÏ´Â ÀÌº¥Æ®
     public event Action OnShow;
-    // View°¡ ¼û°ÜÁú ¶§ ¹ß»ıÇÏ´Â ÀÌº¥Æ®
     public event Action OnHide;
 
     protected virtual void Awake()
     {
-        // rootPanel ÀÚµ¿ ÇÒ´ç (¹Ì¼³Á¤ ½Ã)
         if (_rootPanel == null)
         {
             _rootPanel = gameObject;
         }
 
-        // ÃÊ±â »óÅÂ ¼³Á¤
         if (showOnAwake)
         {
             Show();
@@ -36,23 +34,31 @@ public abstract class BaseView : MonoBehaviour
 
     protected virtual void Start()
     {
+        EnsureInitialized();
+    }
+
+    /// <summary>
+    /// ë¹„í™œì„±í™”ëœ Viewë„ ì´ˆê¸°í™”í•  ìˆ˜ ìˆë„ë¡ ì™¸ë¶€ì—ì„œ í˜¸ì¶œ ê°€ëŠ¥
+    /// GameObjectê°€ ë¹„í™œì„±í™” ìƒíƒœì—¬ë„ ì•ˆì „í•˜ê²Œ Initialize/BindUIEvent ì‹¤í–‰
+    /// </summary>
+    public void EnsureInitialized()
+    {
+        if (_isInitialized) return;
+        _isInitialized = true;
+
+        if (_rootPanel == null)
+        {
+            _rootPanel = gameObject;
+        }
+
         Initialize();
         BindUIEvent();
     }
 
-    /// <summary>
-    /// ÃÊ±âÈ­ (ÀÚ½Ä Å¬·¡½º¿¡¼­ ÀçÁ¤ÀÇ)
-    /// </summary>
     protected virtual void Initialize() { }
 
-    /// <summary>
-    /// UI µ¿ÀÛ°ü·Ã ¸®½º³Ê µî·Ï (ÀÚ½Ä Å¬·¡½º¿¡¼­ ÀçÁ¤ÀÇ)
-    /// </summary>
     protected virtual void BindUIEvent() { }
 
-    /// <summary>
-    /// È­¸é Ç¥½Ã
-    /// </summary>
     public virtual void Show()
     {
         if (_rootPanel != null)
@@ -64,9 +70,6 @@ public abstract class BaseView : MonoBehaviour
         OnShow?.Invoke();
     }
 
-    /// <summary>
-    /// È­¸é ¼û±è
-    /// </summary>
     public virtual void Hide()
     {
         if (_rootPanel != null)
@@ -78,9 +81,6 @@ public abstract class BaseView : MonoBehaviour
         OnHide?.Invoke();
     }
 
-    /// <summary>
-    /// Ç¥½Ã »óÅÂ Åä±Û (On/Off)
-    /// </summary>
     public void Toggle()
     {
         if (IsVisible)
@@ -93,9 +93,6 @@ public abstract class BaseView : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// UI ÃÊ±âÈ­ (µ¥ÀÌÅÍ Å¬¸®¾î)
-    /// </summary>
     public virtual void ResetView() { }
 
 }

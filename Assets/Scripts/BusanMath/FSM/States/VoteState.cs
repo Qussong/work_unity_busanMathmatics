@@ -1,48 +1,36 @@
-
-using System.Collections;
 using UnityEngine;
 
-public class VoteState : BaseState
+public class VoteState : BaseState<VoteState, VoteView>
 {
-    private VoteView _voteView;
+    public VoteState(VoteView view) : base(view) { }
 
-    public VoteState(VoteView view)
+    public override void Init()
     {
-        _voteView = view;
+        base.Init();
 
-        // ¿Ã∫•∆Æ µÓ∑œ
-        _voteView._OnHomeButtonClicked += () => { NavigationController.Instance.GoToHome(); };
-        _voteView._OnEgyptButtonClicked += () => { VoteCountry(ECountry.Egypt); };
-        _voteView._OnChinaButtonClicked += () => { VoteCountry(ECountry.China); };
-        _voteView._OnRomaButtonClicked += () => { VoteCountry(ECountry.Roma); };
+        // Ïù¥Î≤§Ìä∏ Íµ¨ÎèÖ (ÏµúÏ¥à 1Ìöå)
+        _view._OnHomeButtonClicked += () => { NavigationController.Instance.GoToHome(); };
+        _view._OnEgyptButtonClicked += () => { VoteCountry(ECountry.Egypt); };
+        _view._OnChinaButtonClicked += () => { VoteCountry(ECountry.China); };
+        _view._OnRomaButtonClicked += () => { VoteCountry(ECountry.Roma); };
     }
 
     public override void Enter()
     {
-        Debug.Log("[VoteState] Enter");
-        _voteView.Show();
-    }
-
-    public override void Update()
-    {
-        //
+        base.Enter();
+        _view.Show();
     }
 
     public override void Exit()
     {
-        Debug.Log("[VoteState] Eixt");
-        _voteView.Hide();
+        base.Exit();
+        _view.Hide();
     }
 
     private void VoteCountry(ECountry choice)
     {
         Debug.Log($"vote : {choice.ToString()}");
-
-        // ø‹∫Œ ∆ƒ¿œø° µ•¿Ã≈Õ ¥©¿˚
         VoteManager.Instance.Vote(choice);
-
-        // WriteView ∑Œ ¿Ãµø
         NavigationController.Instance.GoToWrite(choice);
     }
-
 }

@@ -1,57 +1,40 @@
-using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VoteResultState : BaseState
+public class VoteResultState : BaseState<VoteResultState, VoteResultView>
 {
-    private VoteResultView _voteResultView;
     private List<ECountry> _rankList;
 
-    public VoteResultState(VoteResultView view)
-    {
-        _voteResultView = view;
+    public VoteResultState(VoteResultView view) : base(view) { }
 
-        // ÀÌº¥Æ® µî·Ï
-        _voteResultView._OnHomeButtonClicked += () => { NavigationController.Instance.GoToHome(); };
+    public override void Init()
+    {
+        base.Init();
+
+        // ì´ë²¤íŠ¸ êµ¬ë… (ìµœì´ˆ 1íšŒ)
+        _view._OnHomeButtonClicked += () => { NavigationController.Instance.GoToHome(); };
     }
 
     public override void Enter()
     {
-        Debug.Log("[VoteResultState] Enter");
-        _voteResultView.Show();
+        base.Enter();
+        _view.Show();
 
-        // ±¹°¡º° ¼øÀ§ ¼³Á¤
+        // ë­í‚¹ ë°ì´í„° ì„¸íŒ…
         _rankList = VoteManager.Instance.GetRanking();
 
-        // ¼øÀ§¿¡ µû¸¥ ÅØ½ºÆ® ¼³Á¤
         SetRankCountry();
-
-        // ¼øÀ§ ÀÌ¹ÌÁö ¼³Á¤
         SetCountryView();
-
-        // ¼øÀ§ ÅõÇ¥ºñÀ²°ú ÅõÇ¥¼ö ¼³Á¤
         SetCountryVoteRateAndCount();
-
-        // ¼øÀ§ ÅõÇ¥ Rate bar ¼³Á¤
         SetCountryVoteRateBar();
-
-    }
-
-    public override void Update()
-    {
-        //
     }
 
     public override void Exit()
     {
-        Debug.Log("[VoteResultState] Eixt");
-        _voteResultView.Hide();
+        base.Exit();
+        _view.Hide();
     }
 
-    /// <summary>
-    /// ¼øÀ§¿¡ µû¸¥ ÅØ½ºÆ® ¼³Á¤
-    /// </summary>
     private void SetRankCountry()
     {
         for (int i = 0; i < (int)ECountry.MAX_CNT; ++i)
@@ -61,16 +44,16 @@ public class VoteResultState : BaseState
             switch (_rankList[i])
             {
                 case ECountry.Egypt:
-                    country = "ÀÌÁıÆ®";
+                    country = "ì´ì§‘íŠ¸";
                     break;
                 case ECountry.China:
-                    country = "Áß±¹";
+                    country = "ì¤‘êµ­";
                     break;
                 case ECountry.Roma:
-                    country = "·Î¸¶";
+                    country = "ë¡œë§ˆ";
                     break;
             }
-            _voteResultView._rankCountryList[i].text = country;
+            _view._rankCountryList[i].text = country;
         }
     }
 
@@ -83,16 +66,16 @@ public class VoteResultState : BaseState
             switch (_rankList[i])
             {
                 case ECountry.Egypt:
-                    view = _voteResultView._countryViewSpriteList[(int)ECountry.Egypt];
+                    view = _view._countryViewSpriteList[(int)ECountry.Egypt];
                     break;
                 case ECountry.China:
-                    view = _voteResultView._countryViewSpriteList[(int)ECountry.China];
+                    view = _view._countryViewSpriteList[(int)ECountry.China];
                     break;
                 case ECountry.Roma:
-                    view = _voteResultView._countryViewSpriteList[(int)ECountry.Roma];
+                    view = _view._countryViewSpriteList[(int)ECountry.Roma];
                     break;
             }
-            _voteResultView._countryViewList[i].sprite = view;
+            _view._countryViewList[i].sprite = view;
         }
     }
 
@@ -119,8 +102,8 @@ public class VoteResultState : BaseState
                     break;
             }
 
-            _voteResultView._votePercentList[i].text = rate.ToString("F1") + "%";
-            _voteResultView._voteCountList[i].text = count.ToString() + "Ç¥";
+            _view._votePercentList[i].text = rate.ToString("F1") + "%";
+            _view._voteCountList[i].text = count.ToString() + "í‘œ";
         }
     }
 
@@ -143,9 +126,7 @@ public class VoteResultState : BaseState
                     break;
             }
 
-            _voteResultView._voteRateBarList[i].value = rate;
+            _view._voteRateBarList[i].value = rate;
         }
     }
-
-
 }

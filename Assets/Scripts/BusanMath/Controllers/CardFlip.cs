@@ -5,16 +5,19 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+/// <summary>
+/// ì¹´ë“œ ë’¤ì§‘ê¸° ì• ë‹ˆë©”ì´ì…˜ ë° í´ë¦­ ì²˜ë¦¬
+/// DOTweenì„ ì‚¬ìš©í•œ Yì¶• íšŒì „ ì• ë‹ˆë©”ì´ì…˜
+/// </summary>
 public class CardFlip : MonoBehaviour, IPointerClickHandler
 {
     public int _cardIdx = -1;
     private Image _cardImage;
-    public Sprite _frontSprite;  // ¾Õ¸é
-    public Sprite _backSprite;   // µŞ¸é
+    public Sprite _frontSprite;
+    public Sprite _backSprite;
     private float _duration = 0.3f;
 
     private bool _isFront = false;
-
     private bool _isFlipping = false;
 
     public event Action<int> _OnClickCard;
@@ -23,21 +26,21 @@ public class CardFlip : MonoBehaviour, IPointerClickHandler
     {
         _cardImage = GetComponent<Image>();
     }
+
     public void OnPointerClick(PointerEventData eventData)
     {
-        // ÀÌ¹Ì ¾Õ¸éÀÎ »óÅÂ¸é ¼±ÅÃ ¾ÈµÊ
         if (true == _isFront) return;
-
-        // Ä«µå°¡ µÚÁıÈ÷´Â Áß¿£ ¼±ÅÃ ¾ÈµÊ
         if (true == _isFlipping) return;
 
         _OnClickCard.Invoke(_cardIdx);
         Flip();
     }
 
+    /// <summary>
+    /// Yì¶• 90ë„ íšŒì „ í›„ ìŠ¤í”„ë¼ì´íŠ¸ êµì²´, ë‹¤ì‹œ 90ë„ íšŒì „
+    /// </summary>
     public void Flip()
     {
-        // YÃàÀ¸·Î 90µµ È¸Àü ¡æ ÀÌ¹ÌÁö ±³Ã¼ ¡æ ´Ù½Ã 90µµ È¸Àü
         transform.DORotate(new Vector3(0, 90, 0), _duration / 2)
             .OnComplete(() =>
             {
@@ -47,11 +50,14 @@ public class CardFlip : MonoBehaviour, IPointerClickHandler
                     .DORotate(new Vector3(0, 0, 0), _duration / 2)
                     .OnComplete(() =>
                     {
-                        _isFlipping = false; // ¸ğµç È¸Àü ¿Ï·á
+                        _isFlipping = false;
                     });
             });
     }
 
+    /// <summary>
+    /// ì§€ì • ì‹œê°„ í›„ ë’¤ì§‘ê¸° (í”„ë¦¬ë·°ìš©)
+    /// </summary>
     public void LateFlip(float time)
     {
         StartCoroutine(LateFlipCoroutine(time));
@@ -60,20 +66,26 @@ public class CardFlip : MonoBehaviour, IPointerClickHandler
     private IEnumerator LateFlipCoroutine(float time)
     {
         yield return new WaitForSeconds(time);
-
         Flip();
     }
 
+    /// <summary>
+    /// ì¹´ë“œ ìƒíƒœ ì™„ì „ ë³µì› (DOTween/ì½”ë£¨í‹´ ì •ì§€ í¬í•¨)
+    /// </summary>
     public void Restore()
     {
+        transform.DOKill();
+        StopAllCoroutines();
+
         _cardIdx = -1;
         _frontSprite = null;
-
-        if (false == _isFront) return;
+        _isFlipping = false;
         _isFront = false;
+
+        transform.rotation = Quaternion.identity;
+
         _cardImage.raycastTarget = true;
         _cardImage.color = new Color(1f, 1f, 1f, 1f);
         _cardImage.sprite = _backSprite;
     }
-
 }

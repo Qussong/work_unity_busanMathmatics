@@ -1,20 +1,45 @@
+using UnityEngine;
 
-
-public abstract class BaseState : IState
+/// <summary>
+/// ì œë„¤ë¦­ ìƒíƒœ ë² ì´ìŠ¤ í´ë˜ìŠ¤
+/// TState: ìê¸° ìì‹  íƒ€ì… (ë¡œê·¸ìš©), TView: ëŒ€ì‘í•˜ëŠ” View íƒ€ì…
+/// </summary>
+public abstract class BaseState<TState, TView> : IState where TView : BaseView
 {
+    protected TView _view;
+
+    public BaseState(TView view)
+    {
+        _view = view;
+    }
+
+    /// <summary>
+    /// ìµœì´ˆ 1íšŒ ì´ˆê¸°í™” (View ì´ë²¤íŠ¸ êµ¬ë… ë“±)
+    /// StateMachineì´ HashSetìœ¼ë¡œ ì¶”ì í•˜ì—¬ ì¤‘ë³µ í˜¸ì¶œ ë°©ì§€
+    /// </summary>
+    public virtual void Init()
+    {
+        Debug.Log($"[{typeof(TState).Name}] Init");
+    }
+
     public virtual void Enter()
     {
-        // È­¸é ÁøÀÔ½Ã ÇÊ¿äÇÑ ·ÎÁ÷
+        Debug.Log($"[{typeof(TState).Name}] Enter");
     }
 
     public virtual void Update()
     {
-        // È­¸é¿¡¼­ ÇÊ¿äÇÑ ¸Å ÇÁ·¹ÀÓ ·ÎÁ÷
     }
 
     public virtual void Exit()
     {
-        // È­¸é Å»Ãâ½Ã ÇÊ¿äÇÑ ·ÎÁ÷
+        Debug.Log($"[{typeof(TState).Name}] Exit");
     }
 
+    /// <summary>
+    /// ì´ë²¤íŠ¸ êµ¬ë… í•´ì œ (í”„ë¡œê·¸ë¨ ì¢…ë£Œ ì‹œ)
+    /// </summary>
+    public virtual void Dispose()
+    {
+    }
 }

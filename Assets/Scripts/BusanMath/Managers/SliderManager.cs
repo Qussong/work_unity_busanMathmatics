@@ -1,12 +1,13 @@
 using BusanMath.Core;
-using System;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.Video;
 
+/// <summary>
+/// ë¹„ë””ì˜¤ ì¬ìƒ ìŠ¬ë¼ì´ë”(í”„ë¡œê·¸ë ˆìŠ¤ë°”) ë“œë˜ê·¸ ê´€ë¦¬
+/// </summary>
 public class SliderManager : MonoSingleton<SliderManager>
 {
     private VideoPlayer _player;
@@ -24,16 +25,16 @@ public class SliderManager : MonoSingleton<SliderManager>
         {
             _slider = value;
 
-            // ½½¶óÀÌ´õ µå·¡±× ÀÌº¥Æ® µî·Ï
+            // ìŠ¬ë¼ì´ë” ê°’ ë³€ê²½ ì´ë²¤íŠ¸ ë“±ë¡
             _slider.onValueChanged.RemoveAllListeners();
             _slider.onValueChanged.AddListener(OnSliderValueChanged);
 
-            // EventTrigger »ı¼º ¶Ç´Â ÂüÁ¶
+            // EventTrigger ìƒì„± ë˜ëŠ” ì°¸ì¡°
             EventTrigger trigger = _slider.GetComponent<EventTrigger>();
             if(null == trigger)
                 trigger = _slider.gameObject.AddComponent<EventTrigger>();
 
-            // BeginDrag ÀÌº¥Æ® µî·Ï
+            // BeginDrag ì´ë²¤íŠ¸ ë“±ë¡
             bool hasBeginDrag = trigger.triggers.Any(e => e.eventID == EventTriggerType.BeginDrag);
             if(false == hasBeginDrag)
             {
@@ -43,7 +44,7 @@ public class SliderManager : MonoSingleton<SliderManager>
                 trigger.triggers.Add(beginDrag);
             }
 
-            // EndDrag ÀÌº¥Æ® µî·Ï
+            // EndDrag ì´ë²¤íŠ¸ ë“±ë¡
             bool hasEndDrag = trigger.triggers.Any(e => e.eventID == EventTriggerType.EndDrag);
             if(false == hasEndDrag)
             {
@@ -52,7 +53,6 @@ public class SliderManager : MonoSingleton<SliderManager>
                 endDrag.callback.AddListener((data) => OnEndDrag());
                 trigger.triggers.Add(endDrag);
             }
-
         }
     }
 
@@ -61,28 +61,22 @@ public class SliderManager : MonoSingleton<SliderManager>
         get { return _isDragging; }
     }
 
-    /// <summary>
-    /// ½Ì±ÛÅæ ÃÊ±âÈ­ ½Ã È£ÃâµÇ´Â °¡»ó ¸Ş¼­µå
-    /// ¼­ºêÅ¬·¡½º¿¡¼­ ¿À¹ö¶óÀÌµåÇÏ¿© ÃÊ±âÈ­ ·ÎÁ÷ ±¸Çö 
-    /// </summary>
     protected override void OnSingletonAwake()
     {
-        //
     }
 
+    /// <summary>
+    /// ìŠ¬ë¼ì´ë” ë“œë˜ê·¸ ì¤‘ì¼ ë•Œ ë¹„ë””ì˜¤ ì‹œê°„ ì´ë™
+    /// </summary>
     private void OnSliderValueChanged(float value)
     {
         if(true == _isDragging)
         {
             if (null == _player) return;
-
-            // ½½¶óÀÌ´õ °ª¿¡ ÇØ´çÇÏ´Â ½Ã°£À¸·Î ÀÌµ¿
             _player.time = value * _player.length;
         }
     }
 
     public void OnBeginDrag() => _isDragging = true;
     public void OnEndDrag() => _isDragging = false;
-
-
 }

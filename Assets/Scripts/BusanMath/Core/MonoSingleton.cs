@@ -4,31 +4,17 @@ using UnityEngine;
 namespace BusanMath.Core
 {
     /// <summary>
-    /// MonoBehaviour ±â¹İ ½Ì±ÛÅæ º£ÀÌ½º Å¬·¡½º
+    /// MonoBehaviour ê¸°ë°˜ ì‹±ê¸€í†¤ ë² ì´ìŠ¤ í´ë˜ìŠ¤
     /// </summary>
     public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
     {
-        /// <summary>
-        /// ½Ì±ÛÅæ ÀÎ½ºÅÏ½º ÀúÀå º¯¼ö
-        /// Àü¿ª¿¡¼­ ÇÏ³ªÀÇ ÀÎ½ºÅÏ½º¸¸ À¯ÁöÇÏ±â À§ÇØ static À¸·Î ¼±¾ğ
-        /// </summary>
         private static T _instance;
-        /// <summary>
-        /// ¸ÖÆ¼½º·¹µå È¯°æ¿¡¼­ µ¿½Ã Á¢±Ù ¹æÁö¿ë ¶ô °´Ã¼
-        /// lock(_lock) À¸·Î ¿©·¯ ½º·¹µå°¡ µ¿½Ã¿¡ Instance ¿¡ Á¢±ÙÇÒ ¶§ Áßº¹ »ı¼ºÀ» ¹æÁöÇÔ
-        /// readonly ·Î ¼±¾ğÇÏ¿© ¶ô °´Ã¼ ÀÚÃ¼°¡ º¯°æµÇÁö ¾Êµµ·Ï º¸Àå
-        /// </summary>
         private static readonly object _lock = new object();
-        /// <summary>
-        /// ¾ÖÇÃ¸®ÄÉÀÌ¼Ç Á¾·á ÇÃ·¡±×
-        /// Unity ´Â Á¾·á ½Ã ¿ÀºêÁ§Æ® ÆÄ±« ¼ø¼­°¡ ºÒÈ®Á¤ÀûÀÌ±â¿¡
-        /// Á¾·á Áß¿¡ Instance Á¢±Ù ½Ã »õ ¿ÀºêÁ§Æ®°¡ »ı¼ºµÇ´Â °ÍÀ» ¹æÁö
-        /// OnApplicationQuit() ¿¡¼­ true ¼³Á¤µÊ
-        /// </summary>
         private static bool _isApplicationQuitting = false;
 
         /// <summary>
-        /// ½Ì±ÛÅæ ÀÎ½ºÅÏ½º Á¢±ÙÀÚ
+        /// ì‹±ê¸€í†¤ ì¸ìŠ¤í„´ìŠ¤ í”„ë¡œí¼í‹°
+        /// ë©€í‹°ìŠ¤ë ˆë“œ í™˜ê²½ì—ì„œ lockì„ ì‚¬ìš©í•˜ì—¬ ì¤‘ë³µ ìƒì„± ë°©ì§€
         /// </summary>
         public static T Instance
         {
@@ -43,17 +29,13 @@ namespace BusanMath.Core
                 {
                     if (null == _instance)
                     {
-                        // ¼ø¼­ »ó°ü¾øÀÌ ºü¸£°Ô Ã£±â(½Ì±ÛÅæ¿¡ ÀûÇÕ)
                         _instance = FindAnyObjectByType<T>();
 
                         if (null == _instance)
                         {
-                            // »õ GameObject »ı¼º ¹× ÄÄÆ÷³ÍÆ® Ãß°¡
                             GameObject singletonObj = new GameObject();
                             _instance = singletonObj.AddComponent<T>();
                             singletonObj.name = $"[Singleton] {typeof(T)}";
-
-                            // ¾À ÀüÈ¯½Ã °´Ã¼ À¯Áö
                             DontDestroyOnLoad(singletonObj);
                         }
                     }
@@ -64,13 +46,10 @@ namespace BusanMath.Core
         }
 
         /// <summary>
-        /// ÀÎ½ºÅÏ½º Á¸Àç ¿©ºÎ È®ÀÎ (ÀÎ½ºÅÏ½º »ı¼º ¾øÀÌ)
+        /// ì¸ìŠ¤í„´ìŠ¤ ì¡´ì¬ ì—¬ë¶€ í™•ì¸ (ì¸ìŠ¤í„´ìŠ¤ ìƒì„± ì—†ì´)
         /// </summary>
         public static bool HasInstance => null != _instance;
 
-        /// <summary>
-        /// ½Ì±ÛÅæ ÃÊ±âÈ­
-        /// </summary>
         protected virtual void Awake()
         {
             if(null == _instance)
@@ -86,15 +65,11 @@ namespace BusanMath.Core
         }
 
         /// <summary>
-        /// ½Ì±ÛÅæ ÃÊ±âÈ­ ½Ã È£ÃâµÇ´Â °¡»ó ¸Ş¼­µå
-        /// ¼­ºêÅ¬·¡½º¿¡¼­ ¿À¹ö¶óÀÌµåÇÏ¿© ÃÊ±âÈ­ ·ÎÁ÷ ±¸Çö 
+        /// ì‹±ê¸€í†¤ ì´ˆê¸°í™” í›„ í˜¸ì¶œë˜ëŠ” ê°€ìƒ ë©”ì„œë“œ
+        /// ì„œë¸Œí´ë˜ìŠ¤ì—ì„œ ì˜¤ë²„ë¼ì´ë“œí•˜ì—¬ ì´ˆê¸°í™” ë¡œì§ ì‘ì„±
         /// </summary>
         protected virtual void OnSingletonAwake() { }
 
-        /// <summary>
-        /// ½Ì±ÛÅæ ÆÄ±«
-        /// ¿ÀºêÁ§Æ® ÆÄ±« ½Ã ÀÚµ¿È£Ãâ
-        /// </summary>
         protected virtual void OnDestroy()
         {
             if (this == _instance)
@@ -105,14 +80,13 @@ namespace BusanMath.Core
         }
 
         /// <summary>
-        /// ½Ì±ÛÅæ ÆÄ±« ½Ã È£ÃâµÇ´Â °¡»ó ¸Ş¼­µå
-        /// ÀÚ½ÄÅ¬·¡½º¿¡¼­ ¿À¹ö¶óÀÌµåÇÏ¿© Á¤¸® ·ÎÁ÷ ±¸Çö  
+        /// ì‹±ê¸€í†¤ íŒŒê´´ ì‹œ í˜¸ì¶œë˜ëŠ” ê°€ìƒ ë©”ì„œë“œ
+        /// ì„œë¸Œí´ë˜ìŠ¤ì—ì„œ ì˜¤ë²„ë¼ì´ë“œí•˜ì—¬ ì •ë¦¬ ë¡œì§ ì‘ì„±
         /// </summary>
         protected virtual void OnSingletonDestroy() { }
 
-
         /// <summary>
-        /// ¾Û Á¾·á ½Ã ÀÚµ¿ È£Ãâ 
+        /// ì•± ì¢…ë£Œ ì‹œ í”Œë˜ê·¸ ì„¤ì •í•˜ì—¬ ì¢…ë£Œ ì¤‘ ì¸ìŠ¤í„´ìŠ¤ ì¬ìƒì„± ë°©ì§€
         /// </summary>
         protected virtual void OnApplicationQuit()
         {
@@ -121,4 +95,3 @@ namespace BusanMath.Core
 
     }
 }
-

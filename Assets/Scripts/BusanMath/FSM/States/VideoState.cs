@@ -10,96 +10,87 @@ public enum ECountry
     None,
 }
 
-public class VideoState : BaseState
+public class VideoState : BaseState<VideoState, VideoView>
 {
-    private VideoView _videoView;
     private ECountry _country;
 
     public ECountry Country
     {
-        set
-        {
-            _country = value;
-        }
+        set { _country = value; }
     }
 
-    public VideoState(VideoView view)
-    {
-        _videoView = view;
+    public VideoState(VideoView view) : base(view) { }
 
-        // ÀÌº¥Æ® µî·Ï
-        _videoView._OnHomeButtonClicked += () => { NavigationController.Instance.GoToHome(); };
-        _videoView._OnSkipButtonClicked += () => {
+    public override void Init()
+    {
+        base.Init();
+
+        // ì´ë²¤íŠ¸ êµ¬ë… (ìµœì´ˆ 1íšŒ)
+        _view._OnHomeButtonClicked += () => { NavigationController.Instance.GoToHome(); };
+        _view._OnSkipButtonClicked += () => {
             VideoManager.Instance.Skip();
-            _videoView._progressbar.SetValueWithoutNotify(VideoManager.Instance.Progress());
+            _view._progressbar.SetValueWithoutNotify(VideoManager.Instance.Progress());
         };
-        
     }
 
     public override void Enter()
     {
-        Debug.Log("[VideoState] Enter");
-        _videoView.Show();
+        base.Enter();
+        _view.Show();
 
-        // VideoManager ¼¼ÆÃ
-        VideoManager.Instance.SetDisplay(_videoView._displayImage);    // ·»´õ Å¸°Ù ÀÌ¹ÌÁö ¼³Á¤
+        // VideoManager ì„¤ì •
+        VideoManager.Instance.SetDisplay(_view._displayImage);
         string targetFileName = "";
         switch(_country)
         {
             case ECountry.Egypt:
-                targetFileName = _videoView._fileNameEgypt;
+                targetFileName = _view._fileNameEgypt;
                 break;
             case ECountry.China:
-                targetFileName = _videoView._fileNameChina;
+                targetFileName = _view._fileNameChina;
                 break;
             case ECountry.Roma:
-                targetFileName = _videoView._fileNameRoma;
+                targetFileName = _view._fileNameRoma;
                 break;
             default:
                 break;
         }
-        string filePath = System.IO.Path.Combine(Application.streamingAssetsPath, targetFileName);   // ¿µ»ó °æ·Î 
+        string filePath = System.IO.Path.Combine(Application.streamingAssetsPath, targetFileName);
 
-        // SliderManager ¼¼ÆÃ
-        SliderManager.Instance.Slider = _videoView._progressbar;
+        // SliderManager ì„¤ì •
+        SliderManager.Instance.Slider = _view._progressbar;
         SliderManager.Instance.Player = VideoManager.Instance.Player;
 
-        // Video Àç»ý
-        VideoManager.Instance.Play(filePath);   // ¿µ»ó ·Îµå ¹× Àç»ý
+        // Video ìž¬ìƒ
+        VideoManager.Instance.Play(filePath);
 
-        // Video Àç»ý ¿Ï·á½Ã È£ÃâµÉ ÄÝ¹é ÇÔ¼ö µî·Ï
+        // Video ìž¬ìƒ ì™„ë£Œ ì½œë°± ë“±ë¡
         VideoManager.Instance.Player.loopPointReached += OnVideoFinished;
     }
 
     public override void Update()
     {
-        // ÁøÇà·ü Ç¥½Ã
         if (VideoManager.Instance.IsPlaying()
             && VideoManager.Instance.VideoLength() > 0
             && false == SliderManager.Instance.IsDragging)
         {
-            _videoView._progressbar.SetValueWithoutNotify(VideoManager.Instance.Progress());
+            _view._progressbar.SetValueWithoutNotify(VideoManager.Instance.Progress());
         }
     }
 
     public override void Exit()
     {
-        Debug.Log("[VideoState] Eixt");
+        base.Exit();
 
-        // ¿µ»ó Àç»ý ¸ØÃã ¹× ÃÊ±âÈ­
         VideoManager.Instance.Stop();
-
-        // ÄÝ¹é ÇÔ¼ö ÇØÁ¦
         VideoManager.Instance.Player.loopPointReached -= OnVideoFinished;
 
-        _videoView.Hide();
+        _view.Hide();
     }
 
     public void OnVideoFinished(VideoPlayer vp)
     {
         NavigationController.Instance.GoToNumGameDescription(_country);
-
-        // ±¹°¡ ¼±ÅÃ ±â·Ï ÃÊ±âÈ­
         _country = ECountry.None;
     }
 }

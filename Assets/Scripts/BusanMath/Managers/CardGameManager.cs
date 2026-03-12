@@ -5,27 +5,31 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+/// <summary>
+/// ì¹´ë“œ ë§¤ì¹­ ê²Œì„ ë¡œì§ ê´€ë¦¬
+/// ëœë¤ ë± ìƒì„±, ì¹´ë“œ ì„ íƒ/ë¹„êµ, ë§¤ì¹­ ê²°ê³¼ ì´ë²¤íŠ¸ ë°œí–‰
+/// </summary>
 public class CardGameManager : MonoSingleton<CardGameManager>
 {
-    [SerializeField] private CardDatabaseSO _cardDatabase;  // Ä«µå µ¥ÀÌÅÍº£ÀÌ½º (ÃÑ 40Àå)
+    [SerializeField] private CardDatabaseSO _cardDatabase;
 
-    private List<CardData> _currentDeck;        // ÇöÀç °ÔÀÓ¿¡ »ç¿ëÁßÀÎ Ä«µå µ¦
-    private int _firstSelectedIndex = -1;       // Ã¹ ¹øÂ° ¼±ÅÃµÈ Ä«µå ÀÎµ¦½º
-    private int _secondSelectedIndex = -1;      // µÎ ¹øÂ° ¼±ÅÃµÈ Ä«µå ÀÎµ¦½º
-    private int _matchCount;                    // ¸ÅÄª ¼º°ø È½¼ö
-    private const int _MAX_MATCH = 6;           // ÃÑ ¸ÅÄª ÇÊ¿ä È½¼ö (6½Ö)
+    private List<CardData> _currentDeck;
+    private int _firstSelectedIndex = -1;
+    private int _secondSelectedIndex = -1;
+    private int _matchCount;
+    private const int _MAX_MATCH = 6;
     public bool _isSuccess = true;
 
-    public event Action<int, int> _OnMatchSuccess;  // ¸ÅÄª ¼º°ø (index1, index2)
-    public event Action<int, int> _OnMatchFail;     // ¸ÅÄª ½ÇÆĞ (index1, index2)
-    public event Action _OnGameClear;               // °ÔÀÓ Å¬¸®¾î
+    public event Action<int, int> _OnMatchSuccess;
+    public event Action<int, int> _OnMatchFail;
+    public event Action _OnGameClear;
 
     protected override void OnSingletonAwake()
     {
     }
 
     /// <summary>
-    /// °ÔÀÓ ½ÃÀÛ - µ¦ »ı¼º ¹× ÃÊ±âÈ­
+    /// ê²Œì„ ì‹œì‘ - ë± ìƒì„± ë° ì´ˆê¸°í™”
     /// </summary>
     public void StartGame()
     {
@@ -35,99 +39,84 @@ public class CardGameManager : MonoSingleton<CardGameManager>
     }
 
     /// <summary>
-    /// ·£´ıÀ¸·Î 6Àå ¼±ÅÃ ÈÄ º¹Á¦ÇÏ¿© 12ÀåÀÇ ¼¯ÀÎ Ä«µå µ¦ »ı¼º
+    /// ëœë¤ìœ¼ë¡œ 6ì¥ ì„ íƒ í›„ ë³µì œí•˜ì—¬ 12ì¥ ì…”í”Œëœ ë± ìƒì„±
     /// </summary>
-    /// <returns>¹«ÀÛÀ§·Î ¼¯ÀÎ 12ÀåÀÇ Ä«µå ¸®½ºÆ®</returns>
     public List<CardData> CreateShuffledCards()
     {
-        // ÀüÃ¼ Ä«µå¿¡¼­ ·£´ı 6Àå ¼±ÅÃ
         List<CardData> selected = _cardDatabase.cards
             .OrderBy(_ => UnityEngine.Random.value)
             .Take(6)
             .ToList();
 
-        // ¼±ÅÃµÈ Ä«µå º¹Á¦ (6 + 6 = 12)
         List<CardData> deck = new List<CardData>();
         deck.AddRange(selected);
         deck.AddRange(selected);
 
-        // ¹«ÀÛÀ§·Î ¼¯¾î¼­ ¹İÈ¯
         return deck.OrderBy(_ => UnityEngine.Random.value).ToList();
     }
 
     /// <summary>
-    /// Ä«µå ¼±ÅÃ Ã³¸®
+    /// ì¹´ë“œ ì„ íƒ ì²˜ë¦¬ (ì²« ë²ˆì§¸ -> ë‘ ë²ˆì§¸ -> ë¹„êµ)
     /// </summary>
-    /// <param name="index">¼±ÅÃÇÑ Ä«µå ÀÎµ¦½º</param>
     public void SelectCard(int index)
     {
-        // °°Àº Ä«µå ¼±ÅÃ ¹æÁö
+        // ê°™ì€ ì¹´ë“œ ì¤‘ë³µ ì„ íƒ ë°©ì§€
         if (_firstSelectedIndex == index) return;
 
-        // Ã¹ ¹øÂ° ¼±ÅÃ
+        // ì²« ë²ˆì§¸ ì„ íƒ
         if (_firstSelectedIndex == -1)
         {
             _firstSelectedIndex = index;
             return;
         }
 
-        // µÎ ¹øÂ° ¼±ÅÃ - ºñ±³ ÁøÇà
+        // ë‘ ë²ˆì§¸ ì„ íƒ - ìŒ ë¹„êµ
         _secondSelectedIndex = index;
         bool isMatch = Compare(_firstSelectedIndex, _secondSelectedIndex);
 
         if (isMatch)
         {
             _matchCount++;
-            //_OnMatchSuccess?.Invoke(_firstSelectedIndex, _secondSelectedIndex);
             StartCoroutine(DelayedCallMatchSucess(_firstSelectedIndex, _secondSelectedIndex, 0.5f));
 
-            // °ÔÀÓ Å¬¸®¾î Ã¼Å©
+            // ê²Œì„ í´ë¦¬ì–´ ì²´í¬
             if (_matchCount >= _MAX_MATCH)
             {
                 _isSuccess = true;
-                //_OnGameClear?.Invoke();
                 StartCoroutine(DelayedCallGameClear(1f));
             }
         }
         else
         {
-            //_OnMatchFail?.Invoke(_firstSelectedIndex, _secondSelectedIndex);
             StartCoroutine(DelayedCallMatchFail(_firstSelectedIndex, _secondSelectedIndex, 0.5f));
         }
 
-        // ¼±ÅÃ ÃÊ±âÈ­
+        // ì„ íƒ ì´ˆê¸°í™”
         _firstSelectedIndex = -1;
         _secondSelectedIndex = -1;
-
     }
 
     private IEnumerator DelayedCallMatchSucess(int firstIdx, int secondIdx, float delay)
     {
         yield return new WaitForSeconds(delay);
-
         _OnMatchSuccess?.Invoke(firstIdx, secondIdx);
     }
 
     private IEnumerator DelayedCallMatchFail(int firstIdx, int secondIdx, float delay)
     {
         yield return new WaitForSeconds(delay);
-
         _OnMatchFail?.Invoke(firstIdx, secondIdx);
     }
 
     private IEnumerator DelayedCallGameClear(float delay)
     {
         yield return new WaitForSeconds(delay);
-        
         _OnGameClear?.Invoke();
     }
 
     /// <summary>
-    /// µÎ Ä«µå°¡ °°Àº °ªÀÎÁö ºñ±³
+    /// ë‘ ì¹´ë“œê°€ ê°™ì€ ì¢…ë¥˜ì¸ì§€ ë¹„êµ
     /// </summary>
-    /// <param name="index1">Ã¹ ¹øÂ° Ä«µå ÀÎµ¦½º</param>
-    /// <param name="index2">µÎ ¹øÂ° Ä«µå ÀÎµ¦½º</param>
-    /// <returns>¸ÅÄª ¿©ºÎ</returns>
     private bool Compare(int index1, int index2)
     {
         if (_currentDeck == null) return false;
@@ -138,39 +127,25 @@ public class CardGameManager : MonoSingleton<CardGameManager>
             && _currentDeck[index1]._country == _currentDeck[index2]._country;
     }
 
-    /// <summary>
-    /// Æ¯Á¤ ÀÎµ¦½ºÀÇ Ä«µå µ¥ÀÌÅÍ ¹İÈ¯
-    /// </summary>
     public CardData GetCard(int index) => _currentDeck[index];
-
-    /// <summary>
-    /// ÇöÀç µ¦ ¹İÈ¯
-    /// </summary>
     public List<CardData> GetCurrentDeck() => _currentDeck;
-
-    /// <summary>
-    /// ÇöÀç ¸ÅÄª È½¼ö ¹İÈ¯
-    /// </summary>
     public int GetMatchCount() => _matchCount;
 
     /// <summary>
-    /// °ÔÀÓ ¸®¼Â
+    /// ê²Œì„ ë¦¬ì…‹ (ì§„í–‰ ì¤‘ì¸ ì½”ë£¨í‹´ ëª¨ë‘ ì •ì§€)
     /// </summary>
     public void ResetGame()
     {
+        StopAllCoroutines();
+
         _isSuccess = true;
         _currentDeck = null;
         _firstSelectedIndex = -1;
         _secondSelectedIndex = -1;
         _matchCount = 0;
     }
-    
-    /// <summary>
-    /// 
-    /// </summary>
+
     public void RetryGame()
     {
-
     }
-
 }

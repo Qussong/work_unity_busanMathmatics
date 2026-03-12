@@ -25,7 +25,6 @@ public class StringSpritePairContainerSO : ScriptableObject
         return dict;
     }
 
-    // 바로 접근 가능한 메서드 추가
     public Sprite GetSprite(string key)
     {
         return ToDictionary().TryGetValue(key, out var sprite) ? sprite : null;

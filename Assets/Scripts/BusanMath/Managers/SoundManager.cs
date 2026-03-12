@@ -1,6 +1,9 @@
 using BusanMath.Core;
 using UnityEngine;
 
+/// <summary>
+/// UI íš¨ê³¼ìŒ ì¬ìƒ ì‹±ê¸€í†¤
+/// </summary>
 public class SoundManager : MonoSingleton<SoundManager>
 {
     [Header("=== Sound Resource ===")]
@@ -27,19 +30,16 @@ public class SoundManager : MonoSingleton<SoundManager>
     }
 
     /// <summary>
-    /// UI È¿°úÀ½ ÇÑ ¹ø Àç»ı
+    /// AudioClipì„ ì¹´ë©”ë¼ ìœ„ì¹˜ì—ì„œ 1íšŒ ì¬ìƒ
     /// </summary>
-    /// <param name="clip">Àç»ıÇÒ AudioClip</param>
-    /// <param name="volume">º¼·ı (0.0 ~ 1.0)</param>
     private void PlaySound(AudioClip clip, float volume = 1.0f)
     {
         if (clip == null)
         {
-            Debug.LogWarning("AudioClipÀÌ nullÀÔ´Ï´Ù.");
+            Debug.LogWarning("AudioClipì´ nullì…ë‹ˆë‹¤.");
             return;
         }
 
         AudioSource.PlayClipAtPoint(clip, Camera.main.transform.position, volume);
     }
-
 }

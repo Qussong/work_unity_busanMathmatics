@@ -1,129 +1,112 @@
-using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 
-public class NumGameState : BaseState
+public class NumGameState : BaseState<NumGameState, NumGameView>
 {
-    private NumGameView _numGameView;
     private ECountry _country;
     private List<GameObject> _answerTiles = new List<GameObject>();
 
     public ECountry Country
     {
-        set
-        {
-            _country = value;
-        }
+        set { _country = value; }
     }
 
-    public NumGameState(NumGameView view)
+    public NumGameState(NumGameView view) : base(view) { }
+
+    public override void Init()
     {
-        _numGameView = view;
+        base.Init();
 
-        // ÀÌº¥Æ® µî·Ï
-        _numGameView._OnHomeButtonClicked += () => { NavigationController.Instance.GoToHome(); };
-        _numGameView._OnHintButtonClikced += () => { OpenHint(); };
-        _numGameView._OnHintCloseButtonClicked += () => { CloseHint(); };
-        _numGameView._OnRetryButtonClicked += () => {
+        // ì´ë²¤íŠ¸ êµ¬ë… (ìµœì´ˆ 1íšŒ)
+        _view._OnHomeButtonClicked += () => { NavigationController.Instance.GoToHome(); };
+        _view._OnHintButtonClikced += () => { OpenHint(); };
+        _view._OnHintCloseButtonClicked += () => { CloseHint(); };
+        _view._OnRetryButtonClicked += () => {
             RetryNumGame();
-            _numGameView._infoText.text = "";
-            _numGameView._resultContainer.SetActive(false);
+            _view._infoText.text = "";
+            _view._resultContainer.SetActive(false);
         };
-        _numGameView._OnMoveNextButtonClicked += () => {
-            _numGameView._infoText.text = "";
-            _numGameView._resultContainer.SetActive(false);
-            NavigationController.Instance.GoToCardGameDescription(); 
+        _view._OnMoveNextButtonClicked += () => {
+            _view._infoText.text = "";
+            _view._resultContainer.SetActive(false);
+            NavigationController.Instance.GoToCardGameDescription();
         };
-        _numGameView._OnOtherCountryButtonClicked += () => {
-            _numGameView._infoText.text = "";
-            _numGameView._resultContainer.SetActive(false);
-            NavigationController.Instance.GoToSelect(); 
+        _view._OnOtherCountryButtonClicked += () => {
+            _view._infoText.text = "";
+            _view._resultContainer.SetActive(false);
+            NavigationController.Instance.GoToSelect();
         };
 
-        // ¼ıÀÚ Å¸ÀÏ¿¡ ¸®½º³Ê µî·Ï
-        for (int i = 0; i < _numGameView._numButtons.Count; ++i)
+        // ìˆ«ì íƒ€ì¼ì— ë¦¬ìŠ¤ë„ˆ ë“±ë¡ (ìµœì´ˆ 1íšŒ)
+        for (int i = 0; i < _view._numButtons.Count; ++i)
         {
-            NumPad numpad = _numGameView._numButtons[i].AddComponent<NumPad>();
+            NumPad numpad = _view._numButtons[i].gameObject.AddComponent<NumPad>();
             numpad._value = i;
-            _numGameView._numButtons[i].onClick.AddListener(() => { UpdateAnswerUI(numpad._value); });
-            _numGameView._numButtons[i].onClick.AddListener(() => { SoundManager.Instance.PlayButtonSound(); });
+            _view._numButtons[i].onClick.AddListener(() => { UpdateAnswerUI(numpad._value); });
+            _view._numButtons[i].onClick.AddListener(() => { SoundManager.Instance.PlayButtonSound(); });
         }
 
-        // ÃÊ±âÈ­ ¹öÆ° ¸®½º³Ê µî·Ï
-        _numGameView._initButton.onClick.AddListener(() => {
+        // ì´ˆê¸°í™” ë²„íŠ¼
+        _view._initButton.onClick.AddListener(() => {
             InitAnswerTile();
             NumGameManager.Instance.InitAnswer();
         });
 
-        // ¿Ï·á ¹öÆ° ¸®½º³Ê µî·Ï
-        _numGameView._compareButton.onClick.AddListener(() => {
+        // ì™„ë£Œ ë²„íŠ¼
+        _view._compareButton.onClick.AddListener(() => {
             bool result = NumGameManager.Instance.CompareAnswerAndRndNum();
-            _numGameView._resultContainer.SetActive(true);
-            // Á¤´ä
-            if(result)
+            _view._resultContainer.SetActive(true);
+            if (result)
             {
                 SoundManager.Instance.PlayCorrectSound();
-                _numGameView._infoText.text = "Á¤´äÀÔ´Ï´Ù.";
+                _view._infoText.text = "ì •ë‹µì…ë‹ˆë‹¤.";
             }
-            // ¿À´ä
             else
             {
                 SoundManager.Instance.PlayDisCorrectSound();
-                _numGameView._infoText.text = $"¿À´äÀÔ´Ï´Ù.\nÁ¤´äÀº {NumGameManager.Instance.RndNum}ÀÔ´Ï´Ù.";
+                _view._infoText.text = $"ì˜¤ë‹µì…ë‹ˆë‹¤.\nì •ë‹µì€ {NumGameManager.Instance.RndNum}ì…ë‹ˆë‹¤.";
             }
         });
-
     }
 
     private void RetryNumGame()
     {
-        // Á¤´ä ÃÊ±âÈ­
         NumGameManager.Instance.InitAnswer();
-
-        // Á¤´ä UI ÆÄ±«
         DestroyAnswerTile();
-
-        // ½ÃÀÛ
         Enter();
     }
 
     public void UpdateAnswerUI(int value)
     {
-        // Á¤´ä¿¡ °ª Ãß°¡
         bool result = NumGameManager.Instance.SelectNumTile(value);
         if (false == result) return;
-        // ÇöÀç Å¸ÀÏÀÇ idx 
         int curTileIdx = NumGameManager.Instance.Answer.Length - 1;
-        // ÇöÀç Å¸ÀÏ¿¡ ¼±ÅÃÇÑ °ª ¹İ¿µ
         _answerTiles[curTileIdx].GetComponentInChildren<TMP_Text>().text = value.ToString();
     }
 
     private void OpenHint()
     {
-        _numGameView._hintContainer.SetActive(true);
+        _view._hintContainer.SetActive(true);
     }
 
     private void CloseHint()
     {
-        _numGameView._hintContainer.SetActive(false);
+        _view._hintContainer.SetActive(false);
     }
 
     public override void Enter()
     {
-        Debug.Log("[NumGameState] Enter");
-        _numGameView.Show();
+        base.Enter();
+        _view.Show();
 
-        // ·£´ı°ª ¼³Á¤
+        // ê²Œì„ ì‹œì‘
         NumGameManager.Instance.StartGame(_country);
 
-        // Á¤´ä UI ¾÷µ¥ÀÌÆ®
+        // ì •ë‹µ UI ì—…ë°ì´íŠ¸
         SetAnswerUI();
 
-        // ³ª¶óº° UI ¾÷µ¥ÀÌÆ®
+        // êµ­ê°€ UI ì—…ë°ì´íŠ¸
         SetCountryUI(_country);
     }
 
@@ -131,99 +114,84 @@ public class NumGameState : BaseState
     {
         for (int i = 0; i < NumGameManager.Instance.RndNum.Length; ++i)
         {
-            GameObject tile = UnityEngine.Object.Instantiate(_numGameView._answerTilePrefab, _numGameView._answerTileContainer.transform);
+            GameObject tile = UnityEngine.Object.Instantiate(_view._answerTilePrefab, _view._answerTileContainer.transform);
             _answerTiles.Add(tile);
         }
     }
 
     private void SetCountryUI(ECountry country)
     {
-        //Debug.Log((int)country);
+        // ë°°ê²½í™”ë©´ ì„¸íŒ…
+        _view._background.sprite = _view._backGroundList[(int)country];
 
-        // ¹è°æÈ­¸é ¼³Á¤
-        _numGameView._background.sprite = _numGameView._backGroundList[(int)country];
+        // íƒ€ì´í‹€ ì„¸íŒ…
+        _view._title.sprite = _view._titleList[(int)country];
+        _view._title.SetNativeSize();
+        _view._title.rectTransform.sizeDelta /= 4f;
 
-        // Å¸ÀÌÆ² ¼³Á¤
-        _numGameView._title.sprite = _numGameView._titleList[(int)country];
-        _numGameView._title.SetNativeSize();
-        _numGameView._title.rectTransform.sizeDelta /= 4f;
-
-        // ÈùÆ® ¹öÆ° ¼³Á¤
-        _numGameView._hintButton.image.sprite = _numGameView._hintList[(int)country];
-        _numGameView._hintButton.image.SetNativeSize();
+        // íŒíŠ¸ ë²„íŠ¼ ì„¸íŒ…
+        _view._hintButton.image.sprite = _view._hintList[(int)country];
+        _view._hintButton.image.SetNativeSize();
         if (ECountry.Egypt == _country)
         {
-            _numGameView._hintButton.image.rectTransform.sizeDelta /= 12f;
-            _numGameView._hintButton.transform.localPosition = new Vector3(-315f, 550f, 0f);
+            _view._hintButton.image.rectTransform.sizeDelta /= 12f;
+            _view._hintButton.transform.localPosition = new Vector3(-315f, 550f, 0f);
         }
         else if (ECountry.China == _country)
         {
-            _numGameView._hintButton.image.rectTransform.sizeDelta /= 12f;
-            _numGameView._hintButton.transform.localPosition = new Vector3(-315f, 525f, 0f);
+            _view._hintButton.image.rectTransform.sizeDelta /= 12f;
+            _view._hintButton.transform.localPosition = new Vector3(-315f, 525f, 0f);
         }
         else if (ECountry.Roma == _country)
         {
-            _numGameView._hintButton.image.rectTransform.sizeDelta /= 12f;
-            _numGameView._hintButton.transform.localPosition = new Vector3(-315f, 525f, 0f);
-        }
-        else
-        {
-            //
+            _view._hintButton.image.rectTransform.sizeDelta /= 12f;
+            _view._hintButton.transform.localPosition = new Vector3(-315f, 525f, 0f);
         }
 
-        // ÆË¾÷ ÈùÆ® ¼³Á¤
-        _numGameView._popupHint.sprite = _numGameView._hintList[(int)country];
-        _numGameView._popupHint.SetNativeSize();
-        _numGameView._popupHint.rectTransform.sizeDelta /= 4f;
+        // íŒì—… íŒíŠ¸ ì„¸íŒ…
+        _view._popupHint.sprite = _view._hintList[(int)country];
+        _view._popupHint.SetNativeSize();
+        _view._popupHint.rectTransform.sizeDelta /= 4f;
 
-        // ³ª¶óº° ÄûÁî ¼³Á¤
+        // í€´ì¦ˆ ë¬¸ì œ ì„¸íŒ…
         SetQuizUI(country);
     }
 
     public void SetQuizUI(ECountry country)
     {
-        // Áß±¹
         if (ECountry.China == country)
         {
-            _numGameView._rndNumText.gameObject.SetActive(true);
-            _numGameView._rndNumText.text = NumGameManager.Instance.GetRndNumToHanJa();
+            _view._rndNumText.gameObject.SetActive(true);
+            _view._rndNumText.text = NumGameManager.Instance.GetRndNumToHanJa();
         }
-        // ÀÌÁıÆ®, ·Î¸¶
         else
         {
-            _numGameView._rndNumImage.gameObject.SetActive(true);
-            _numGameView._rndNumImage.sprite = NumGameManager.Instance.GetRndNumSprite();
-            _numGameView._rndNumImage.SetNativeSize();
-            _numGameView._rndNumImage.rectTransform.sizeDelta /= 4f;
-
+            _view._rndNumImage.gameObject.SetActive(true);
+            _view._rndNumImage.sprite = NumGameManager.Instance.GetRndNumSprite();
+            _view._rndNumImage.SetNativeSize();
+            _view._rndNumImage.rectTransform.sizeDelta /= 4f;
         }
     }
 
     public void InitQuizUI()
     {
-        // Áß±¹
         if (ECountry.China == _country)
         {
-            _numGameView._rndNumText.text = "";
-            // ·£´ı°ªÀ» º¸¿©ÁÖ´Â ÅØ½ºÆ® °´Ã¼ off
-            _numGameView._rndNumText.gameObject.SetActive(false);
-
+            _view._rndNumText.text = "";
+            _view._rndNumText.gameObject.SetActive(false);
         }
-        // ÀÌÁıÆ®, ·Î¸¶
         else
         {
-            _numGameView._rndNumImage.sprite = null;
-            // ·£´ı°ªÀ» º¸¿©ÁÖ´Â ÀÌ¹ÌÁö °´Ã¼ off
-            _numGameView._rndNumImage.gameObject.SetActive(false);
+            _view._rndNumImage.sprite = null;
+            _view._rndNumImage.gameObject.SetActive(false);
         }
 
-        // Á¤´ä°ü·Ã UI ÃÊ±âÈ­
         DestroyAnswerTile();
     }
 
     public void InitAnswerTile()
     {
-        foreach(GameObject obj in _answerTiles)
+        foreach (GameObject obj in _answerTiles)
         {
             obj.GetComponentInChildren<TMP_Text>().text = "0";
         }
@@ -238,25 +206,24 @@ public class NumGameState : BaseState
         _answerTiles.Clear();
     }
 
-    public override void Update()
-    {
-        //
-    }
-
     public override void Exit()
     {
-        Debug.Log("[NumGameState] Eixt");
+        base.Exit();
 
-        // ÄûÁî UI ÃÊ±âÈ­
+        // íŒíŠ¸/ê²°ê³¼ íŒì—… ë‹«ê¸°
+        _view._hintContainer.SetActive(false);
+        _view._resultContainer.SetActive(false);
+        _view._infoText.text = "";
+
+        // í€´ì¦ˆ UI ì´ˆê¸°í™”
         InitQuizUI();
 
-        // °ÔÀÓÀÇ ·£´ı °ª, ±¹°¡, Á¤´ä ÃÊ±âÈ­
+        // ê²Œì„ ë§¤ë‹ˆì € ì´ˆê¸°í™”
         NumGameManager.Instance.InitGame();
 
-        // ±¹°¡ Á¤º¸ ÃÊ±âÈ­
+        // êµ­ê°€ ì •ë³´ ì´ˆê¸°í™”
         _country = ECountry.None;
 
-        _numGameView.Hide();
+        _view.Hide();
     }
-
 }

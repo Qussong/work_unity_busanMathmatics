@@ -1,5 +1,4 @@
 using BusanMath.Core;
-using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,7 +6,7 @@ using System.Linq;
 using UnityEngine;
 
 /// <summary>
-/// ÅõÇ¥ µ¥ÀÌÅÍ ÀúÀå Å¬·¡½º
+/// íˆ¬í‘œ ë°ì´í„° ì§ë ¬í™” í´ë˜ìŠ¤
 /// </summary>
 [Serializable]
 public class VoteData
@@ -17,16 +16,16 @@ public class VoteData
     public int voteRoma;
 }
 
+/// <summary>
+/// íˆ¬í‘œ ê´€ë¦¬ ì‹±ê¸€í†¤
+/// JSON íŒŒì¼ë¡œ íˆ¬í‘œ ë°ì´í„° ì˜ì†í™”
+/// </summary>
 public class VoteManager : MonoSingleton<VoteManager>
 {
-    
-    private VoteData _data;                         // ÅõÇ¥ µ¥ÀÌÅÍ
-    private string _filePath;                       // ÅõÇ¥ µ¥ÀÌÅÍ ÀúÀå °æ·Î
-    public event Action<VoteData> _OnVoteUpdated;   // ÅõÇ¥ °»½Å ½Ã È£ÃâµÇ´Â ÀÌº¥Æ®
+    private VoteData _data;
+    private string _filePath;
+    public event Action<VoteData> _OnVoteUpdated;
 
-    /// <summary>
-    ///  ÇöÀç ÅõÇ¥ µ¥ÀÌÅÍ ¹İÈ¯
-    /// </summary>
     public VoteData GetData() => _data;
 
     protected override void OnSingletonAwake()
@@ -34,9 +33,6 @@ public class VoteManager : MonoSingleton<VoteManager>
         Initialize();
     }
 
-    /// <summary>
-    /// ÆÄÀÏ °æ·Î ¼³Á¤ ¹× µ¥ÀÌÅÍ ·Îµå
-    /// </summary>
     private void Initialize()
     {
         _filePath = Path.Combine(Application.persistentDataPath, "vote_data.json");
@@ -44,8 +40,7 @@ public class VoteManager : MonoSingleton<VoteManager>
     }
 
     /// <summary>
-    /// ¿ÜºÎ JSON ÆÄÀÏ¿¡¼­ ÅõÇ¥ µ¥ÀÌÅÍ ·Îµå
-    /// ÆÄÀÏÀÌ ¾øÀ¸¸é »õ µ¥ÀÌÅÍ »ı¼º ÈÄ ÀúÀå
+    /// JSON íŒŒì¼ì—ì„œ íˆ¬í‘œ ë°ì´í„° ë¡œë“œ (ì—†ìœ¼ë©´ ìƒˆë¡œ ìƒì„±)
     /// </summary>
     private void Load()
     {
@@ -61,9 +56,6 @@ public class VoteManager : MonoSingleton<VoteManager>
         }
     }
 
-    /// <summary>
-    /// ÇöÀç ÅõÇ¥ µ¥ÀÌÅÍ¸¦ ¿ÜºÎ JSON ÆÄÀÏ¿¡ ÀúÀå
-    /// </summary>
     private void Save()
     {
         string json = JsonUtility.ToJson(_data, true);
@@ -71,8 +63,7 @@ public class VoteManager : MonoSingleton<VoteManager>
     }
 
     /// <summary>
-    /// ¼±ÅÃÇÑ ±¹°¡¿¡ ÅõÇ¥
-    /// ÀúÀå ¹× ÀÌº¥Æ® È£Ãâ
+    /// ì„ íƒí•œ êµ­ê°€ì— íˆ¬í‘œ í›„ ì´ë²¤íŠ¸ ë°œí–‰
     /// </summary>
     public void Vote(ECountry choice)
     {
@@ -92,13 +83,10 @@ public class VoteManager : MonoSingleton<VoteManager>
         _OnVoteUpdated?.Invoke(_data);
     }
 
-    /// <summary>
-    /// ÀüÃ¼ ÅõÇ¥ ¼ö ¹İÈ¯
-    /// </summary>
     public int GetTotal() => _data.voteEgypt + _data.voteChina + _data.voteRoma;
 
     /// <summary>
-    /// ¼±ÅÃÇÑ ÅõÇ¥ ºñÀ² ¹İÈ¯ (¹üÀ§ : 0.0 ~ 1.0)
+    /// íŠ¹ì • êµ­ê°€ì˜ íˆ¬í‘œ ë¹„ìœ¨ ë°˜í™˜ (0.0 ~ 1.0)
     /// </summary>
     public float GetRate(ECountry choice)
     {
@@ -122,9 +110,6 @@ public class VoteManager : MonoSingleton<VoteManager>
         return rate;
     }
 
-    /// <summary>
-    /// ÅõÇ¥ ÃÊ±âÈ­
-    /// </summary>
     public void Reset()
     {
         _data = new VoteData();
@@ -133,21 +118,20 @@ public class VoteManager : MonoSingleton<VoteManager>
     }
 
     /// <summary>
-    /// µî¼ö ¹İÈ¯
+    /// íˆ¬í‘œ ìˆ˜ ê¸°ì¤€ ë‚´ë¦¼ì°¨ìˆœ ë­í‚¹ ë°˜í™˜
     /// </summary>
     public List<ECountry> GetRanking()
     {
         var ranking = new Dictionary<ECountry, int>
-    {
-        { ECountry.Egypt, _data.voteEgypt },
-        { ECountry.China, _data.voteChina },
-        { ECountry.Roma, _data.voteRoma }
-    };
+        {
+            { ECountry.Egypt, _data.voteEgypt },
+            { ECountry.China, _data.voteChina },
+            { ECountry.Roma, _data.voteRoma }
+        };
 
         return ranking
             .OrderByDescending(x => x.Value)
             .Select(x => x.Key)
             .ToList();
     }
-
 }

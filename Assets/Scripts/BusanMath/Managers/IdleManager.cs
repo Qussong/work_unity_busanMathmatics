@@ -2,6 +2,10 @@ using BusanMath.Core;
 using System;
 using UnityEngine;
 
+/// <summary>
+/// ì‚¬ìš©ì ì…ë ¥ì´ ì—†ì„ ë•Œ íƒ€ì„ì•„ì›ƒì„ ê°ì§€í•˜ì—¬ í™ˆ í™”ë©´ìœ¼ë¡œ ë³µê·€
+/// ë§ˆìš°ìŠ¤, í„°ì¹˜, í‚¤ë³´ë“œ ì…ë ¥ì„ ëª¨ë‹ˆí„°ë§
+/// </summary>
 public class IdleManager : MonoSingleton<IdleManager>
 {
     [Header("=== Idle Settings ===")]
@@ -9,25 +13,17 @@ public class IdleManager : MonoSingleton<IdleManager>
     [SerializeField] private bool isEnabled = true;
     [SerializeField] private bool showDebugLog = true;
 
-    // Å¸ÀÌ¸Ó »óÅÂ
     private float idleTimer;
     private bool isPaused;
 
-    // ÀÌº¥Æ®
-    public event Action OnIdleTimeout;          // Å¸ÀÓ¾Æ¿ô ¹ß»ı
-    public event Action OnIdleReset;            // Å¸ÀÌ¸Ó ¸®¼ÂµÊ
+    public event Action OnIdleTimeout;
+    public event Action OnIdleReset;
 
-    // ÇÁ·ÎÆÛÆ¼
     public float IdleTime => idleTimer;
     public float RemainingTime => Mathf.Max(0, idleTimeout - idleTimer);
     public bool IsIdle => idleTimer >= idleTimeout;
     public bool IsEnabled => isEnabled;
 
-
-    /// <summary>
-    /// ½Ì±ÛÅæ ÃÊ±âÈ­ ½Ã È£ÃâµÇ´Â °¡»ó ¸Ş¼­µå
-    /// ¼­ºêÅ¬·¡½º¿¡¼­ ¿À¹ö¶óÀÌµåÇÏ¿© ÃÊ±âÈ­ ·ÎÁ÷ ±¸Çö 
-    /// </summary>
     protected override void OnSingletonAwake()
     {
         ResetTimer();
@@ -35,52 +31,48 @@ public class IdleManager : MonoSingleton<IdleManager>
 
     private void Start()
     {
-        OnIdleTimeout += () => NavigationController.Instance.GoToHome();
+        OnIdleTimeout += () =>
+        {
+            if (NavigationController.Instance.IsHome()) return;
+            NavigationController.Instance.GoToHome();
+        };
     }
 
     private void Update()
     {
         if (!isEnabled || isPaused) return;
 
-        // ÀÔ·Â °¨Áö
         if (HasAnyInput())
         {
             ResetTimer();
             return;
         }
 
-        // Å¸ÀÌ¸Ó Áõ°¡
         idleTimer += Time.deltaTime;
-
-        // Å¸ÀÓ¾Æ¿ô Ã¼Å©
         CheckTimeout();
     }
 
     /// <summary>
-    /// ¸ğµç Á¾·ùÀÇ ÀÔ·Â °¨Áö
+    /// ë§ˆìš°ìŠ¤/í„°ì¹˜/í‚¤ë³´ë“œ ì…ë ¥ ê°ì§€
     /// </summary>
     private bool HasAnyInput()
     {
-        // ¸¶¿ì½º ÀÌµ¿
         if (Mathf.Abs(Input.GetAxis("Mouse X")) > 0.01f ||
             Mathf.Abs(Input.GetAxis("Mouse Y")) > 0.01f)
         {
             return true;
         }
 
-        // ¸¶¿ì½º Å¬¸¯
         if (Input.GetMouseButton(0) || Input.GetMouseButton(1) || Input.GetMouseButton(2))
         {
             return true;
         }
 
-        // ÅÍÄ¡ ÀÔ·Â
         if (Input.touchCount > 0)
         {
             return true;
         }
 
-        // Å°º¸µå ÀÔ·Â
         if (Input.anyKeyDown)
         {
             return true;
@@ -89,30 +81,21 @@ public class IdleManager : MonoSingleton<IdleManager>
         return false;
     }
 
-    /// <summary>
-    /// Å¸ÀÓ¾Æ¿ô Ã¼Å©
-    /// </summary>
     private void CheckTimeout()
     {
         if (idleTimer >= idleTimeout)
         {
             Log("Idle timeout triggered!");
             OnIdleTimeout?.Invoke();
-
-            // Å¸ÀÓ¾Æ¿ô ÈÄ ÀÚµ¿ ¸®¼Â (¿¬¼Ó ¹ß»ı ¹æÁö)
             ResetTimer();
         }
     }
 
-    // === Public ¸Ş¼­µå ===
+    #region Public API
 
-    /// <summary>
-    /// Å¸ÀÌ¸Ó ¸®¼Â (»ç¿ëÀÚ ¾×¼Ç ½Ã È£Ãâ)
-    /// </summary>
     public void ResetTimer()
     {
         bool wasActive = idleTimer > 0;
-
         idleTimer = 0f;
 
         if (wasActive)
@@ -122,18 +105,12 @@ public class IdleManager : MonoSingleton<IdleManager>
         }
     }
 
-    /// <summary>
-    /// Å¸ÀÓ¾Æ¿ô ½Ã°£ ¼³Á¤
-    /// </summary>
     public void SetTimeout(float seconds)
     {
         idleTimeout = Mathf.Max(1f, seconds);
         Log($"Timeout set to {idleTimeout}s");
     }
 
-    /// <summary>
-    /// È°¼ºÈ­/ºñÈ°¼ºÈ­
-    /// </summary>
     public void SetEnabled(bool enabled)
     {
         isEnabled = enabled;
@@ -147,7 +124,7 @@ public class IdleManager : MonoSingleton<IdleManager>
     }
 
     /// <summary>
-    /// ÀÏ½ÃÁ¤Áö (ÆË¾÷ µî¿¡¼­ »ç¿ë)
+    /// ì¼ì‹œì •ì§€ (íŒì—… í‘œì‹œ ë“±)
     /// </summary>
     public void Pause()
     {
@@ -156,14 +133,16 @@ public class IdleManager : MonoSingleton<IdleManager>
     }
 
     /// <summary>
-    /// Àç°³
+    /// ì¬ê°œ í›„ íƒ€ì´ë¨¸ ë¦¬ì…‹
     /// </summary>
     public void Resume()
     {
         isPaused = false;
-        ResetTimer(); // Àç°³ ½Ã ¸®¼Â
+        ResetTimer();
         Log("Resumed");
     }
+
+    #endregion
 
     private void Log(string message)
     {
