@@ -12,10 +12,11 @@
 | 패턴 | 역할 |
 |------|------|
 | **FSM (유한 상태 머신)** | `StateMachine` + `IState`/`BaseState<TState,TView>` 기반 5단계 생명주기(Init/Enter/Update/Exit/Dispose), Init 1회 호출 보장 |
-| **MVC** | `BaseView` 추상 클래스를 상속한 12개 View가 UI 표시, State가 비즈니스 로직 담당 |
+| **MVC** | `BaseView` 추상 클래스를 상속한 11개 View가 UI 표시, State가 비즈니스 로직 담당 |
 | **Singleton** | `MonoSingleton<T>` (스레드 안전, DontDestroyOnLoad)로 Manager 클래스 관리 |
 | **Event-Driven** | Action 델리게이트로 View↔State↔Manager 간 느슨한 결합 |
 | **EnsureInitialized** | `BaseView.EnsureInitialized()`로 비활성 View도 프로그램 시작 시 안전하게 초기화 |
+| **Namespace** | `BusanMath.Core/FSM/FSM.States/Views/Controllers/Managers/Models` + `SwipeUI` 네임스페이스로 모듈 분리 |
 
 ## 디렉토리 구조
 
@@ -36,8 +37,8 @@ Assets/Scripts/BusanMath/
 │       ├── CardGameDescriptionState.cs # 카드게임 설명
 │       ├── CardGameState.cs        # 60초 카드 매칭 게임
 │       ├── VoteState.cs            # 투표
-│       ├── WriteState.cs           # 생일 쓰기 + 드로잉
-│       ├── Write2State.cs          # 생일 쓰기 2 (날짜 선택 UI)
+│       ├── DrawingState.cs          # 드로잉
+│       ├── WriteState.cs           # 생일 적기 (날짜 선택 UI)
 │       └── VoteResultState.cs      # 투표 결과
 ├── Controllers/
 │   ├── NavigationController.cs     # FSM 관리, 화면 전환 라우팅 (싱글톤)
@@ -52,6 +53,7 @@ Assets/Scripts/BusanMath/
 │   ├── IdleManager.cs              # 60초 무입력 감지 → 홈 복귀
 │   └── NumPad.cs                   # 숫자 버튼 핸들러
 ├── Models/
+│   ├── ECountry.cs                 # 국가 열거형 (Egypt, China, Roma)
 │   ├── CardDatabaseSO.cs           # 카드 데이터 ScriptableObject (40+장)
 │   └── StringSpritePairContainerSO.cs  # 숫자↔스프라이트 매핑
 └── Views/
@@ -64,9 +66,13 @@ Assets/Scripts/BusanMath/
     ├── CardGameDescriptionView.cs
     ├── CardGameView.cs
     ├── VoteView.cs
+    ├── DrawingView.cs
     ├── WriteView.cs
-    ├── Write2View.cs
     └── VoteResultView.cs
+
+Assets/Scripts/SwipeUI/
+├── SwipeUI.cs                     # 스와이프 UI 컴포넌트
+└── HoverDetector.cs               # 마우스/터치 호버 감지
 ```
 
 ## 주요 클래스
@@ -126,7 +132,10 @@ Assets/Scripts/BusanMath/
      │                      Vote (투표)
      │                         │
      │                         ▼
-     │                     Write2 (생일 적기 날짜 선택)
+     │                      Write (생일 적기 날짜 선택)
+     │                         │
+     │                         ▼
+     │                     Drawing (드로잉)
      │                         │
      │                         ▼
      │                    VoteResult (투표 결과)
@@ -174,3 +183,5 @@ Assets/Scripts/BusanMath/
 | 2026-03-11 | 전체 스크립트 주석 정비 - 깨진 인코딩 주석을 한글 XML 주석으로 재작성, 불필요한 using(NUnit.Framework 등) 제거 |
 | 2026-03-12 | Write2State/Write2View 추가 - 생일 적기 2번째 콘텐츠, 날짜 선택 UI(년/월/일 동적 버튼 생성, 패널 토글) |
 | 2026-03-13 | Write2State View Show/Hide 누락 수정 - Enter()에 Show(), Exit()에 Hide() 추가 |
+| 2026-03-13 | WriteView→DrawingView/WriteState→DrawingState 리네임, Write2View→WriteView/Write2State→WriteState 리네임, ECountry enum을 Models/ECountry.cs로 분리 |
+| 2026-03-13 | 전체 네임스페이스 추가 - BusanMath.Core/FSM/FSM.States/Views/Controllers/Managers/Models/SwipeUI 구조로 정리 |

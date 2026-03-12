@@ -1,96 +1,95 @@
 using UnityEngine;
 using UnityEngine.Video;
+using BusanMath.FSM;
+using BusanMath.Views;
+using BusanMath.Controllers;
+using BusanMath.Managers;
+using BusanMath.Models;
 
-public enum ECountry
+namespace BusanMath.FSM.States
 {
-    Egypt,
-    China,
-    Roma,
-    MAX_CNT,
-    None,
-}
-
-public class VideoState : BaseState<VideoState, VideoView>
-{
-    private ECountry _country;
-
-    public ECountry Country
+    public class VideoState : BaseState<VideoState, VideoView>
     {
-        set { _country = value; }
-    }
+        private ECountry _country;
 
-    public VideoState(VideoView view) : base(view) { }
-
-    public override void Init()
-    {
-        base.Init();
-
-        // 이벤트 구독 (최초 1회)
-        _view._OnHomeButtonClicked += () => { NavigationController.Instance.GoToHome(); };
-        _view._OnSkipButtonClicked += () => {
-            VideoManager.Instance.Skip();
-            _view._progressbar.SetValueWithoutNotify(VideoManager.Instance.Progress());
-        };
-    }
-
-    public override void Enter()
-    {
-        base.Enter();
-        _view.Show();
-
-        // VideoManager 설정
-        VideoManager.Instance.SetDisplay(_view._displayImage);
-        string targetFileName = "";
-        switch(_country)
+        public ECountry Country
         {
-            case ECountry.Egypt:
-                targetFileName = _view._fileNameEgypt;
-                break;
-            case ECountry.China:
-                targetFileName = _view._fileNameChina;
-                break;
-            case ECountry.Roma:
-                targetFileName = _view._fileNameRoma;
-                break;
-            default:
-                break;
+            set { _country = value; }
         }
-        string filePath = System.IO.Path.Combine(Application.streamingAssetsPath, targetFileName);
 
-        // SliderManager 설정
-        SliderManager.Instance.Slider = _view._progressbar;
-        SliderManager.Instance.Player = VideoManager.Instance.Player;
+        public VideoState(VideoView view) : base(view) { }
 
-        // Video 재생
-        VideoManager.Instance.Play(filePath);
-
-        // Video 재생 완료 콜백 등록
-        VideoManager.Instance.Player.loopPointReached += OnVideoFinished;
-    }
-
-    public override void Update()
-    {
-        if (VideoManager.Instance.IsPlaying()
-            && VideoManager.Instance.VideoLength() > 0
-            && false == SliderManager.Instance.IsDragging)
+        public override void Init()
         {
-            _view._progressbar.SetValueWithoutNotify(VideoManager.Instance.Progress());
+            base.Init();
+
+            // 이벤트 구독 (최초 1회)
+            _view._OnHomeButtonClicked += () => { NavigationController.Instance.GoToHome(); };
+            _view._OnSkipButtonClicked += () => {
+                VideoManager.Instance.Skip();
+                _view._progressbar.SetValueWithoutNotify(VideoManager.Instance.Progress());
+            };
         }
-    }
 
-    public override void Exit()
-    {
-        base.Exit();
+        public override void Enter()
+        {
+            base.Enter();
+            _view.Show();
 
-        VideoManager.Instance.Stop();
-        VideoManager.Instance.Player.loopPointReached -= OnVideoFinished;
+            // VideoManager 설정
+            VideoManager.Instance.SetDisplay(_view._displayImage);
+            string targetFileName = "";
+            switch(_country)
+            {
+                case ECountry.Egypt:
+                    targetFileName = _view._fileNameEgypt;
+                    break;
+                case ECountry.China:
+                    targetFileName = _view._fileNameChina;
+                    break;
+                case ECountry.Roma:
+                    targetFileName = _view._fileNameRoma;
+                    break;
+                default:
+                    break;
+            }
+            string filePath = System.IO.Path.Combine(Application.streamingAssetsPath, targetFileName);
 
-        _view.Hide();
-    }
+            // SliderManager 설정
+            SliderManager.Instance.Slider = _view._progressbar;
+            SliderManager.Instance.Player = VideoManager.Instance.Player;
 
-    public void OnVideoFinished(VideoPlayer vp)
-    {
-        NavigationController.Instance.GoToNumGameDescription(_country);
-        _country = ECountry.None;
+            // Video 재생
+            VideoManager.Instance.Play(filePath);
+
+            // Video 재생 완료 콜백 등록
+            VideoManager.Instance.Player.loopPointReached += OnVideoFinished;
+        }
+
+        public override void Update()
+        {
+            if (VideoManager.Instance.IsPlaying()
+                && VideoManager.Instance.VideoLength() > 0
+                && false == SliderManager.Instance.IsDragging)
+            {
+                _view._progressbar.SetValueWithoutNotify(VideoManager.Instance.Progress());
+            }
+        }
+
+        public override void Exit()
+        {
+            base.Exit();
+
+            VideoManager.Instance.Stop();
+            VideoManager.Instance.Player.loopPointReached -= OnVideoFinished;
+
+            _view.Hide();
+        }
+
+        public void OnVideoFinished(VideoPlayer vp)
+        {
+            NavigationController.Instance.GoToNumGameDescription(_country);
+            _country = ECountry.None;
+        }
     }
 }

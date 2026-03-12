@@ -4,41 +4,43 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NumGameDescriptionView : BaseView
+namespace BusanMath.Views
 {
-    [Header("=== NumGameDescription View Settings ===")]
-    [SerializeField] public Image _backgroundImage;
-    [SerializeField] public Button _homeButton;
-    [SerializeField] public Image _titleImage;
-    [SerializeField] public Button _prevButton;
-    [SerializeField] public Button _nextButton;
-    [SerializeField] public Image _exampleViewBackgroundImage;
-    [SerializeField] public Image _exampleViewBoundaryImage;
-    [SerializeField] public GameObject _swipeUIObj;
-    [SerializeField] public List<Image> _swipeImageList = new List<Image>();
-    [SerializeField] public List<TMP_Text> _descriptionTextList = new List<TMP_Text>();
-    [SerializeField] public Button _startButton;
-
-    [Header("=== Sprites ===")]
-    [SerializeField] public List<Sprite> _egyptExampleViewSpriteList = new List<Sprite>();
-    [SerializeField] public List<Sprite> _chinaExampleViewSpriteList = new List<Sprite>();
-    [SerializeField] public List<Sprite> _romaExampleViewSpriteList = new List<Sprite>();
-
-    public event Action _OnHomeButtonClicked;
-    public event Action _OnPrevButtonClicked;
-    public event Action _OnNextButtonClicked;
-    public event Action _OnStartButtonClicked;
-
-    protected override void Initialize()
+    public class NumGameDescriptionView : BaseView
     {
+        [Header("=== NumGameDescription View Settings ===")]
+        [SerializeField] public Image _backgroundImage;
+        [SerializeField] public Button _homeButton;
+        [SerializeField] public Image _titleImage;
+        [SerializeField] public Button _prevButton;
+        [SerializeField] public Button _nextButton;
+        [SerializeField] public Image _exampleViewBackgroundImage;
+        [SerializeField] public Image _exampleViewBoundaryImage;
+        [SerializeField] public GameObject _swipeUIObj;
+        [SerializeField] public List<Image> _swipeImageList = new List<Image>();
+        [SerializeField] public List<TMP_Text> _descriptionTextList = new List<TMP_Text>();
+        [SerializeField] public Button _startButton;
 
-    }
+        [Header("=== Sprites ===")]
+        [SerializeField] public List<Sprite> _egyptExampleViewSpriteList = new List<Sprite>();
+        [SerializeField] public List<Sprite> _chinaExampleViewSpriteList = new List<Sprite>();
+        [SerializeField] public List<Sprite> _romaExampleViewSpriteList = new List<Sprite>();
 
-    protected override void BindUIEvent()
-    {
-        _homeButton?.onClick.AddListener(() => _OnHomeButtonClicked?.Invoke());
-        _prevButton?.onClick.AddListener(() => _OnPrevButtonClicked?.Invoke());
-        _nextButton?.onClick.AddListener(() => _OnNextButtonClicked?.Invoke());
-        _startButton?.onClick.AddListener(() => _OnStartButtonClicked?.Invoke());
+        public event Action _OnHomeButtonClicked;
+        public event Action _OnPrevButtonClicked;
+        public event Action _OnNextButtonClicked;
+        public event Action _OnStartButtonClicked;
+
+        protected override void Initialize()
+        {
+        }
+
+        protected override void BindUIEvent()
+        {
+            _homeButton?.onClick.AddListener(() => _OnHomeButtonClicked?.Invoke());
+            _prevButton?.onClick.AddListener(() => _OnPrevButtonClicked?.Invoke());
+            _nextButton?.onClick.AddListener(() => _OnNextButtonClicked?.Invoke());
+            _startButton?.onClick.AddListener(() => _OnStartButtonClicked?.Invoke());
+        }
     }
 }

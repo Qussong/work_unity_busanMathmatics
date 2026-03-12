@@ -1,9 +1,16 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using BusanMath.FSM;
+using BusanMath.Views;
+using BusanMath.Controllers;
+using BusanMath.Managers;
+using BusanMath.Models;
 
-public class NumGameDescriptionState : BaseState<NumGameDescriptionState, NumGameDescriptionView>
+namespace BusanMath.FSM.States
 {
+    public class NumGameDescriptionState : BaseState<NumGameDescriptionState, NumGameDescriptionView>
+    {
     private ECountry _country;
     private SwipeUI.SwipeUI _swipeUI;
     private bool textColorChangeFlag = false;
@@ -116,5 +123,6 @@ public class NumGameDescriptionState : BaseState<NumGameDescriptionState, NumGam
         {
             _view._swipeImageList[i].sprite = null;
         }
+    }
     }
 }

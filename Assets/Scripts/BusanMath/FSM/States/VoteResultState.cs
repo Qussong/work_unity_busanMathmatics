@@ -1,8 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
+using BusanMath.FSM;
+using BusanMath.Views;
+using BusanMath.Controllers;
+using BusanMath.Managers;
+using BusanMath.Models;
 
-public class VoteResultState : BaseState<VoteResultState, VoteResultView>
+namespace BusanMath.FSM.States
 {
+    public class VoteResultState : BaseState<VoteResultState, VoteResultView>
+    {
     private List<ECountry> _rankList;
 
     public VoteResultState(VoteResultView view) : base(view) { }
@@ -128,5 +135,6 @@ public class VoteResultState : BaseState<VoteResultState, VoteResultView>
 
             _view._voteRateBarList[i].value = rate;
         }
+    }
     }
 }

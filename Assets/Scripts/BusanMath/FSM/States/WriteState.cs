@@ -1,162 +1,155 @@
+using System;
 using TMPro;
 using UnityEngine;
+using BusanMath.FSM;
+using BusanMath.Views;
+using BusanMath.Controllers;
+using BusanMath.Managers;
+using BusanMath.Models;
 
-public class WriteState : BaseState<WriteState, WriteView>
+namespace BusanMath.FSM.States
 {
-    private ECountry _country;
+    public class WriteState : BaseState<WriteState, WriteView>
+    {
+    // 선택된 년,월,일
+    private int _selectedYear;
+    private int _selectedMonth;
+    private int _selectedDay;
 
-    private readonly int _MIN_YEAR = 1980;
-    private readonly int _MIN_MONTH = 1;
-    private readonly int _MIN_DAY = 1;
-    private readonly int _MAX_YEAR = 2030;
-    private readonly int _MAX_MONTH = 12;
-    private readonly int _MAX_DAY = 31;
+    // 투표에서 선택된 나라
+    private ECountry _country;
 
     public ECountry Country
     {
         set { _country = value; }
     }
 
-    public WriteState(WriteView view) : base(view) { }
+    public WriteState(WriteView view) : base(view)
+    {
+    }
 
+    #region Override (BaseState)
+
+    /// <summary>
+    /// 최초 1회 초기화 (View 이벤트 구독 등)
+    /// StateMachine이 HashSet으로 추적하여 중복 호출 방지
+    /// </summary>
     public override void Init()
     {
         base.Init();
 
-        // 이벤트 구독 (최초 1회)
-        _view._OnHomeButtonClicked += () => { NavigationController.Instance.GoToHome(); };
-        _view._OnOkayButtonClicked += () => {
-            _view._okayButton.gameObject.SetActive(false);
-            _view._writeBoardContainer.SetActive(true);
-            if (ECountry.Egypt == _country)
-            {
-                _view._yearPreview.sprite = _view._yearEgyptList[_view._yearUI.CurrentPage];
-                _view._yearPreview.SetNativeSize();
-                _view._yearPreview.rectTransform.sizeDelta /= 3.5f;
-                _view._yearPreview.color = new Color(1f, 1f, 1f, 0.5f);
+        CreateDateButtons(_view._objYearContainer, 51, "year", 1980);   // 년도: 51개 (1980~2030)
+        CreateDateButtons(_view._objMonthContainer, 12, "month");      // 월: 12개 (1~12)
+        CreateDateButtons(_view._objDayContainer, 31, "day");          // 일: 31개 (1~31)
 
-                _view._monthPreview.sprite = _view._monthEgyptList[_view._monthUI.CurrentPage];
-                _view._monthPreview.SetNativeSize();
-                _view._monthPreview.rectTransform.sizeDelta /= 3.5f;
-                _view._monthPreview.color = new Color(1f, 1f, 1f, 0.5f);
-
-                _view._dayPreview.sprite = _view._dayEgyptList[_view._dayUI.CurrentPage];
-                _view._dayPreview.SetNativeSize();
-                _view._dayPreview.rectTransform.sizeDelta /= 3.5f;
-                _view._dayPreview.color = new Color(1f, 1f, 1f, 0.5f);
-            }
-            else if (ECountry.China == _country)
-            {
-                _view._yearPreview.sprite = _view._yearChinaList[_view._yearUI.CurrentPage];
-                _view._yearPreview.SetNativeSize();
-                _view._yearPreview.rectTransform.sizeDelta /= 4f;
-                _view._yearPreview.color = new Color(1f, 1f, 1f, 0.5f);
-
-                _view._monthPreview.sprite = _view._monthChinaList[_view._monthUI.CurrentPage];
-                _view._monthPreview.SetNativeSize();
-                _view._monthPreview.rectTransform.sizeDelta /= 4f;
-                _view._monthPreview.color = new Color(1f, 1f, 1f, 0.5f);
-
-                _view._dayPreview.sprite = _view._dayChinaList[_view._dayUI.CurrentPage];
-                _view._dayPreview.SetNativeSize();
-                _view._dayPreview.rectTransform.sizeDelta /= 4f;
-                _view._dayPreview.color = new Color(1f, 1f, 1f, 0.5f);
-            }
-            else if (ECountry.Roma == _country)
-            {
-                _view._yearPreview.sprite = _view._yearRomaList[_view._yearUI.CurrentPage];
-                _view._yearPreview.SetNativeSize();
-                _view._yearPreview.rectTransform.sizeDelta /= 4f;
-                _view._yearPreview.color = new Color(1f, 1f, 1f, 0.5f);
-
-                _view._monthPreview.sprite = _view._monthRomaList[_view._monthUI.CurrentPage];
-                _view._monthPreview.SetNativeSize();
-                _view._monthPreview.rectTransform.sizeDelta /= 4f;
-                _view._monthPreview.color = new Color(1f, 1f, 1f, 0.5f);
-
-                _view._dayPreview.sprite = _view._dayRomaList[_view._dayUI.CurrentPage];
-                _view._dayPreview.SetNativeSize();
-                _view._dayPreview.rectTransform.sizeDelta /= 4f;
-                _view._dayPreview.color = new Color(1f, 1f, 1f, 0.5f);
-            }
-        };
-        _view._OnMoveNextButtonClicked += () => {
-            NavigationController.Instance.GoToVoteResult();
-        };
-
-        // 날짜 선택 텍스트 세팅
-        SetDate();
+        _view._OnYearButtonClicked += () => ShowContainer(_view._objSelectYearPanel);
+        _view._OnMonthButtonClicked += () => ShowContainer(_view._objSelectMonthPanel);
+        _view._OnDayButtonClicked += () => ShowContainer(_view._objSelectDayPanel);
     }
 
     public override void Enter()
     {
         base.Enter();
-
-        // 선택된 국가에 맞는 배경 이미지 세팅
-        _view._backgroundImage.sprite = _view._backgroundSpriteList[(int)_country];
-
-        // 선택된 국가에 맞는 타이틀 이미지 세팅
-        _view._titleImage.sprite = _view._titleSpriteList[(int)_country];
-        _view._titleImage.SetNativeSize();
-        _view._titleImage.rectTransform.sizeDelta /= 4f;
-
         _view.Show();
 
-        // 스와이프를 0번 페이지로 초기화 (year)
-        int backCnt = _view._yearUI.CurrentPage;
-        for (int i = 0; i < backCnt; ++i)
-        {
-            _view._yearUI.AutoSwipe(true);
-        }
-        // month
-        backCnt = _view._monthUI.CurrentPage;
-        for (int i = 0; i < backCnt; ++i)
-        {
-            _view._monthUI.AutoSwipe(true);
-        }
-        // day
-        backCnt = _view._dayUI.CurrentPage;
-        for (int i = 0; i < backCnt; ++i)
-        {
-            _view._dayUI.AutoSwipe(true);
-        }
+        _selectedYear = 0;
+        _selectedMonth = 0;
+        _selectedDay = 0;
+    }
+
+    public override void Update()
+    {
+        base.Update();
     }
 
     public override void Exit()
     {
         base.Exit();
-
-        _country = ECountry.None;
-
-        _view._backgroundImage.sprite = null;
-        _view._titleImage.sprite = null;
-
-        _view._yearPreview.sprite = null;
-        _view._monthPreview.sprite = null;
-        _view._dayPreview.sprite = null;
-
-        _view._drawTextureUI.Clear();
-        _view._writeBoardContainer.SetActive(false);
-        _view._okayButton.gameObject.SetActive(true);
-
         _view.Hide();
     }
 
-    public void SetDate()
+    /// <summary>
+    /// 이벤트 구독 해제 (프로그램 종료 시)
+    /// </summary>
+    public override void Dispose()
     {
-        for (int i = 0; i <= _MAX_YEAR - _MIN_YEAR; ++i)
-        {
-            _view._years[i].GetComponentInChildren<TMP_Text>().text = (_MIN_YEAR + i).ToString();
-        }
+        base.Dispose();
+    }
 
-        for (int i = 0; i <= _MAX_MONTH - _MIN_MONTH; ++i)
-        {
-            _view._months[i].GetComponentInChildren<TMP_Text>().text = (_MIN_MONTH + i).ToString();
-        }
+    #endregion
 
-        for (int i = 0; i <= _MAX_DAY - _MIN_DAY; ++i)
+    #region Private
+
+    private void ShowContainer(GameObject selectPanel)
+    {
+        _view._objSelectYearPanel.SetActive(false);
+        _view._objSelectMonthPanel.SetActive(false);
+        _view._objSelectDayPanel.SetActive(false);
+
+        selectPanel.SetActive(true);
+    }
+
+    private void CreateDateButtons(GameObject container, int count, string type, int startValue = 1)
+    {
+        for (int i = 0; i < count; i++)
         {
-            _view._days[i].GetComponentInChildren<TMP_Text>().text = (_MIN_DAY + i).ToString();
+            var btn = UnityEngine.Object.Instantiate(_view._prefabDateBtn, container.transform);
+            var tmp = btn.GetComponentInChildren<TMP_Text>();
+            int value = startValue + i;
+            if (tmp != null)
+            {
+                tmp.text = value.ToString();
+            }
+
+            var button = btn.GetComponentInChildren<UnityEngine.UI.Button>();
+            if (button != null)
+            {
+                button.onClick.AddListener(() =>
+                {
+                    switch (type)
+                    {
+                        case "year":
+                            _selectedYear = value;
+                            _view._btnYear.GetComponentInChildren<TMP_Text>().text = value.ToString();
+                            break;
+                        case "month":
+                            _selectedMonth = value;
+                            _view._btnMonth.GetComponentInChildren<TMP_Text>().text = value.ToString();
+                            break;
+                        case "day":
+                            _selectedDay = value;
+                            _view._btnDay.GetComponentInChildren<TMP_Text>().text = value.ToString();
+                            break;
+                    }
+
+                    _view._objSelectYearPanel.SetActive(false);
+                    _view._objSelectMonthPanel.SetActive(false);
+                    _view._objSelectDayPanel.SetActive(false);
+                });
+            }
         }
+    }
+
+    #endregion
+
+    #region Public
+
+    public void SelectYear(int year)
+    {
+        _selectedYear = year;
+    }
+
+    public void SelectMonth(int month)
+    {
+        _selectedMonth = month;
+    }
+
+    public void SelectDay(int day)
+    {
+        _selectedDay = day;
+    }
+
+    #endregion
+
     }
 }

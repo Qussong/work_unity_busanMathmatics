@@ -1,36 +1,44 @@
 using UnityEngine;
+using BusanMath.FSM;
+using BusanMath.Views;
+using BusanMath.Controllers;
+using BusanMath.Managers;
+using BusanMath.Models;
 
-public class VoteState : BaseState<VoteState, VoteView>
+namespace BusanMath.FSM.States
 {
-    public VoteState(VoteView view) : base(view) { }
-
-    public override void Init()
+    public class VoteState : BaseState<VoteState, VoteView>
     {
-        base.Init();
+        public VoteState(VoteView view) : base(view) { }
 
-        // 이벤트 구독 (최초 1회)
-        _view._OnHomeButtonClicked += () => { NavigationController.Instance.GoToHome(); };
-        _view._OnEgyptButtonClicked += () => { VoteCountry(ECountry.Egypt); };
-        _view._OnChinaButtonClicked += () => { VoteCountry(ECountry.China); };
-        _view._OnRomaButtonClicked += () => { VoteCountry(ECountry.Roma); };
-    }
+        public override void Init()
+        {
+            base.Init();
 
-    public override void Enter()
-    {
-        base.Enter();
-        _view.Show();
-    }
+            // 이벤트 구독 (최초 1회)
+            _view._OnHomeButtonClicked += () => { NavigationController.Instance.GoToHome(); };
+            _view._OnEgyptButtonClicked += () => { VoteCountry(ECountry.Egypt); };
+            _view._OnChinaButtonClicked += () => { VoteCountry(ECountry.China); };
+            _view._OnRomaButtonClicked += () => { VoteCountry(ECountry.Roma); };
+        }
 
-    public override void Exit()
-    {
-        base.Exit();
-        _view.Hide();
-    }
+        public override void Enter()
+        {
+            base.Enter();
+            _view.Show();
+        }
 
-    private void VoteCountry(ECountry choice)
-    {
-        Debug.Log($"vote : {choice.ToString()}");
-        VoteManager.Instance.Vote(choice);
-        NavigationController.Instance.GoToWrite(choice);
+        public override void Exit()
+        {
+            base.Exit();
+            _view.Hide();
+        }
+
+        private void VoteCountry(ECountry choice)
+        {
+            Debug.Log($"vote : {choice.ToString()}");
+            VoteManager.Instance.Vote(choice);
+            NavigationController.Instance.GoToWrite(choice);
+        }
     }
 }

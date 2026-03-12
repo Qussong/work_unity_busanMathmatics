@@ -1,27 +1,35 @@
 using UnityEngine;
+using BusanMath.FSM;
+using BusanMath.Views;
+using BusanMath.Controllers;
+using BusanMath.Managers;
+using BusanMath.Models;
 
-public class HomeState : BaseState<HomeState, HomeView>
+namespace BusanMath.FSM.States
 {
-    public HomeState(HomeView view) : base(view) { }
-
-    public override void Init()
+    public class HomeState : BaseState<HomeState, HomeView>
     {
-        base.Init();
+        public HomeState(HomeView view) : base(view) { }
 
-        // 이벤트 구독 (최초 1회)
-        _view._OnLeftButtonClicked += () => { NavigationController.Instance.GoToSelect(); };
-        _view._OnRightButtonClicked += () => { NavigationController.Instance.GoToNumGameDescription(ECountry.Egypt); };
-    }
+        public override void Init()
+        {
+            base.Init();
 
-    public override void Enter()
-    {
-        base.Enter();
-        _view.Show();
-    }
+            // 이벤트 구독 (최초 1회)
+            _view._OnLeftButtonClicked += () => { NavigationController.Instance.GoToSelect(); };
+            _view._OnRightButtonClicked += () => { NavigationController.Instance.GoToNumGameDescription(ECountry.Egypt); };
+        }
 
-    public override void Exit()
-    {
-        base.Exit();
-        _view.Hide();
+        public override void Enter()
+        {
+            base.Enter();
+            _view.Show();
+        }
+
+        public override void Exit()
+        {
+            base.Exit();
+            _view.Hide();
+        }
     }
 }

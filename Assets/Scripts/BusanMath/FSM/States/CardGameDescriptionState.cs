@@ -1,8 +1,15 @@
 using TMPro;
 using UnityEngine;
+using BusanMath.FSM;
+using BusanMath.Views;
+using BusanMath.Controllers;
+using BusanMath.Managers;
+using BusanMath.Models;
 
-public class CardGameDescriptionState : BaseState<CardGameDescriptionState, CardGameDescriptionView>
+namespace BusanMath.FSM.States
 {
+    public class CardGameDescriptionState : BaseState<CardGameDescriptionState, CardGameDescriptionView>
+    {
     private SwipeUI.SwipeUI _swipeUI;
     private bool textColorChangeFlag = false;
 
@@ -71,5 +78,6 @@ public class CardGameDescriptionState : BaseState<CardGameDescriptionState, Card
     public void TextColorChange()
     {
         textColorChangeFlag = true;
+    }
     }
 }

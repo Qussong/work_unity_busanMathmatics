@@ -4,30 +4,32 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class VoteResultView : BaseView
+namespace BusanMath.Views
 {
-    [Header("=== VoteResult View Settings ===")]
-    [SerializeField] public Image _titleImage;
-    [SerializeField] public Image _boardImage;
-    [SerializeField] public List<TMP_Text> _rankCountryList = new List<TMP_Text>();
-    [SerializeField] public List<Image> _countryViewList = new List<Image>();
-    [SerializeField] public List<TMP_Text> _votePercentList = new List<TMP_Text>();
-    [SerializeField] public List<Slider> _voteRateBarList = new List<Slider>();
-    [SerializeField] public List<TMP_Text> _voteCountList = new List<TMP_Text>();
-    [SerializeField] public Button _homeButton;
-
-    [Header("=== Sprites ===")]
-    [SerializeField] public List<Sprite> _countryViewSpriteList = new List<Sprite>();
-
-    public event Action _OnHomeButtonClicked;
-
-    protected override void Initialize()
+    public class VoteResultView : BaseView
     {
+        [Header("=== VoteResult View Settings ===")]
+        [SerializeField] public Image _titleImage;
+        [SerializeField] public Image _boardImage;
+        [SerializeField] public List<TMP_Text> _rankCountryList = new List<TMP_Text>();
+        [SerializeField] public List<Image> _countryViewList = new List<Image>();
+        [SerializeField] public List<TMP_Text> _votePercentList = new List<TMP_Text>();
+        [SerializeField] public List<Slider> _voteRateBarList = new List<Slider>();
+        [SerializeField] public List<TMP_Text> _voteCountList = new List<TMP_Text>();
+        [SerializeField] public Button _homeButton;
 
-    }
+        [Header("=== Sprites ===")]
+        [SerializeField] public List<Sprite> _countryViewSpriteList = new List<Sprite>();
 
-    protected override void BindUIEvent()
-    {
-        _homeButton.onClick.AddListener(() => _OnHomeButtonClicked?.Invoke());
+        public event Action _OnHomeButtonClicked;
+
+        protected override void Initialize()
+        {
+        }
+
+        protected override void BindUIEvent()
+        {
+            _homeButton.onClick.AddListener(() => _OnHomeButtonClicked?.Invoke());
+        }
     }
 }

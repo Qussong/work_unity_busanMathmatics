@@ -1,19 +1,22 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class HoverDetector : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+namespace SwipeUI
 {
-    private bool _isHover = false;
-
-    public bool IsHover() => _isHover;
-
-    public void OnPointerEnter(PointerEventData eventData)
+    public class HoverDetector : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
-        _isHover = true;
-    }
+        private bool _isHover = false;
 
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        _isHover = false;
+        public bool IsHover() => _isHover;
+
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            _isHover = true;
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            _isHover = false;
+        }
     }
 }

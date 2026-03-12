@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public class NumPad : MonoBehaviour
+namespace BusanMath.Managers
 {
-    public int _value;
+    public class NumPad : MonoBehaviour
+    {
+        public int _value;
+    }
 }

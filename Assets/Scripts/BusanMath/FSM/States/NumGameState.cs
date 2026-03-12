@@ -1,9 +1,16 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using BusanMath.FSM;
+using BusanMath.Views;
+using BusanMath.Controllers;
+using BusanMath.Managers;
+using BusanMath.Models;
 
-public class NumGameState : BaseState<NumGameState, NumGameView>
+namespace BusanMath.FSM.States
 {
+    public class NumGameState : BaseState<NumGameState, NumGameView>
+    {
     private ECountry _country;
     private List<GameObject> _answerTiles = new List<GameObject>();
 
@@ -225,5 +232,6 @@ public class NumGameState : BaseState<NumGameState, NumGameView>
         _country = ECountry.None;
 
         _view.Hide();
+    }
     }
 }

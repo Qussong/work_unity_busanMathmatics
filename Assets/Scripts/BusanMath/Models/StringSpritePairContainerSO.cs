@@ -2,36 +2,39 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-[Serializable]
-public class StringSpritePair
+namespace BusanMath.Models
 {
-    public string Key;
-    public Sprite Value;
-}
-
-[CreateAssetMenu(menuName = "Custom/StringSpritePairContainer")]
-public class StringSpritePairContainerSO : ScriptableObject
-{
-    public List<StringSpritePair> Pairs = new List<StringSpritePair>();
-
-    public Dictionary<string, Sprite> ToDictionary()
+    [Serializable]
+    public class StringSpritePair
     {
-        Dictionary<string, Sprite> dict = new Dictionary<string, Sprite>();
-        foreach (var pair in Pairs)
+        public string Key;
+        public Sprite Value;
+    }
+
+    [CreateAssetMenu(menuName = "Custom/StringSpritePairContainer")]
+    public class StringSpritePairContainerSO : ScriptableObject
+    {
+        public List<StringSpritePair> Pairs = new List<StringSpritePair>();
+
+        public Dictionary<string, Sprite> ToDictionary()
         {
-            if (!dict.ContainsKey(pair.Key))
-                dict.Add(pair.Key, pair.Value);
+            Dictionary<string, Sprite> dict = new Dictionary<string, Sprite>();
+            foreach (var pair in Pairs)
+            {
+                if (!dict.ContainsKey(pair.Key))
+                    dict.Add(pair.Key, pair.Value);
+            }
+            return dict;
         }
-        return dict;
-    }
 
-    public Sprite GetSprite(string key)
-    {
-        return ToDictionary().TryGetValue(key, out var sprite) ? sprite : null;
-    }
+        public Sprite GetSprite(string key)
+        {
+            return ToDictionary().TryGetValue(key, out var sprite) ? sprite : null;
+        }
 
-    public StringSpritePair GetRandom()
-    {
-        return Pairs.Count > 0 ? Pairs[UnityEngine.Random.Range(0, Pairs.Count)] : null;
+        public StringSpritePair GetRandom()
+        {
+            return Pairs.Count > 0 ? Pairs[UnityEngine.Random.Range(0, Pairs.Count)] : null;
+        }
     }
 }

@@ -1,8 +1,15 @@
 using UnityEngine;
 using UnityEngine.UI;
+using BusanMath.FSM;
+using BusanMath.Views;
+using BusanMath.Controllers;
+using BusanMath.Managers;
+using BusanMath.Models;
 
-public class CardGameState : BaseState<CardGameState, CardGameView>
+namespace BusanMath.FSM.States
 {
+    public class CardGameState : BaseState<CardGameState, CardGameView>
+    {
     private float _totalTime = 60f;
     private float _remainingTime = 0f;
     private bool _isRunning = false;
@@ -263,5 +270,6 @@ public class CardGameState : BaseState<CardGameState, CardGameView>
         {
             cardImage.gameObject.GetComponent<CardFlip>().LateFlip(2f);
         }
+    }
     }
 }
