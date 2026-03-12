@@ -16,7 +16,8 @@ public class NavigationController : MonoSingleton<NavigationController>
     [SerializeField] private CardGameDescriptionView _cardGameDescriptionView;
     [SerializeField] private CardGameView _cardGameView;
     [SerializeField] private VoteView _voteView;
-    [SerializeField] private WriteView _writeView;
+    // [SerializeField] private WriteView _writeView;
+    [SerializeField] private Write2View _writeView;
     [SerializeField] private VoteResultView _voteResultView;
 
     public StateMachine StateMachine { get; private set; }
@@ -56,8 +57,10 @@ public class NavigationController : MonoSingleton<NavigationController>
         StateMachine.AddState(new CardGameDescriptionState(_cardGameDescriptionView));
         StateMachine.AddState(new CardGameState(_cardGameView));
         StateMachine.AddState(new VoteState(_voteView));
-        StateMachine.AddState(new WriteState(_writeView));
+        StateMachine.AddState(new Write2State(_writeView));
         StateMachine.AddState(new VoteResultState(_voteResultView));
+
+        StateMachine.InitializeAllStates();
 
         StateMachine.OnStateChanged += HandleStateChanged;
         StateMachine.ChangeState<HomeState>();

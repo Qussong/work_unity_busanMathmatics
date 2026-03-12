@@ -12,7 +12,7 @@
 | 패턴 | 역할 |
 |------|------|
 | **FSM (유한 상태 머신)** | `StateMachine` + `IState`/`BaseState<TState,TView>` 기반 5단계 생명주기(Init/Enter/Update/Exit/Dispose), Init 1회 호출 보장 |
-| **MVC** | `BaseView` 추상 클래스를 상속한 11개 View가 UI 표시, State가 비즈니스 로직 담당 |
+| **MVC** | `BaseView` 추상 클래스를 상속한 12개 View가 UI 표시, State가 비즈니스 로직 담당 |
 | **Singleton** | `MonoSingleton<T>` (스레드 안전, DontDestroyOnLoad)로 Manager 클래스 관리 |
 | **Event-Driven** | Action 델리게이트로 View↔State↔Manager 간 느슨한 결합 |
 | **EnsureInitialized** | `BaseView.EnsureInitialized()`로 비활성 View도 프로그램 시작 시 안전하게 초기화 |
@@ -37,6 +37,7 @@ Assets/Scripts/BusanMath/
 │       ├── CardGameState.cs        # 60초 카드 매칭 게임
 │       ├── VoteState.cs            # 투표
 │       ├── WriteState.cs           # 생일 쓰기 + 드로잉
+│       ├── Write2State.cs          # 생일 쓰기 2 (날짜 선택 UI)
 │       └── VoteResultState.cs      # 투표 결과
 ├── Controllers/
 │   ├── NavigationController.cs     # FSM 관리, 화면 전환 라우팅 (싱글톤)
@@ -64,6 +65,7 @@ Assets/Scripts/BusanMath/
     ├── CardGameView.cs
     ├── VoteView.cs
     ├── WriteView.cs
+    ├── Write2View.cs
     └── VoteResultView.cs
 ```
 
@@ -170,3 +172,4 @@ Assets/Scripts/BusanMath/
 | 2026-03-11 | PagingTemplate 아키텍처 적용 - IState 5단계 생명주기(Init/Dispose 추가), BaseState 제네릭화, StateMachine Init 1회 호출 보장(HashSet 추적), 전 State 리팩토링 |
 | 2026-03-11 | BaseView에 EnsureInitialized() 추가 - 비활성 View의 Initialize/BindUIEvent 누락 방지, NavigationController에서 명시적 호출 |
 | 2026-03-11 | 전체 스크립트 주석 정비 - 깨진 인코딩 주석을 한글 XML 주석으로 재작성, 불필요한 using(NUnit.Framework 등) 제거 |
+| 2026-03-12 | Write2State/Write2View 추가 - 생일 적기 2번째 콘텐츠, 날짜 선택 UI(년/월/일 동적 버튼 생성, 패널 토글) |

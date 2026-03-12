@@ -26,6 +26,20 @@ public class StateMachine : MonoBehaviour
     }
 
     /// <summary>
+    /// 등록된 모든 상태의 Init을 즉시 호출 (프로그램 시작 시 1회)
+    /// </summary>
+    public void InitializeAllStates()
+    {
+        foreach (var kvp in _states)
+        {
+            if (_initializedStates.Add(kvp.Key))
+            {
+                kvp.Value.Init();
+            }
+        }
+    }
+
+    /// <summary>
     /// 상태 전환 : Exit → Init(최초 1회) → Enter
     /// </summary>
     public void ChangeState<T>() where T : IState
