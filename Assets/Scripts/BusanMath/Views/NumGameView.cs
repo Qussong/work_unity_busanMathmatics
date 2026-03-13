@@ -8,52 +8,60 @@ namespace BusanMath.Views
 {
     public class NumGameView : BaseView
     {
-        [Header("=== NumGame View Settings ===")]
-        public Image _background;
-        public Button _homeButton;
-        public Image _hint;
-        public TMP_Text _hintText;
-        public Button _hintButton;
-        public Image _title;
-        public Image _quizBoard;
-        public Image _rndNumImage;
-        public TMP_Text _rndNumText;
-        public GameObject _answerTileContainer;
-        public Image _numPadTitle;
+        // ── 상단 UI ────────────────────────────────────
+        [Header("=== 상단 UI ===")]
+        public Image _background;          // 배경 이미지 (국가별 변경)
+        public Image _title;               // 타이틀 이미지 (국가별 변경)
+        public Button _homeButton;         // 홈 이동 버튼
+        public Button _hintButton;         // 힌트 팝업 열기 버튼
 
-        [Header("=== NumPad Settings ===")]
-        public List<Button> _numButtons;
-        public Button _initButton;
-        public Button _compareButton;
+        // ── 퀴즈 보드 ─────────────────────────────────
+        [Header("=== 퀴즈 보드 ===")]
+        public Image _quizBoard;           // 퀴즈 보드 배경 이미지
+        public Image _rndNumImage;         // 랜덤 숫자 이미지 (이집트/로마)
+        public TMP_Text _rndNumText;       // 랜덤 숫자 텍스트 (중국 한자)
+        public GameObject _answerTileContainer;  // 정답 타일 컨테이너
 
-        [Header("=== Hint Popup Settings ===")]
-        public GameObject _hintContainer;
-        public Image _popupHint;
-        public Button _popupCloseButton;
+        // ── 넘패드 ────────────────────────────────────
+        [Header("=== 넘패드 ===")]
+        public Image _numPadTitle;         // 넘패드 타이틀 이미지
+        public List<Button> _numButtons;   // 숫자 입력 버튼 리스트 (0~9)
+        public Button _initButton;         // 정답 초기화 버튼
+        public Button _compareButton;      // 정답 비교(완료) 버튼
 
-        [Header("=== Result Popup Settings ====")]
-        public GameObject _resultContainer;
-        public Image _resultBoard;
-        public Image _infoBoard;
-        public TMP_Text _infoText;
-        public Button _resultRetryButton;
-        public Button _resultMoveNext;
-        public Button _resultOtherCountry;
+        // ── 힌트 팝업 ─────────────────────────────────
+        [Header("=== 힌트 팝업 ===")]
+        public GameObject _hintContainer;  // 힌트 팝업 컨테이너
+        public Image _popupHint;           // 힌트 이미지 (국가별 숫자 표)
+        public Button _popupCloseButton;   // 힌트 팝업 닫기 버튼
 
-        [Header("Sprites")]
-        public List<Sprite> _backGroundList;
-        public List<Sprite> _titleList;
-        public List<Sprite> _hintList;
+        // ── 결과 팝업 ─────────────────────────────────
+        [Header("=== 결과 팝업 ===")]
+        public GameObject _resultContainer;     // 결과 팝업 컨테이너
+        public Image _resultBoard;              // 결과 보드 배경 이미지
+        public Image _infoBoard;                // 정보 보드 배경 이미지
+        public TMP_Text _infoText;              // 정답/오답 안내 텍스트
+        public Button _resultRetryButton;       // 다시하기 버튼
+        public Button _resultMoveNext;          // 다음 게임(카드게임) 이동 버튼
+        public Button _resultOtherCountry;      // 다른 나라 선택 버튼
 
-        [Header("Prefab")]
-        public GameObject _answerTilePrefab;
+        // ── 국가별 스프라이트 ──────────────────────────
+        [Header("=== 국가별 스프라이트 ===")]
+        public List<Sprite> _backGroundList;    // 국가별 배경 스프라이트 (index = ECountry)
+        public List<Sprite> _titleList;         // 국가별 타이틀 스프라이트 (index = ECountry)
+        public List<Sprite> _hintList;          // 국가별 힌트 스프라이트 (index = ECountry)
 
-        public event Action _OnHomeButtonClicked;
-        public event Action _OnHintButtonClikced;
-        public event Action _OnHintCloseButtonClicked;
-        public event Action _OnRetryButtonClicked;
-        public event Action _OnMoveNextButtonClicked;
-        public event Action _OnOtherCountryButtonClicked;
+        // ── 프리팹 ────────────────────────────────────
+        [Header("=== 프리팹 ===")]
+        public GameObject _answerTilePrefab;    // 정답 타일 프리팹
+
+        // ── 이벤트 ────────────────────────────────────
+        public event Action _OnHomeButtonClicked;          // 홈 버튼 클릭 시 발생
+        public event Action _OnHintButtonClikced;          // 힌트 버튼 클릭 시 발생
+        public event Action _OnHintCloseButtonClicked;     // 힌트 닫기 버튼 클릭 시 발생
+        public event Action _OnRetryButtonClicked;         // 다시하기 버튼 클릭 시 발생
+        public event Action _OnMoveNextButtonClicked;      // 다음 이동 버튼 클릭 시 발생
+        public event Action _OnOtherCountryButtonClicked;  // 다른 나라 버튼 클릭 시 발생
 
         protected override void Awake()
         {

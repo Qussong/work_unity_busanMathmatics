@@ -8,28 +8,37 @@ namespace BusanMath.Views
 {
     public class NumGameDescriptionView : BaseView
     {
-        [Header("=== NumGameDescription View Settings ===")]
-        [SerializeField] public Image _backgroundImage;
-        [SerializeField] public Button _homeButton;
-        [SerializeField] public Image _titleImage;
-        [SerializeField] public Button _prevButton;
-        [SerializeField] public Button _nextButton;
-        [SerializeField] public Image _exampleViewBackgroundImage;
-        [SerializeField] public Image _exampleViewBoundaryImage;
-        [SerializeField] public GameObject _swipeUIObj;
-        [SerializeField] public List<Image> _swipeImageList = new List<Image>();
-        [SerializeField] public List<TMP_Text> _descriptionTextList = new List<TMP_Text>();
-        [SerializeField] public Button _startButton;
+        // ── 상단 UI ───────────────────────────────────
+        [Header("=== 상단 UI ===")]
+        [SerializeField] public Image _backgroundImage;    // 배경 이미지
+        [SerializeField] public Image _titleImage;         // 타이틀 이미지
+        [SerializeField] public Button _homeButton;        // 홈 이동 버튼
 
-        [Header("=== Sprites ===")]
-        [SerializeField] public List<Sprite> _egyptExampleViewSpriteList = new List<Sprite>();
-        [SerializeField] public List<Sprite> _chinaExampleViewSpriteList = new List<Sprite>();
-        [SerializeField] public List<Sprite> _romaExampleViewSpriteList = new List<Sprite>();
+        // ── 스와이프 설명 ─────────────────────────────
+        [Header("=== 스와이프 설명 ===")]
+        [SerializeField] public Image _exampleViewBackgroundImage;   // 예시 영역 배경 이미지
+        [SerializeField] public Image _exampleViewBoundaryImage;     // 예시 영역 경계 이미지
+        [SerializeField] public GameObject _swipeUIObj;              // 스와이프 UI 오브젝트
+        [SerializeField] public List<Image> _swipeImageList = new List<Image>();          // 스와이프 이미지 리스트
+        [SerializeField] public List<TMP_Text> _descriptionTextList = new List<TMP_Text>(); // 설명 텍스트 리스트
 
-        public event Action _OnHomeButtonClicked;
-        public event Action _OnPrevButtonClicked;
-        public event Action _OnNextButtonClicked;
-        public event Action _OnStartButtonClicked;
+        // ── 네비게이션 버튼 ───────────────────────────
+        [Header("=== 네비게이션 버튼 ===")]
+        [SerializeField] public Button _prevButton;        // 이전 페이지 버튼
+        [SerializeField] public Button _nextButton;        // 다음 페이지 버튼
+        [SerializeField] public Button _startButton;       // 게임 시작 버튼
+
+        // ── 국가별 예시 스프라이트 ────────────────────
+        [Header("=== 국가별 예시 스프라이트 ===")]
+        [SerializeField] public List<Sprite> _egyptExampleViewSpriteList = new List<Sprite>();  // 이집트 예시 이미지
+        [SerializeField] public List<Sprite> _chinaExampleViewSpriteList = new List<Sprite>();  // 중국 예시 이미지
+        [SerializeField] public List<Sprite> _romaExampleViewSpriteList = new List<Sprite>();   // 로마 예시 이미지
+
+        // ── 이벤트 ────────────────────────────────────
+        public event Action _OnHomeButtonClicked;          // 홈 버튼 클릭 시 발생
+        public event Action _OnPrevButtonClicked;          // 이전 버튼 클릭 시 발생
+        public event Action _OnNextButtonClicked;          // 다음 버튼 클릭 시 발생
+        public event Action _OnStartButtonClicked;         // 시작 버튼 클릭 시 발생
 
         protected override void Initialize()
         {

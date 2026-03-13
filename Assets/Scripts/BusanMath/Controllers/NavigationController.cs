@@ -98,8 +98,9 @@ namespace BusanMath.Controllers
             StateMachine.ChangeState<HomeState>();
         }
 
-        public void GoToSelect()
+        public void GoToSelect(bool skipToButtons = false)
         {
+            StateMachine.GetState<SelectState>().SkipToButtons = skipToButtons;
             StateMachine.ChangeState<SelectState>();
         }
 

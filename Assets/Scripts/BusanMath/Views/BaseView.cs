@@ -5,16 +5,18 @@ namespace BusanMath.Views
 {
     public abstract class BaseView : MonoBehaviour
     {
-        [Header("=== Base View Settings ===")]
-        [SerializeField] protected GameObject _rootPanel;
-        [SerializeField] protected bool showOnAwake = false;
+        // ── 기본 설정 ──────────────────────────────────
+        [Header("=== 기본 설정 ===")]
+        [SerializeField] protected GameObject _rootPanel;   // 루트 패널 (Show/Hide 대상)
+        [SerializeField] protected bool showOnAwake = false; // Awake 시 자동 표시 여부
 
-        private bool _isInitialized = false;
+        private bool _isInitialized = false;  // 초기화 완료 여부
 
-        public bool IsVisible { get; private set; }
+        public bool IsVisible { get; private set; }  // 현재 표시 상태
 
-        public event Action OnShow;
-        public event Action OnHide;
+        // ── 이벤트 ────────────────────────────────────
+        public event Action OnShow;   // Show 호출 시 발생
+        public event Action OnHide;   // Hide 호출 시 발생
 
         protected virtual void Awake()
         {
