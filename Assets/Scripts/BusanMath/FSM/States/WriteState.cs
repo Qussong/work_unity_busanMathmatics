@@ -45,6 +45,11 @@ namespace BusanMath.FSM.States
         _view._OnYearButtonClicked += () => ShowContainer(_view._objSelectYearPanel);
         _view._OnMonthButtonClicked += () => ShowContainer(_view._objSelectMonthPanel);
         _view._OnDayButtonClicked += () => ShowContainer(_view._objSelectDayPanel);
+        _view._OnWriteDateButtonClicked += () =>
+        {
+            if (_selectedYear == 0 || _selectedMonth == 0 || _selectedDay == 0) return;
+            NavigationController.Instance.GoToDrawing(_country, _selectedYear, _selectedMonth, _selectedDay);
+        };
     }
 
     public override void Enter()
@@ -55,6 +60,10 @@ namespace BusanMath.FSM.States
         _selectedYear = 0;
         _selectedMonth = 0;
         _selectedDay = 0;
+
+        _view._btnYear.GetComponentInChildren<TMP_Text>().text = "?";
+        _view._btnMonth.GetComponentInChildren<TMP_Text>().text = "?";
+        _view._btnDay.GetComponentInChildren<TMP_Text>().text = "?";
     }
 
     public override void Update()

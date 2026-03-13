@@ -37,7 +37,7 @@ Assets/Scripts/BusanMath/
 │       ├── CardGameDescriptionState.cs # 카드게임 설명
 │       ├── CardGameState.cs        # 60초 카드 매칭 게임
 │       ├── VoteState.cs            # 투표
-│       ├── DrawingState.cs          # 드로잉
+│       ├── DrawingState.cs          # 드로잉 (국가별 숫자 이미지 미리보기)
 │       ├── WriteState.cs           # 생일 적기 (날짜 선택 UI)
 │       └── VoteResultState.cs      # 투표 결과
 ├── Controllers/
@@ -133,9 +133,9 @@ Assets/Scripts/SwipeUI/
      │                         │
      │                         ▼
      │                      Write (생일 적기 날짜 선택)
-     │                         │
+     │                         │ [년/월/일 모두 선택 시]
      │                         ▼
-     │                     Drawing (드로잉)
+     │                     Drawing (드로잉) ──[다시선택]──► Write
      │                         │
      │                         ▼
      │                    VoteResult (투표 결과)
@@ -185,3 +185,5 @@ Assets/Scripts/SwipeUI/
 | 2026-03-13 | Write2State View Show/Hide 누락 수정 - Enter()에 Show(), Exit()에 Hide() 추가 |
 | 2026-03-13 | WriteView→DrawingView/WriteState→DrawingState 리네임, Write2View→WriteView/Write2State→WriteState 리네임, ECountry enum을 Models/ECountry.cs로 분리 |
 | 2026-03-13 | 전체 네임스페이스 추가 - BusanMath.Core/FSM/FSM.States/Views/Controllers/Managers/Models/SwipeUI 구조로 정리 |
+| 2026-03-13 | Write↔Drawing 양방향 전환 - 날짜 검증(년/월/일 모두 선택 시만 전환), Reselect 버튼으로 Write 복귀, ECountry 전달 체인 구성 |
+| 2026-03-13 | DrawingView 국가별 날짜 이미지 미리보기 - 이집트/중국/로마 스프라이트 리스트, 국가별 스케일 조정, 반투명 오버레이 표시 |

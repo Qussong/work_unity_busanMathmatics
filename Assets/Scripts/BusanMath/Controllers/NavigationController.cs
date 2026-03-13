@@ -142,8 +142,13 @@ namespace BusanMath.Controllers
             StateMachine.ChangeState<WriteState>();
         }
 
-        public void GoToDrawing()
+        public void GoToDrawing(ECountry country, int year, int month, int day)
         {
+            var state = StateMachine.GetState<DrawingState>();
+            state.Country = country;
+            state.SelectedYear = year;
+            state.SelectedMonth = month;
+            state.SelectedDay = day;
             StateMachine.ChangeState<DrawingState>();
         }
 
