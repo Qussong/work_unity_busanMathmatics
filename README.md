@@ -190,3 +190,4 @@ Assets/Scripts/SwipeUI/
 | 2026-03-13 | SelectState 국가 선택 버튼 되감기 대응 - 진행바 90% 이하로 되감으면 버튼 페이드아웃, 재도달 시 페이드인 |
 | 2026-03-13 | NumGame 다른나라 버튼 → Select 영상 스킵 전환 - GoToSelect(skipToButtons) 파라미터 추가, 영상 95%로 자동 스킵하여 바로 국가 선택 버튼 표시 |
 | 2026-03-13 | 전체 View/State 주석 정비 - BaseView 포함 11개 View에 한글 섹션 구분 주석(── 섹션명 ──)과 [Header], 변수별 인라인 주석 추가, NumGameState에 XML summary 주석 추가 |
+| 2026-03-13 | TECH_SPEC.md 기술 명세서 작성 - 10개 섹션(아키텍처, 설계 패턴, 클래스 명세, 데이터 흐름, 라이프사이클, 확장 가이드, 트레이드오프) |
