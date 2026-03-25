@@ -2,7 +2,7 @@
 
 > 고대 문명의 숫자 체계를 게임, 영상, 드로잉으로 체험하는 박물관 전시 콘텐츠
 
-`[📷 이미지 배치 예정 - 앱 메인 화면 스크린샷]`
+<img src="Docs/Images/home.png" width="173" height="309" alt="Home">
 
 | 항목 | 내용 |
 |------|------|
@@ -20,11 +20,11 @@
 
 | Home | Select | Video | NumGame | CardGame |
 |:----:|:------:|:-----:|:-------:|:--------:|
-| `[📷 이미지 배치 예정]` | `[📷 이미지 배치 예정]` | `[📷 이미지 배치 예정]` | `[📷 이미지 배치 예정]` | `[📷 이미지 배치 예정]` |
+| <img src="Docs/Images/home.png" width="116" height="206"> | <img src="Docs/Images/select.png" width="116" height="204"> | <img src="Docs/Images/video.png" width="105" height="184"> | <img src="Docs/Images/numGame.png" width="105" height="186"> | <img src="Docs/Images/cardGame.png" width="105" height="185"> |
 
-| Vote | Write | Drawing | VoteResult |
-|:----:|:-----:|:-------:|:----------:|
-| `[📷 이미지 배치 예정]` | `[📷 이미지 배치 예정]` | `[📷 이미지 배치 예정]` | `[📷 이미지 배치 예정]` |
+| Vote | Drawing | VoteResult |
+|:----:|:-------:|:----------:|
+| <img src="Docs/Images/vote.png" width="105" height="186"> | <img src="Docs/Images/drawing.png" width="105" height="185"> | <img src="Docs/Images/voteResult.png" width="105" height="185"> |
 
 ```
 Home ──► Select (인트로 영상 + 국가 선택)
