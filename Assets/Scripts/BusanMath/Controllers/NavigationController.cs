@@ -162,7 +162,8 @@ namespace BusanMath.Controllers
 
         #region Query
 
-        public bool IsHome() => StateMachine.IsCurrentState<HomeState>();
+        public bool IsHomeState() => StateMachine.IsCurrentState<HomeState>();
+        public bool IsSelectState() => StateMachine.IsCurrentState<SelectState>();
 
         #endregion
 

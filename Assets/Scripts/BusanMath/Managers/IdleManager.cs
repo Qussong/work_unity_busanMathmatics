@@ -35,7 +35,8 @@ namespace BusanMath.Managers
         {
             OnIdleTimeout += () =>
             {
-                if (NavigationController.Instance.IsHome()) return;
+                if (NavigationController.Instance.IsHomeState()
+                    || NavigationController.Instance.IsSelectState()) return;
                 NavigationController.Instance.GoToHome();
             };
         }

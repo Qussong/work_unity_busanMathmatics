@@ -30839,7 +30839,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d2f4721c1b52d743b152a7822b9850a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idleTimeout: 15
+  idleTimeout: 60
   isEnabled: 1
   showDebugLog: 0
 --- !u!4 &2086292851
